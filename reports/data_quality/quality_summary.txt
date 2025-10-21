@@ -1,0 +1,14 @@
+DATA QUALITY SUMMARY
+========================================
+Generated: 2025-10-17 09:45:23
+
+TABLE QUALITY SCORES:
+------------------------------
+PATIENT          100.0% (A (Excellent))
+PHYSICIAN         97.0% (A (Excellent))
+TRANSACTION      100.0% (A (Excellent))
+
+OVERALL AVERAGE: 99.00%
+
+QUALITY RECOMMENDATIONS:
+------------------------------

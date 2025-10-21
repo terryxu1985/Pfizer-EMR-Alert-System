@@ -1,0 +1,963 @@
+/**
+ * Clinical Decision Support Styles
+ * 临床决策支持模块样式
+ */
+
+/* ==================== 临床资格评估卡片 ==================== */
+.clinical-eligibility-card {
+    background: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    margin-bottom: var(--space-6);
+    overflow: hidden;
+}
+
+.clinical-eligibility-card .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-6);
+    background: linear-gradient(135deg, var(--primary-50) 0%, var(--primary-100) 100%);
+    border-bottom: 3px solid var(--primary-200);
+}
+
+.clinical-eligibility-card .header-left {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+.clinical-eligibility-card .header-left i {
+    font-size: 1.5rem;
+    color: var(--primary);
+}
+
+.clinical-eligibility-card .header-left h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--gray-900);
+}
+
+.eligibility-badge {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-4);
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+.eligibility-badge.eligible {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.eligibility-badge.not-eligible {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.clinical-eligibility-card .card-body {
+    padding: var(--space-6);
+}
+
+/* 标准网格 */
+.criteria-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+}
+
+.criteria-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    background: var(--gray-50);
+    border-radius: var(--radius-md);
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.criteria-item:hover {
+    background: white;
+    box-shadow: var(--shadow-md);
+}
+
+.criteria-item.criteria-passed {
+    border-color: #d1fae5;
+}
+
+.criteria-item.criteria-failed {
+    border-color: #fee2e2;
+}
+
+.criteria-icon {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+}
+
+.criteria-icon i {
+    font-size: 1.25rem;
+}
+
+.criteria-content {
+    flex: 1;
+}
+
+.criteria-label {
+    font-weight: 600;
+    color: var(--gray-900);
+    margin-bottom: var(--space-1);
+}
+
+.criteria-description {
+    font-size: 0.875rem;
+    color: var(--gray-600);
+    line-height: 1.5;
+}
+
+.criteria-status {
+    flex-shrink: 0;
+}
+
+.criteria-status i {
+    font-size: 1.5rem;
+}
+
+/* 风险因素部分 */
+.risk-factors-section {
+    margin-top: var(--space-6);
+    padding: var(--space-5);
+    background: #fffbeb;
+    border-left: 4px solid #f59e0b;
+    border-radius: var(--radius-md);
+}
+
+.risk-factors-section .section-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+}
+
+.risk-factors-section .section-header i {
+    font-size: 1.25rem;
+    color: #f59e0b;
+}
+
+.risk-factors-section .section-header h4 {
+    flex: 1;
+    margin: 0;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--gray-900);
+}
+
+.risk-count-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 28px;
+    height: 28px;
+    padding: 0 var(--space-2);
+    background: #f59e0b;
+    color: white;
+    border-radius: 14px;
+    font-weight: 700;
+    font-size: 0.875rem;
+}
+
+.risk-factors-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.risk-factor-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-3);
+    background: white;
+    border-radius: var(--radius);
+    border: 1px solid #fde68a;
+}
+
+.risk-factor-name {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-weight: 600;
+    color: var(--gray-900);
+}
+
+.risk-factor-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    padding-left: var(--space-6);
+}
+
+.detail-tag {
+    padding: var(--space-1) var(--space-3);
+    background: #fef3c7;
+    color: #92400e;
+    border-radius: var(--radius-sm);
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+/* 禁忌症部分 */
+.contraindications-section {
+    margin-top: var(--space-6);
+    padding: var(--space-5);
+    border-radius: var(--radius-md);
+    border-left: 4px solid;
+}
+
+.contraindications-section.none {
+    background: #f0fdf4;
+    border-left-color: #10b981;
+}
+
+.contraindications-section.mild {
+    background: #fffbeb;
+    border-left-color: #fbbf24;
+}
+
+.contraindications-section.moderate {
+    background: #fff7ed;
+    border-left-color: #f59e0b;
+}
+
+.contraindications-section.severe {
+    background: #fef2f2;
+    border-left-color: #ef4444;
+}
+
+.contraindications-section .section-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+}
+
+.contraindications-section .section-header i {
+    font-size: 1.25rem;
+}
+
+.contraindications-section.none .section-header i {
+    color: #10b981;
+}
+
+.contraindications-section.mild .section-header i,
+.contraindications-section.moderate .section-header i {
+    color: #f59e0b;
+}
+
+.contraindications-section.severe .section-header i {
+    color: #ef4444;
+}
+
+.contraindications-section .section-header h4 {
+    flex: 1;
+    margin: 0;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--gray-900);
+}
+
+.severity-badge {
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+.severity-badge.none {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.severity-badge.mild {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.severity-badge.moderate {
+    background: #fed7aa;
+    color: #7c2d12;
+}
+
+.severity-badge.severe {
+    background: #fecaca;
+    color: #991b1b;
+}
+
+.contraindications-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.contraindication-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3);
+    background: white;
+    border-radius: var(--radius);
+}
+
+.contraindication-item i {
+    color: #ef4444;
+}
+
+.no-contraindications {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3);
+    background: white;
+    border-radius: var(--radius);
+}
+
+/* ==================== 风险因素可视化 ==================== */
+.risk-visualization-container {
+    background: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: var(--space-6);
+    margin-bottom: var(--space-6);
+}
+
+.visualization-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-6);
+    padding-bottom: var(--space-4);
+    border-bottom: 2px solid var(--gray-200);
+}
+
+.visualization-header h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--gray-900);
+}
+
+.view-toggles {
+    display: flex;
+    gap: var(--space-2);
+    background: var(--gray-100);
+    padding: var(--space-1);
+    border-radius: var(--radius-md);
+}
+
+.view-toggle {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-4);
+    background: transparent;
+    border: none;
+    border-radius: var(--radius);
+    color: var(--gray-600);
+    font-weight: 500;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.view-toggle:hover {
+    background: var(--gray-200);
+    color: var(--gray-900);
+}
+
+.view-toggle.active {
+    background: white;
+    color: var(--primary);
+    box-shadow: var(--shadow-sm);
+}
+
+.visualization-view {
+    display: none;
+    animation: fadeIn 0.3s ease;
+}
+
+.visualization-view.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 雷达图 */
+.radar-chart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--space-6);
+}
+
+.radar-chart svg {
+    max-width: 400px;
+    width: 100%;
+    height: auto;
+}
+
+.radar-legend {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-6);
+    margin-top: var(--space-4);
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 0.875rem;
+    color: var(--gray-700);
+}
+
+.legend-color {
+    width: 24px;
+    height: 24px;
+    border-radius: var(--radius-sm);
+}
+
+/* 条形图 */
+.bar-chart {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+}
+
+.bar-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-3);
+    background: var(--gray-50);
+    border-radius: var(--radius-md);
+    transition: all 0.3s ease;
+}
+
+.bar-item:hover {
+    background: white;
+    box-shadow: var(--shadow-md);
+}
+
+.bar-item.present {
+    background: #fffbeb;
+}
+
+.bar-label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-width: 220px;
+    font-weight: 500;
+    color: var(--gray-700);
+}
+
+.bar-label i {
+    width: 24px;
+    text-align: center;
+    color: var(--primary);
+}
+
+.bar-container {
+    flex: 1;
+    height: 24px;
+    background: var(--gray-200);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #fbbf24 0%, #f59e0b 100%);
+    border-radius: 12px;
+    transition: width 0.6s ease;
+}
+
+.bar-fill:not(.filled) {
+    width: 0 !important;
+}
+
+.bar-status {
+    flex-shrink: 0;
+    width: 32px;
+    text-align: center;
+}
+
+.bar-status i {
+    font-size: 1.25rem;
+}
+
+/* 标签云 */
+.tag-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-8);
+    min-height: 200px;
+}
+
+.cloud-tag {
+    padding: var(--space-2) var(--space-4);
+    background: linear-gradient(135deg, var(--primary-50) 0%, var(--primary-100) 100%);
+    color: var(--primary-700);
+    border-radius: var(--radius-lg);
+    font-weight: 600;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s ease;
+    cursor: default;
+}
+
+.cloud-tag:hover {
+    transform: scale(1.05);
+    box-shadow: var(--shadow-md);
+}
+
+.cloud-tag.size-1 {
+    font-size: 0.875rem;
+}
+
+.cloud-tag.size-2 {
+    font-size: 1.125rem;
+}
+
+.cloud-tag.size-3 {
+    font-size: 1.5rem;
+}
+
+.no-risk-factors {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-4);
+    color: var(--gray-500);
+}
+
+/* ==================== 决策支持流程 ==================== */
+.decision-support-flow {
+    background: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: var(--space-6);
+    margin-bottom: var(--space-6);
+}
+
+.decision-support-flow .flow-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-6);
+    padding-bottom: var(--space-4);
+    border-bottom: 2px solid var(--gray-200);
+}
+
+.decision-support-flow .flow-header i {
+    font-size: 1.5rem;
+    color: var(--primary);
+}
+
+.decision-support-flow .flow-header h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--gray-900);
+}
+
+.flow-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+}
+
+/* 决策树 */
+.decision-tree {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.tree-step {
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-4);
+    background: var(--gray-50);
+    border-radius: var(--radius-md);
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.tree-step:hover {
+    background: white;
+    box-shadow: var(--shadow-md);
+}
+
+.tree-step.completed {
+    border-color: #d1fae5;
+}
+
+.tree-step.warning {
+    border-color: #fed7aa;
+}
+
+.tree-step.action-required {
+    border-color: #fecaca;
+    background: #fef2f2;
+}
+
+.tree-step > div:first-child {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+}
+
+.step-icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    flex-shrink: 0;
+}
+
+.tree-step.completed .step-icon {
+    background: #d1fae5;
+}
+
+.tree-step.warning .step-icon {
+    background: #fed7aa;
+}
+
+.tree-step.action-required .step-icon {
+    background: #fecaca;
+}
+
+.step-icon i {
+    font-size: 1.5rem;
+    color: var(--primary);
+}
+
+.tree-step.completed .step-icon i {
+    color: #059669;
+}
+
+.tree-step.warning .step-icon i {
+    color: #d97706;
+}
+
+.tree-step.action-required .step-icon i {
+    color: #dc2626;
+}
+
+.step-content {
+    flex: 1;
+}
+
+.step-title {
+    font-weight: 600;
+    font-size: 1.125rem;
+    color: var(--gray-900);
+    margin-bottom: var(--space-1);
+}
+
+.step-description {
+    font-size: 0.875rem;
+    color: var(--gray-600);
+}
+
+.step-connector {
+    display: flex;
+    justify-content: center;
+    padding: var(--space-2) 0;
+}
+
+.step-connector i {
+    color: var(--gray-400);
+    font-size: 1.25rem;
+}
+
+/* 推荐行动 */
+.recommended-actions h4 {
+    margin: 0 0 var(--space-4) 0;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--gray-900);
+}
+
+.action-card {
+    padding: var(--space-5);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-4);
+    border-left: 4px solid;
+}
+
+.action-card.priority-high {
+    background: #fef2f2;
+    border-left-color: #ef4444;
+}
+
+.action-card.priority-medium {
+    background: #fff7ed;
+    border-left-color: #f59e0b;
+}
+
+.action-card.priority-low {
+    background: #f0fdf4;
+    border-left-color: #10b981;
+}
+
+.action-card.priority-info {
+    background: #eff6ff;
+    border-left-color: #3b82f6;
+}
+
+.action-header {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-4);
+    margin-bottom: var(--space-4);
+}
+
+.action-icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    flex-shrink: 0;
+}
+
+.action-card.priority-high .action-icon i {
+    color: #ef4444;
+    font-size: 1.5rem;
+}
+
+.action-card.priority-medium .action-icon i {
+    color: #f59e0b;
+    font-size: 1.5rem;
+}
+
+.action-card.priority-low .action-icon i {
+    color: #10b981;
+    font-size: 1.5rem;
+}
+
+.action-card.priority-info .action-icon i {
+    color: #3b82f6;
+    font-size: 1.5rem;
+}
+
+.action-title-group {
+    flex: 1;
+}
+
+.action-title-group h5 {
+    margin: 0 0 var(--space-1) 0;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--gray-900);
+}
+
+.action-title-group p {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--gray-600);
+    line-height: 1.5;
+}
+
+.action-steps {
+    padding-left: calc(48px + var(--space-4));
+}
+
+.action-steps ol {
+    margin: 0;
+    padding-left: var(--space-5);
+}
+
+.action-steps li {
+    margin-bottom: var(--space-2);
+    color: var(--gray-700);
+    line-height: 1.6;
+}
+
+/* 证据支持 */
+.evidence-support h4 {
+    margin: 0 0 var(--space-4) 0;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--gray-900);
+}
+
+.evidence-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+}
+
+.evidence-item {
+    display: flex;
+    gap: var(--space-4);
+    padding: var(--space-5);
+    background: var(--gray-50);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--gray-200);
+}
+
+.evidence-icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    flex-shrink: 0;
+}
+
+.evidence-icon i {
+    font-size: 1.5rem;
+    color: var(--primary);
+}
+
+.evidence-content {
+    flex: 1;
+}
+
+.evidence-content h5 {
+    margin: 0 0 var(--space-3) 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--gray-900);
+}
+
+.evidence-content ul {
+    margin: 0;
+    padding-left: var(--space-5);
+}
+
+.evidence-content li {
+    margin-bottom: var(--space-1);
+    font-size: 0.875rem;
+    color: var(--gray-600);
+    line-height: 1.6;
+}
+
+.confidence-meter {
+    margin: var(--space-3) 0;
+}
+
+.confidence-bar {
+    height: 8px;
+    background: var(--gray-200);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: var(--space-2);
+}
+
+.confidence-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary) 0%, var(--primary-light) 100%);
+    border-radius: 4px;
+    transition: width 0.6s ease;
+}
+
+.confidence-value {
+    font-weight: 600;
+    color: var(--primary);
+}
+
+.confidence-meter p {
+    margin: var(--space-2) 0 0 0;
+    font-size: 0.875rem;
+    color: var(--gray-600);
+    line-height: 1.5;
+}
+
+.clinical-note {
+    display: flex;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    border-radius: var(--radius-md);
+}
+
+.clinical-note i {
+    color: #f59e0b;
+    font-size: 1.25rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.clinical-note div {
+    flex: 1;
+    font-size: 0.875rem;
+    color: #92400e;
+    line-height: 1.6;
+}
+
+/* ==================== 响应式设计 ==================== */
+@media (max-width: 768px) {
+    .criteria-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .visualization-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-4);
+    }
+    
+    .view-toggles {
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    .evidence-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .bar-label {
+        min-width: 150px;
+        font-size: 0.875rem;
+    }
+}
+

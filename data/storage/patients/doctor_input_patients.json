@@ -1,0 +1,388 @@
+{
+  "metadata": {
+    "version": "2.0",
+    "created_at": "2025-10-21T12:50:42.151951",
+    "last_updated": "2025-10-21T12:50:42.151951",
+    "total_patients": 12,
+    "data_source": "Doctor Input UI - Balanced Dataset",
+    "file_type": "patient_data",
+    "description": "Balanced patient dataset with various risk levels to reduce over-alerting"
+  },
+  "patients": [
+    {
+      "id": 5001,
+      "name": "Alex Johnson",
+      "age": 25,
+      "gender": "Male",
+      "diagnosisDate": "2024-01-15",
+      "hasDiseaseX": true,
+      "comorbidities": [],
+      "symptoms": [
+        "Fever",
+        "Cough"
+      ],
+      "physician": {
+        "id": 20001,
+        "specialty": "Family Medicine",
+        "experience": "5 years"
+      },
+      "dataSource": "Doctor Input",
+      "locationType": "Office",
+      "insuranceType": "Private",
+      "contraindicationLevel": "Low",
+      "symptomOnsetDate": "2024-01-14",
+      "drugAEligible": false,
+      "eligibilityReason": "Young healthy patient - low risk",
+      "additionalNotes": "Healthy young adult with mild symptoms",
+      "expectedPrediction": "Low probability - no risk factors",
+      "createdAt": "2025-10-21T12:50:42.151920",
+      "lastUpdated": "2025-10-21T12:50:42.151926"
+    },
+    {
+      "id": 5002,
+      "name": "Emma Davis",
+      "age": 32,
+      "gender": "Female",
+      "diagnosisDate": "2024-01-15",
+      "hasDiseaseX": true,
+      "comorbidities": [],
+      "symptoms": [
+        "Sore Throat"
+      ],
+      "physician": {
+        "id": 20002,
+        "specialty": "Family Medicine",
+        "experience": "8 years"
+      },
+      "dataSource": "Doctor Input",
+      "locationType": "Clinic",
+      "insuranceType": "Private",
+      "contraindicationLevel": "Low",
+      "symptomOnsetDate": "2024-01-14",
+      "drugAEligible": false,
+      "eligibilityReason": "Young healthy patient - low risk",
+      "additionalNotes": "Mild symptoms, no comorbidities",
+      "expectedPrediction": "Low probability - minimal risk factors",
+      "createdAt": "2025-10-21T12:50:42.151928",
+      "lastUpdated": "2025-10-21T12:50:42.151929"
+    },
+    {
+      "id": 5003,
+      "name": "Tommy Wilson",
+      "age": 8,
+      "gender": "Male",
+      "diagnosisDate": "2024-01-15",
+      "hasDiseaseX": true,
+      "comorbidities": [],
+      "symptoms": [
+        "Fever",
+        "Cough"
+      ],
+      "physician": {
+        "id": 20003,
+        "specialty": "Pediatrics",
+        "experience": "12 years"
+      },
+      "dataSource": "Doctor Input",
+      "locationType": "Office",
+      "insuranceType": "Private",
+      "contraindicationLevel": "Low",
+      "symptomOnsetDate": "2024-01-14",
+      "drugAEligible": false,
+      "eligibilityReason": "Child - age contraindication",
+      "additionalNotes": "Child patient - Drug A not typically prescribed",
+      "expectedPrediction": "Very low probability - age factor",
+      "createdAt": "2025-10-21T12:50:42.151930",
+      "lastUpdated": "2025-10-21T12:50:42.151931"
+    },
+    {
+      "id": 5004,
+      "name": "Sophie Brown",
+      "age": 12,
+      "gender": "Female",
+      "diagnosisDate": "2024-01-15",
+      "hasDiseaseX": true,
+      "comorbidities": [],
+      "symptoms": [
+        "Fever"
+      ],
+      "physician": {
+        "id": 20004,
+        "specialty": "Pediatrics",
+        "experience": "15 years"
+      },
+      "dataSource": "Doctor Input",
+      "locationType": "Office",
+      "insuranceType": "Private",
+      "contraindicationLevel": "Low",
+      "symptomOnsetDate": "2024-01-14",
+      "drugAEligible": false,
+      "eligibilityReason": "Child - age contraindication",
+      "additionalNotes": "Pre-teen patient",
+      "expectedPrediction": "Low probability - age factor",
+      "createdAt": "2025-10-21T12:50:42.151932",
+      "lastUpdated": "2025-10-21T12:50:42.151933"
+    },
+    {
+      "id": 5005,
+      "name": "Robert Chen",
+      "age": 45,
+      "gender": "Male",
+      "diagnosisDate": "2024-01-15",
+      "hasDiseaseX": true,
+      "comorbidities": [
+        "Diabetes"
+      ],
+      "symptoms": [
+        "Fever",
+        "Cough",
+        "Fatigue"
+      ],
+      "physician": {
+        "id": 20005,
+        "specialty": "Internal Medicine",
+        "experience": "18 years"
+      },
+      "dataSource": "Doctor Input",
+      "locationType": "Office",
+      "insuranceType": "Private",
+      "contraindicationLevel": "Low",
+      "symptomOnsetDate": "2024-01-08",
+      "drugAEligible": false,
+      "eligibilityReason": "Outside 5-day treatment window",
+      "additionalNotes": "Symptoms started 7 days ago - too late for Drug A",
+      "expectedPrediction": "Low probability - outside treatment window",
+      "createdAt": "2025-10-21T12:50:42.151935",
+      "lastUpdated": "2025-10-21T12:50:42.151935"
+    },
+    {
+      "id": 5006,
+      "name": "Maria Garcia",
+      "age": 58,
+      "gender": "Female",
+      "diagnosisDate": "2024-01-15",
+      "hasDiseaseX": true,
+      "comorbidities": [
+        "Heart Disease"
+      ],
+      "symptoms": [
+        "Fever",
+        "Cough",
+        "Chest Pain"
+      ],
+      "physician": {
+        "id": 20006,
+        "specialty": "Cardiology",
+        "experience": "20 years"
+      },
+      "dataSource": "Doctor Input",
+      "locationType": "Hospital",
+      "insuranceType": "Medicare",
+      "contraindicationLevel": "Low",
+      "symptomOnsetDate": "2024-01-09",
+      "drugAEligible": false,
+      "eligibilityReason": "Outside 5-day treatment window",
+      "additionalNotes": "Symptoms started 6 days ago - treatment window expired",
+      "expectedPrediction": "Low probability - outside treatment window",
+      "createdAt": "2025-10-21T12:50:42.151936",
+      "lastUpdated": "2025-10-21T12:50:42.151937"
+    },
+    {
+      "id": 5007,
+      "name": "James Miller",
+      "age": 65,
+      "gender": "Male",
+      "diagnosisDate": "2024-01-15",
+      "hasDiseaseX": true,
+      "comorbidities": [
+        "Diabetes",
+        "Heart Disease"
+      ],
+      "symptoms": [
+        "Fever",
+        "Cough",
+        "Difficulty Breathing"
+      ],
+      "physician": {
+        "id": 20007,
+        "specialty": "Internal Medicine",
+        "experience": "25 years"
+      },
+      "dataSource": "Doctor Input",
+      "locationType": "Hospital",
+      "insuranceType": "Medicare",
+      "contraindicationLevel": "High",
+      "symptomOnsetDate": "2024-01-14",
+      "drugAEligible": false,
+      "eligibilityReason": "High contraindication level",
+      "additionalNotes": "High contraindication - Drug A not recommended",
+      "expectedPrediction": "Low probability - contraindication",
+      "createdAt": "2025-10-21T12:50:42.151938",
+      "lastUpdated": "2025-10-21T12:50:42.151939"
+    },
+    {
+      "id": 5008,
+      "name": "Linda Anderson",
+      "age": 72,
+      "gender": "Female",
+      "diagnosisDate": "2024-01-15",
+      "hasDiseaseX": true,
+      "comorbidities": [
+        "Cancer"
+      ],
+      "symptoms": [
+        "Fever",
+        "Fatigue"
+      ],
+      "physician": {
+        "id": 20008,
+        "specialty": "Oncology",
+        "experience": "22 years"
+      },
+      "dataSource": "Doctor Input",
+      "locationType": "Hospital",
+      "insuranceType": "Medicare",
+      "contraindicationLevel": "High",
+      "symptomOnsetDate": "2024-01-14",
+      "drugAEligible": false,
+      "eligibilityReason": "Active cancer - contraindication",
+      "additionalNotes": "Cancer patient - Drug A contraindicated",
+      "expectedPrediction": "Low probability - cancer contraindication",
+      "createdAt": "2025-10-21T12:50:42.151940",
+      "lastUpdated": "2025-10-21T12:50:42.151941"
+    },
+    {
+      "id": 5009,
+      "name": "David Kim",
+      "age": 45,
+      "gender": "Male",
+      "diagnosisDate": "2024-01-15",
+      "hasDiseaseX": true,
+      "comorbidities": [
+        "Hypertension"
+      ],
+      "symptoms": [
+        "Fever",
+        "Cough",
+        "Headache"
+      ],
+      "physician": {
+        "id": 20009,
+        "specialty": "Family Medicine",
+        "experience": "10 years"
+      },
+      "dataSource": "Doctor Input",
+      "locationType": "Office",
+      "insuranceType": "Private",
+      "contraindicationLevel": "Low",
+      "symptomOnsetDate": "2024-01-14",
+      "drugAEligible": true,
+      "eligibilityReason": "Moderate risk factors",
+      "additionalNotes": "Middle-aged with hypertension - moderate risk",
+      "expectedPrediction": "Moderate probability - some risk factors",
+      "createdAt": "2025-10-21T12:50:42.151942",
+      "lastUpdated": "2025-10-21T12:50:42.151943"
+    },
+    {
+      "id": 5010,
+      "name": "Sarah Johnson",
+      "age": 52,
+      "gender": "Female",
+      "diagnosisDate": "2024-01-15",
+      "hasDiseaseX": true,
+      "comorbidities": [
+        "Obesity"
+      ],
+      "symptoms": [
+        "Fever",
+        "Cough",
+        "Fatigue"
+      ],
+      "physician": {
+        "id": 20010,
+        "specialty": "Internal Medicine",
+        "experience": "15 years"
+      },
+      "dataSource": "Doctor Input",
+      "locationType": "Office",
+      "insuranceType": "Private",
+      "contraindicationLevel": "Low",
+      "symptomOnsetDate": "2024-01-14",
+      "drugAEligible": true,
+      "eligibilityReason": "Obesity risk factor",
+      "additionalNotes": "Obese patient - moderate risk",
+      "expectedPrediction": "Moderate probability - obesity risk",
+      "createdAt": "2025-10-21T12:50:42.151944",
+      "lastUpdated": "2025-10-21T12:50:42.151945"
+    },
+    {
+      "id": 5011,
+      "name": "Michael Rodriguez",
+      "age": 68,
+      "gender": "Male",
+      "diagnosisDate": "2024-01-15",
+      "hasDiseaseX": true,
+      "comorbidities": [
+        "Diabetes",
+        "Heart Disease"
+      ],
+      "symptoms": [
+        "Fever",
+        "Cough",
+        "Difficulty Breathing",
+        "Chest Pain"
+      ],
+      "physician": {
+        "id": 20011,
+        "specialty": "Emergency Medicine",
+        "experience": "18 years"
+      },
+      "dataSource": "Doctor Input",
+      "locationType": "Emergency Room",
+      "insuranceType": "Medicare",
+      "contraindicationLevel": "Low",
+      "symptomOnsetDate": "2024-01-14",
+      "drugAEligible": true,
+      "eligibilityReason": "Age 65+ with multiple comorbidities",
+      "additionalNotes": "High-risk elderly patient with multiple conditions",
+      "expectedPrediction": "High probability - multiple risk factors",
+      "createdAt": "2025-10-21T12:50:42.151946",
+      "lastUpdated": "2025-10-21T12:50:42.151947"
+    },
+    {
+      "id": 5012,
+      "name": "Patricia Wilson",
+      "age": 71,
+      "gender": "Female",
+      "diagnosisDate": "2024-01-15",
+      "hasDiseaseX": true,
+      "comorbidities": [
+        "Diabetes",
+        "Heart Disease",
+        "Hypertension"
+      ],
+      "symptoms": [
+        "Fever",
+        "Cough",
+        "Difficulty Breathing",
+        "Fatigue"
+      ],
+      "physician": {
+        "id": 20012,
+        "specialty": "Internal Medicine",
+        "experience": "25 years"
+      },
+      "dataSource": "Doctor Input",
+      "locationType": "Hospital",
+      "insuranceType": "Medicare",
+      "contraindicationLevel": "Low",
+      "symptomOnsetDate": "2024-01-14",
+      "drugAEligible": true,
+      "eligibilityReason": "Age 65+ with multiple comorbidities",
+      "additionalNotes": "Very high-risk elderly patient",
+      "expectedPrediction": "High probability - multiple risk factors",
+      "createdAt": "2025-10-21T12:50:42.151948",
+      "lastUpdated": "2025-10-21T12:50:42.151949"
+    }
+  ]
+}

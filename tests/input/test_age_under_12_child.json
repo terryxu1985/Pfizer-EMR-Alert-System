@@ -1,0 +1,43 @@
+{
+  "description": "10-year-old child with diabetes, symptoms 2 days ago",
+  "input": {
+    "patient_id": 1002,
+    "birth_year": 2015,
+    "gender": "M",
+    "diagnosis_date": "2025-10-21T00:00:00",
+    "transactions": [
+      {
+        "txn_dt": "2025-10-19T00:00:00",
+        "physician_id": 101,
+        "txn_location_type": "OFFICE",
+        "insurance_type": "COMMERCIAL",
+        "txn_type": "SYMPTOMS",
+        "txn_desc": "FEVER"
+      },
+      {
+        "txn_dt": "2025-10-21T00:00:00",
+        "physician_id": 101,
+        "txn_location_type": "OFFICE",
+        "insurance_type": "COMMERCIAL",
+        "txn_type": "CONDITIONS",
+        "txn_desc": "DISEASE_X"
+      },
+      {
+        "txn_dt": "2025-09-21T00:00:00",
+        "physician_id": 101,
+        "txn_location_type": "OFFICE",
+        "insurance_type": "COMMERCIAL",
+        "txn_type": "CONDITIONS",
+        "txn_desc": "DIABETES"
+      }
+    ],
+    "physician_info": {
+      "physician_id": 101,
+      "state": "CA",
+      "physician_type": "Pediatrics",
+      "gender": "F",
+      "birth_year": 1980
+    }
+  }
+}
+

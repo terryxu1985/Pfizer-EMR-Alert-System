@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title or 'EMR Integrated - Disease X Smart Alert System' }}</title>
+    
+    <!-- External Dependencies -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Local Stylesheets -->
+    <link rel="stylesheet" href="/static/css/main.css">
+    {% block extra_css %}{% endblock %}
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/static/images/favicon.ico">
+    
+    <!-- Meta Tags -->
+    <meta name="description" content="{{ description or 'AI-Driven Clinical Decision Support System for Optimizing Drug A Treatment in Disease X Patients' }}">
+    <meta name="keywords" content="EMR, AI, Clinical Decision Support, Pfizer, Drug A, Disease X">
+    <meta name="author" content="Pfizer EMR Alert System Team">
+</head>
+<body>
+    <!-- System Header -->
+    <header class="system-header">
+        <div class="header-content">
+            <div class="system-brand">
+                <div class="system-logo">
+                    <span class="system-logo-text">Pfizer</span>
+                </div>
+                <div class="brand-divider"></div>
+                <div class="system-info">
+                    <h1 class="system-name">{{ system_name or 'DiseaseX–DrugA Clinical Advisor' }}</h1>
+                    <p class="system-subtitle">{{ system_subtitle or 'An AI-Driven Clinical Decision Support System' }}</p>
+                    <p class="system-tagline">{{ system_tagline or 'for Optimizing Drug A Treatment in Disease X Patients' }}</p>
+                </div>
+            </div>
+            <div class="system-status">
+                <div class="status-indicator">
+                    <div class="status-dot" id="apiStatusDot"></div>
+                    <span id="apiStatusText">System Online</span>
+                </div>
+                <div class="version-info">
+                    <div>{{ version or 'Version 2.0.0' }}</div>
+                    <div>AI-Powered</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation Toggle -->
+    <button class="mobile-nav-toggle" onclick="toggleMobileSidebar()">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="emr-container">
+        {% block sidebar %}{% endblock %}
+        
+        <!-- Main Content Area -->
+        <div class="main-content">
+            {% block toolbar %}{% endblock %}
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay hidden" id="loadingOverlay">
+        <div class="loading-spinner">
+            <div class="spinner"></div>
+            <p>Processing...</p>
+        </div>
+    </div>
+
+    <!-- JavaScript Files -->
+    <script src="/static/js/config.js"></script>
+    <script src="/static/js/main.js"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

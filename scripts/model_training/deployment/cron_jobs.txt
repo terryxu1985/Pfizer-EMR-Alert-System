@@ -1,0 +1,18 @@
+# Dynamic Model Selection Cron Jobs
+# Add these entries to your crontab for automatic model selection
+
+# Run model selection daily at 2 AM
+0 2 * * * cd /Users/st2025/Documents/GitHub/Project/Pfizer-EMR\ Alert\ System && python3 scripts/model_training/scheduled_model_selector.py --environment production >> logs/cron_model_selection.log 2>&1
+
+# Run model selection weekly on Sundays at 3 AM (more comprehensive evaluation)
+0 3 * * 0 cd /Users/st2025/Documents/GitHub/Project/Pfizer-EMR\ Alert\ System && python3 scripts/model_training/scheduled_model_selector.py --environment production --frequency 168 >> logs/cron_model_selection.log 2>&1
+
+# Run model selection on staging environment daily at 1 AM
+0 1 * * * cd /Users/st2025/Documents/GitHub/Project/Pfizer-EMR\ Alert\ System && python3 scripts/model_training/scheduled_model_selector.py --environment staging >> logs/cron_model_selection.log 2>&1
+
+# Manual run examples (uncomment to use):
+# Force immediate run
+# 0 0 * * * cd /Users/st2025/Documents/GitHub/Project/Pfizer-EMR\ Alert\ System && python3 scripts/model_training/scheduled_model_selector.py --force >> logs/cron_model_selection.log 2>&1
+
+# Dry run (evaluate but don't update)
+# 0 4 * * * cd /Users/st2025/Documents/GitHub/Project/Pfizer-EMR\ Alert\ System && python3 scripts/model_training/scheduled_model_selector.py --dry-run >> logs/cron_model_selection.log 2>&1

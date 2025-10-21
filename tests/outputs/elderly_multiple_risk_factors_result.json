@@ -1,0 +1,213 @@
+{
+  "test_name": "elderly_multiple_risk_factors",
+  "test_file": "test_elderly_multiple_risk_factors.json",
+  "description": "85-year-old patient with multiple risk factors: diabetes, heart disease, obesity, and COPD. Symptoms 2 days ago",
+  "expected_alert": true,
+  "expected_reason": "85-year-old with multiple high-risk conditions (diabetes, heart disease, obesity, COPD) and multiple symptoms",
+  "timestamp": "2025-10-21T08:55:08.028909",
+  "response_time_seconds": 0.042259,
+  "api_mode": "direct_call",
+  "input": {
+    "patient_id": 2001,
+    "birth_year": 1940,
+    "gender": "M",
+    "diagnosis_date": "2025-10-21T00:00:00",
+    "transactions": [
+      {
+        "txn_dt": "2025-10-19T00:00:00",
+        "physician_id": 102,
+        "txn_location_type": "OFFICE",
+        "insurance_type": "MEDICARE",
+        "txn_type": "SYMPTOMS",
+        "txn_desc": "FEVER"
+      },
+      {
+        "txn_dt": "2025-10-19T00:00:00",
+        "physician_id": 102,
+        "txn_location_type": "OFFICE",
+        "insurance_type": "MEDICARE",
+        "txn_type": "SYMPTOMS",
+        "txn_desc": "COUGH"
+      },
+      {
+        "txn_dt": "2025-10-19T00:00:00",
+        "physician_id": 102,
+        "txn_location_type": "OFFICE",
+        "insurance_type": "MEDICARE",
+        "txn_type": "SYMPTOMS",
+        "txn_desc": "DIFFICULTY_BREATHING"
+      },
+      {
+        "txn_dt": "2025-10-21T00:00:00",
+        "physician_id": 102,
+        "txn_location_type": "OFFICE",
+        "insurance_type": "MEDICARE",
+        "txn_type": "CONDITIONS",
+        "txn_desc": "DISEASE_X"
+      },
+      {
+        "txn_dt": "2025-08-01T00:00:00",
+        "physician_id": 102,
+        "txn_location_type": "OFFICE",
+        "insurance_type": "MEDICARE",
+        "txn_type": "CONDITIONS",
+        "txn_desc": "DIABETES"
+      },
+      {
+        "txn_dt": "2025-08-01T00:00:00",
+        "physician_id": 102,
+        "txn_location_type": "OFFICE",
+        "insurance_type": "MEDICARE",
+        "txn_type": "CONDITIONS",
+        "txn_desc": "HEART_DISEASE"
+      },
+      {
+        "txn_dt": "2025-08-01T00:00:00",
+        "physician_id": 102,
+        "txn_location_type": "OFFICE",
+        "insurance_type": "MEDICARE",
+        "txn_type": "CONDITIONS",
+        "txn_desc": "OBESITY"
+      },
+      {
+        "txn_dt": "2025-08-01T00:00:00",
+        "physician_id": 102,
+        "txn_location_type": "OFFICE",
+        "insurance_type": "MEDICARE",
+        "txn_type": "CONDITIONS",
+        "txn_desc": "COPD"
+      }
+    ],
+    "physician_info": {
+      "physician_id": 102,
+      "state": "NY",
+      "physician_type": "Internal Medicine",
+      "gender": "F",
+      "birth_year": 1975
+    }
+  },
+  "output": {
+    "prediction": 1,
+    "probability": 0.7670482115064158,
+    "not_prescribed_drug_a": 1,
+    "not_prescribed_drug_a_probability": 0.7670482115064158,
+    "alert_recommended": true,
+    "clinical_eligibility": {
+      "meets_criteria": true,
+      "age_eligible": true,
+      "patient_age": 85,
+      "within_5day_window": true,
+      "symptom_to_diagnosis_days": 2,
+      "is_high_risk": true,
+      "is_high_risk_by_age": true,
+      "risk_factors_found": [
+        "age_65_or_older",
+        "chronic_lung_disease",
+        "cardiovascular_disease",
+        "obesity",
+        "diabetes"
+      ],
+      "risk_conditions_details": {
+        "chronic_lung_disease": [
+          "COPD"
+        ],
+        "cardiovascular_disease": [
+          "HEART_DISEASE"
+        ],
+        "obesity": [
+          "OBESITY"
+        ],
+        "diabetes": [
+          "DIABETES"
+        ]
+      },
+      "no_severe_contraindication": true,
+      "contraindication_level": 0,
+      "contraindication_details": []
+    },
+    "feature_validation": {
+      "valid": true,
+      "missing_features": [],
+      "extra_features": [
+        "SYMPTOM_ONSET_DT",
+        "_clinical_eligibility"
+      ],
+      "expected_features": [
+        "PHYS_EXPERIENCE_LEVEL",
+        "RISK_DIABETES",
+        "INSURANCE_TYPE_AT_DX",
+        "RISK_NUM",
+        "SYMPTOM_MUSCLE_ACHE",
+        "PHYSICIAN_TYPE",
+        "RISK_AGE_FLAG",
+        "LOCATION_TYPE",
+        "PHYSICIAN_STATE",
+        "SYMPTOM_DIARRHEA",
+        "SYMPTOM_TO_DIAGNOSIS_DAYS",
+        "SYMPTOM_LOSS_OF_TASTE_OR_SMELL",
+        "SYMPTOM_CHILLS",
+        "SYM_COUNT_5D",
+        "RISK_OBESITY",
+        "SYMPTOM_ACUTE_URI",
+        "PATIENT_GENDER",
+        "SYMPTOM_CONGESTION",
+        "SYMPTOM_NAUSEA_AND_VOMITING",
+        "SYMPTOM_ACUTE_PHARYNGITIS",
+        "PHYS_TOTAL_DX",
+        "SYMPTOM_DIFFICULTY_BREATHING",
+        "RISK_CVD",
+        "DIAGNOSIS_WITHIN_5DAYS_FLAG",
+        "PATIENT_AGE",
+        "DX_SEASON",
+        "PRIOR_CONTRA_LVL",
+        "SYMPTOM_FATIGUE",
+        "SYMPTOM_SORE_THROAT",
+        "RISK_IMMUNO",
+        "SYMPTOM_FEVER",
+        "SYMPTOM_COUGH",
+        "SYMPTOM_HEADACHE"
+      ],
+      "input_features": [
+        "PHYS_EXPERIENCE_LEVEL",
+        "RISK_DIABETES",
+        "INSURANCE_TYPE_AT_DX",
+        "RISK_NUM",
+        "SYMPTOM_MUSCLE_ACHE",
+        "PHYSICIAN_TYPE",
+        "RISK_AGE_FLAG",
+        "LOCATION_TYPE",
+        "SYMPTOM_ONSET_DT",
+        "PHYSICIAN_STATE",
+        "SYMPTOM_DIARRHEA",
+        "SYMPTOM_TO_DIAGNOSIS_DAYS",
+        "SYMPTOM_LOSS_OF_TASTE_OR_SMELL",
+        "SYMPTOM_CHILLS",
+        "SYM_COUNT_5D",
+        "_clinical_eligibility",
+        "SYMPTOM_ACUTE_URI",
+        "RISK_OBESITY",
+        "PATIENT_GENDER",
+        "SYMPTOM_CONGESTION",
+        "SYMPTOM_NAUSEA_AND_VOMITING",
+        "SYMPTOM_ACUTE_PHARYNGITIS",
+        "PHYS_TOTAL_DX",
+        "SYMPTOM_DIFFICULTY_BREATHING",
+        "DIAGNOSIS_WITHIN_5DAYS_FLAG",
+        "RISK_CVD",
+        "PATIENT_AGE",
+        "DX_SEASON",
+        "PRIOR_CONTRA_LVL",
+        "SYMPTOM_FATIGUE",
+        "SYMPTOM_SORE_THROAT",
+        "RISK_IMMUNO",
+        "SYMPTOM_FEVER",
+        "SYMPTOM_COUGH",
+        "SYMPTOM_HEADACHE"
+      ],
+      "feature_count_match": false
+    },
+    "model_version": "2.1.0",
+    "model_type": "Gradient Boosting"
+  },
+  "test_passed": true
+}

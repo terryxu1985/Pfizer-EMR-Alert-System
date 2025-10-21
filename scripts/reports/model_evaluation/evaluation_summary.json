@@ -1,0 +1,111 @@
+{
+  "evaluation_timestamp": "2025-10-21T11:26:55.778123",
+  "total_models_evaluated": 6,
+  "best_model": {
+    "name": "XGBoost",
+    "roc_auc": 0.68,
+    "f1_score": 0.81,
+    "accuracy": 0.71
+  },
+  "performance_summary": {
+    "Accuracy": {
+      "mean": 0.6009681881051177,
+      "std": 0.12909462882906736,
+      "range": [
+        0.43015214384508993,
+        0.710926694329184
+      ]
+    },
+    "Precision": {
+      "mean": 0.8962454658573863,
+      "std": 0.02049255078105954,
+      "range": [
+        0.8787878787878788,
+        0.9302325581395349
+      ]
+    },
+    "Recall": {
+      "mean": 0.5890563930764935,
+      "std": 0.19006423944247022,
+      "range": [
+        0.33500837520938026,
+        0.7537688442211056
+      ]
+    },
+    "F1-Score": {
+      "mean": 0.6926326120083561,
+      "std": 0.14714802678977373,
+      "range": [
+        0.49261083743842365,
+        0.8115419296663661
+      ]
+    },
+    "ROC-AUC": {
+      "mean": 0.668022652947276,
+      "std": 0.02202534192619456,
+      "range": [
+        0.628845284624179,
+        0.6906091303076228
+      ]
+    },
+    "PR-AUC": {
+      "mean": 0.8987117084620698,
+      "std": 0.008714035152767627,
+      "range": [
+        0.8862645682591396,
+        0.908188407765586
+      ]
+    }
+  },
+  "feature_analysis_summary": {
+    "top_features": [
+      {
+        "feature": "PATIENT_AGE",
+        "importance": 0.12132155516929083
+      },
+      {
+        "feature": "LOCATION_TYPE",
+        "importance": 0.1021563111346799
+      },
+      {
+        "feature": "PHYSICIAN_TYPE",
+        "importance": 0.07166062404360438
+      },
+      {
+        "feature": "RISK_NUM",
+        "importance": 0.06609105941509512
+      },
+      {
+        "feature": "RISK_AGE_FLAG",
+        "importance": 0.046230585814184676
+      },
+      {
+        "feature": "PHYSICIAN_STATE",
+        "importance": 0.04529015896821699
+      },
+      {
+        "feature": "SYMPTOM_TO_DIAGNOSIS_DAYS",
+        "importance": 0.044098117866430045
+      },
+      {
+        "feature": "RISK_IMMUNO",
+        "importance": 0.03684214846575429
+      },
+      {
+        "feature": "PRIOR_CONTRA_LVL",
+        "importance": 0.035875923263055526
+      },
+      {
+        "feature": "RISK_CVD",
+        "importance": 0.032803960661843774
+      }
+    ],
+    "total_features": 33
+  },
+  "configuration": {
+    "test_size": 0.2,
+    "cv_folds": 5,
+    "use_smote": false,
+    "primary_metric": "average_precision"
+  }
+}

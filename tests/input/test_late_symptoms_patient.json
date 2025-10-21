@@ -1,0 +1,35 @@
+{
+  "description": "70-year-old patient, symptoms appeared 7 days ago",
+  "input": {
+    "patient_id": 1004,
+    "birth_year": 1955,
+    "gender": "M",
+    "diagnosis_date": "2025-10-21T00:00:00",
+    "transactions": [
+      {
+        "txn_dt": "2025-10-14T00:00:00",
+        "physician_id": 101,
+        "txn_location_type": "OFFICE",
+        "insurance_type": "COMMERCIAL",
+        "txn_type": "SYMPTOMS",
+        "txn_desc": "FEVER"
+      },
+      {
+        "txn_dt": "2025-10-21T00:00:00",
+        "physician_id": 101,
+        "txn_location_type": "OFFICE",
+        "insurance_type": "COMMERCIAL",
+        "txn_type": "CONDITIONS",
+        "txn_desc": "DISEASE_X"
+      }
+    ],
+    "physician_info": {
+      "physician_id": 101,
+      "state": "CA",
+      "physician_type": "Internal Medicine",
+      "gender": "M",
+      "birth_year": 1970
+    }
+  }
+}
+

@@ -1,0 +1,71 @@
+<!-- Smart Alert Panel Component -->
+<div class="alert-panel hidden" id="alertPanel">
+    <div class="alert-header">
+        <div class="alert-icon">
+            <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        <div>
+            <div class="alert-title">Disease X High-Risk Patient Alert</div>
+            <div class="alert-subtitle">AI system detected this patient may need immediate consideration for Drug A treatment</div>
+        </div>
+    </div>
+    
+    <div class="alert-content">
+        <div class="alert-section">
+            <div class="alert-section-title">
+                <i class="fas fa-heartbeat"></i>
+                Risk Assessment
+            </div>
+            <div class="risk-item">
+                <span class="risk-label">Treatment Probability</span>
+                <span class="risk-value" id="treatmentProbability">-</span>
+            </div>
+            <div class="risk-item">
+                <span class="risk-label">Risk Level</span>
+                <span class="risk-value" id="riskLevel">-</span>
+            </div>
+            <div class="risk-item">
+                <span class="risk-label">Confidence Score</span>
+                <span class="risk-value" id="confidenceScore">-</span>
+            </div>
+        </div>
+        
+        <div class="alert-section">
+            <div class="alert-section-title">
+                <i class="fas fa-pills"></i>
+                Recommended Actions
+            </div>
+            <div class="risk-item">
+                <span class="risk-label">Primary Recommendation</span>
+                <span class="risk-value">Consider Drug A Treatment</span>
+            </div>
+            <div class="risk-item">
+                <span class="risk-label">Urgency Level</span>
+                <span class="risk-value">High Priority</span>
+            </div>
+            <div class="risk-item">
+                <span class="risk-label">Follow-up Required</span>
+                <span class="risk-value">Within 24 hours</span>
+            </div>
+        </div>
+        
+        <div class="alert-section">
+            <div class="alert-section-title">
+                <i class="fas fa-exclamation-circle"></i>
+                Important Notes
+            </div>
+            <div class="risk-item">
+                <span class="risk-label">Contraindications</span>
+                <span class="risk-value">None detected</span>
+            </div>
+            <div class="risk-item">
+                <span class="risk-label">Drug Interactions</span>
+                <span class="risk-value">Monitor for interactions</span>
+            </div>
+            <div class="risk-item">
+                <span class="risk-label">Dosage Considerations</span>
+                <span class="risk-value">Standard protocol applies</span>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,91 @@
+{
+  "description": "65-year-old patient with obesity, COPD, diabetes, and cardiovascular disease. Symptoms 3 days ago with respiratory distress",
+  "input": {
+    "patient_id": 2003,
+    "birth_year": 1960,
+    "gender": "M",
+    "diagnosis_date": "2025-10-21T00:00:00",
+    "transactions": [
+      {
+        "txn_dt": "2025-10-18T00:00:00",
+        "physician_id": 104,
+        "txn_location_type": "OFFICE",
+        "insurance_type": "MEDICARE",
+        "txn_type": "SYMPTOMS",
+        "txn_desc": "FEVER"
+      },
+      {
+        "txn_dt": "2025-10-18T00:00:00",
+        "physician_id": 104,
+        "txn_location_type": "OFFICE",
+        "insurance_type": "MEDICARE",
+        "txn_type": "SYMPTOMS",
+        "txn_desc": "COUGH"
+      },
+      {
+        "txn_dt": "2025-10-18T00:00:00",
+        "physician_id": 104,
+        "txn_location_type": "OFFICE",
+        "insurance_type": "MEDICARE",
+        "txn_type": "SYMPTOMS",
+        "txn_desc": "DIFFICULTY_BREATHING"
+      },
+      {
+        "txn_dt": "2025-10-18T00:00:00",
+        "physician_id": 104,
+        "txn_location_type": "OFFICE",
+        "insurance_type": "MEDICARE",
+        "txn_type": "SYMPTOMS",
+        "txn_desc": "FATIGUE"
+      },
+      {
+        "txn_dt": "2025-10-21T00:00:00",
+        "physician_id": 104,
+        "txn_location_type": "OFFICE",
+        "insurance_type": "MEDICARE",
+        "txn_type": "CONDITIONS",
+        "txn_desc": "DISEASE_X"
+      },
+      {
+        "txn_dt": "2025-06-01T00:00:00",
+        "physician_id": 104,
+        "txn_location_type": "OFFICE",
+        "insurance_type": "MEDICARE",
+        "txn_type": "CONDITIONS",
+        "txn_desc": "OBESITY"
+      },
+      {
+        "txn_dt": "2025-06-01T00:00:00",
+        "physician_id": 104,
+        "txn_location_type": "OFFICE",
+        "insurance_type": "MEDICARE",
+        "txn_type": "CONDITIONS",
+        "txn_desc": "COPD"
+      },
+      {
+        "txn_dt": "2025-06-01T00:00:00",
+        "physician_id": 104,
+        "txn_location_type": "OFFICE",
+        "insurance_type": "MEDICARE",
+        "txn_type": "CONDITIONS",
+        "txn_desc": "DIABETES"
+      },
+      {
+        "txn_dt": "2025-06-01T00:00:00",
+        "physician_id": 104,
+        "txn_location_type": "OFFICE",
+        "insurance_type": "MEDICARE",
+        "txn_type": "CONDITIONS",
+        "txn_desc": "HEART_DISEASE"
+      }
+    ],
+    "physician_info": {
+      "physician_id": 104,
+      "state": "TX",
+      "physician_type": "Pulmonology",
+      "gender": "F",
+      "birth_year": 1972
+    }
+  }
+}
+

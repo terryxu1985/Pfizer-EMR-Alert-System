@@ -1,0 +1,125 @@
+version: '3.8'
+
+services:
+  # Pfizer EMR Alert System - Complete Application (API + UI)
+  pfizer-emr-complete:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: application
+    container_name: pfizer-emr-complete-system
+    ports:
+      - "8000:8000"  # API server
+      - "8080:8080"  # UI server
+    volumes:
+      # Persist logs
+      - ./logs:/app/logs
+      # Persist data storage
+      - ./data/storage:/app/data/storage
+      # Mount model files for hot reloading (read-only)
+      - ./backend/ml_models:/app/backend/ml_models:ro
+      # Mount processed data
+      - ./data/model_ready:/app/data/model_ready:ro
+    environment:
+      - PYTHONPATH=/app
+      - PYTHONUNBUFFERED=1
+      - ENVIRONMENT=docker
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - pfizer-emr-network
+    profiles:
+      - complete
+
+  # Separate API Service
+  pfizer-emr-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: application
+    container_name: pfizer-emr-api-service
+    ports:
+      - "8000:8000"  # API server
+    volumes:
+      - ./logs:/app/logs
+      - ./data/storage:/app/data/storage
+      - ./backend/ml_models:/app/backend/ml_models:ro
+      - ./data/model_ready:/app/data/model_ready:ro
+    environment:
+      - PYTHONPATH=/app
+      - PYTHONUNBUFFERED=1
+      - ENVIRONMENT=docker
+    command: ["python", "scripts/startup/run_api_only.py"]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - pfizer-emr-network
+    profiles:
+      - api-only
+
+  # Separate UI Service
+  pfizer-emr-ui:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: application
+    container_name: pfizer-emr-ui-service
+    ports:
+      - "8080:8080"  # UI server
+    volumes:
+      - ./logs:/app/logs
+    environment:
+      - PYTHONPATH=/app
+      - PYTHONUNBUFFERED=1
+      - ENVIRONMENT=docker
+      - API_BASE_URL=http://pfizer-emr-api:8000
+    command: ["python", "frontend/server/emr_ui_server.py"]
+    restart: unless-stopped
+    depends_on:
+      - pfizer-emr-api
+    networks:
+      - pfizer-emr-network
+    profiles:
+      - ui-only
+
+  # Microservices Architecture (API + UI as separate services)
+  pfizer-emr-microservices:
+    extends:
+      service: pfizer-emr-api
+    container_name: pfizer-emr-api-microservice
+    profiles:
+      - microservices
+
+  pfizer-emr-ui-microservice:
+    extends:
+      service: pfizer-emr-ui
+    container_name: pfizer-emr-ui-microservice
+    profiles:
+      - microservices
+
+networks:
+  pfizer-emr-network:
+    driver: bridge
+    name: pfizer-emr-network
+
+volumes:
+  logs:
+    driver: local
+    name: pfizer-emr-logs
+  data_storage:
+    driver: local
+    name: pfizer-emr-data-storage
+  model_files:
+    driver: local
+    name: pfizer-emr-models
+

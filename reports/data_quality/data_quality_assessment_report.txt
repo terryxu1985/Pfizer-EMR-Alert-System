@@ -1,0 +1,187 @@
+================================================================================
+DATA QUALITY ASSESSMENT REPORT
+Pfizer EMR Alert System Dataset
+Generated: 2025-10-17 09:45:23
+================================================================================
+
+EXECUTIVE SUMMARY
+----------------------------------------
+PATIENT TABLE:
+  Quality Score: 100.0% (A (Excellent))
+  Total Records: 4,020
+  Completeness: 100.0%
+  Consistency: 100.0%
+  Validity: 100%
+
+PHYSICIAN TABLE:
+  Quality Score: 97.0% (A (Excellent))
+  Total Records: 25,343
+  Completeness: 100.0%
+  Consistency: 100.0%
+  Validity: 90%
+
+TRANSACTION TABLE:
+  Quality Score: 100.0% (A (Excellent))
+  Total Records: 115,041
+  Completeness: 100.0%
+  Consistency: 100.0%
+  Validity: 100%
+
+OVERALL AVERAGE SCORE: 99.00%
+
+DETAILED ANALYSIS - PATIENT TABLE
+==================================================
+Table: dim_patient
+Total Records: 4,020
+Total Columns: 3
+Total Cells: 12,060
+Missing Cells: 0
+Duplicate Records: 0
+Overall Quality Score: 100.0% (A (Excellent))
+
+COLUMN DETAILS:
+------------------------------
+
+Column: PATIENT_ID
+  Data Type: int64
+  Missing Values: 0 (0.0%)
+  Unique Values: 4,020 (100.0%)
+  Min: 1
+  Max: 4020
+  Mean: 2010.5
+  Median: 2010.5
+  Std Dev: 1160.62
+  Outliers: 0 (0.0%)
+
+Column: BIRTH_YEAR
+  Data Type: int64
+  Missing Values: 0 (0.0%)
+  Unique Values: 86 (2.14%)
+  Min: 1937
+  Max: 2022
+  Mean: 1975.25
+  Median: 1974.0
+  Std Dev: 23.78
+  Outliers: 0 (0.0%)
+
+Column: GENDER
+  Data Type: object
+  Missing Values: 0 (0.0%)
+  Unique Values: 2 (0.05%)
+
+==================================================
+
+DETAILED ANALYSIS - PHYSICIAN TABLE
+==================================================
+Table: dim_physician
+Total Records: 25,343
+Total Columns: 5
+Total Cells: 126,715
+Missing Cells: 0
+Duplicate Records: 0
+Overall Quality Score: 97.0% (A (Excellent))
+
+COLUMN DETAILS:
+------------------------------
+
+Column: PHYSICIAN_ID
+  Data Type: int64
+  Missing Values: 0 (0.0%)
+  Unique Values: 25,343 (100.0%)
+  Min: 1
+  Max: 25343
+  Mean: 12672.0
+  Median: 12672.0
+  Std Dev: 7316.04
+  Outliers: 0 (0.0%)
+
+Column: STATE
+  Data Type: object
+  Missing Values: 0 (0.0%)
+  Unique Values: 58 (0.23%)
+
+Column: PHYSICIAN_TYPE
+  Data Type: object
+  Missing Values: 0 (0.0%)
+  Unique Values: 199 (0.79%)
+
+Column: GENDER
+  Data Type: object
+  Missing Values: 0 (0.0%)
+  Unique Values: 3 (0.01%)
+
+Column: BIRTH_YEAR
+  Data Type: float64
+  Missing Values: 0 (0.0%)
+  Unique Values: 65 (0.26%)
+  Min: -1.0
+  Max: 2000.0
+  Mean: 1633.58
+  Median: 1967.0
+  Std Dev: 741.57
+  Outliers: 4,325 (17.07%)
+
+==================================================
+
+DETAILED ANALYSIS - TRANSACTION TABLE
+==================================================
+Table: fact_txn
+Total Records: 115,041
+Total Columns: 7
+Total Cells: 805,287
+Missing Cells: 0
+Duplicate Records: 0
+Overall Quality Score: 100.0% (A (Excellent))
+
+COLUMN DETAILS:
+------------------------------
+
+Column: TXN_DT
+  Data Type: datetime64[ns]
+  Missing Values: 0 (0.0%)
+  Unique Values: 2,030 (1.76%)
+
+Column: PATIENT_ID
+  Data Type: int64
+  Missing Values: 0 (0.0%)
+  Unique Values: 4,020 (3.49%)
+  Min: 1
+  Max: 4020
+  Mean: 2395.02
+  Median: 2501.0
+  Std Dev: 1053.81
+  Outliers: 0 (0.0%)
+
+Column: PHYSICIAN_ID
+  Data Type: int64
+  Missing Values: 0 (0.0%)
+  Unique Values: 25,344 (22.03%)
+  Min: -1
+  Max: 25343
+  Mean: 12937.93
+  Median: 13940.0
+  Std Dev: 7975.5
+  Outliers: 0 (0.0%)
+
+Column: TXN_LOCATION_TYPE
+  Data Type: object
+  Missing Values: 0 (0.0%)
+  Unique Values: 49 (0.04%)
+
+Column: INSURANCE_TYPE
+  Data Type: object
+  Missing Values: 0 (0.0%)
+  Unique Values: 5 (0.0%)
+
+Column: TXN_TYPE
+  Data Type: object
+  Missing Values: 0 (0.0%)
+  Unique Values: 4 (0.0%)
+
+Column: TXN_DESC
+  Data Type: object
+  Missing Values: 0 (0.0%)
+  Unique Values: 25 (0.02%)
+
+==================================================
+

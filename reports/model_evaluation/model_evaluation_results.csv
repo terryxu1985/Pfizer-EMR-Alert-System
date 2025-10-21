@@ -1,0 +1,7 @@
+Model,Accuracy,Precision,Recall,F1-Score,ROC-AUC,PR-AUC,CV ROC-AUC Mean,CV ROC-AUC Std,Specificity,False Positive Rate,False Negative Rate,True Positives,True Negatives,False Positives,False Negatives
+Random Forest,0.67,0.88,0.7,0.78,0.69,0.91,0.89,0.02,0.56,0.44,0.3,416,71,55,181
+Gradient Boosting,0.7,0.88,0.73,0.8,0.68,0.91,0.88,0.02,0.53,0.47,0.27,436,67,59,161
+SVM,0.43,0.93,0.34,0.49,0.67,0.9,0.89,0.02,0.88,0.12,0.66,200,111,15,397
+XGBoost,0.71,0.88,0.75,0.81,0.67,0.9,0.88,0.01,0.49,0.51,0.25,449,62,64,148
+Logistic Regression,0.65,0.89,0.65,0.76,0.66,0.89,0.88,0.01,0.63,0.37,0.35,391,79,47,206
+Naive Bayes,0.44,0.91,0.36,0.52,0.63,0.89,0.87,0.01,0.83,0.17,0.64,215,105,21,382

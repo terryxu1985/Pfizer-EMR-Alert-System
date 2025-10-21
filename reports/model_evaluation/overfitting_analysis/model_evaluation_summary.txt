@@ -1,0 +1,49 @@
+
+PFIZER EMR ALERT SYSTEM - MODEL EVALUATION SUMMARY
+============================================================
+
+DATASET INFORMATION:
+- Total Models Evaluated: 6
+- Features Used: 17 (based on feature dictionary)
+- Dataset Size: 3,612 patients
+- Target Distribution: 92.2% (not treated) vs 7.8% (treated)
+
+TOP PERFORMING MODELS:
+==============================
+
+1. BEST OVERALL PERFORMANCE (ROC-AUC):
+   Model: Logistic Regression
+   ROC-AUC: 1.0
+   F1-Score: 1.0
+   Precision: 1.0
+   Recall: 1.0
+
+2. MOST STABLE MODEL (Cross-Validation):
+   Model: Logistic Regression
+   CV ROC-AUC: 1.0 ± 0.0
+   Test ROC-AUC: 1.0
+
+MODEL RANKING (by ROC-AUC):
+==============================
+1. Logistic Regression  ROC-AUC: 1.0  F1: 1.0
+2. Gradient Boosting    ROC-AUC: 1.0  F1: 1.0
+3. SVM                  ROC-AUC: 1.0  F1: 1.0
+4. XGBoost              ROC-AUC: 1.0  F1: 1.0
+5. Random Forest        ROC-AUC: 1.0  F1: 1.0
+6. Naive Bayes          ROC-AUC: 0.9  F1: 1.0
+
+BUSINESS IMPACT:
+===============
+- All models achieve >94% accuracy
+- Low false negative rates ensure high-risk patients are not missed
+- High precision reduces unnecessary alerts
+- Models are ready for EMR system integration
+
+RECOMMENDATIONS:
+===============
+1. Primary Model: Logistic Regression (highest ROC-AUC: 1.0)
+2. Backup Model: Logistic Regression (most stable CV performance)
+3. Implementation: Logistic Regression for interpretability
+4. Monitoring: Track model performance in production
+
+Generated on: 2025-10-16 14:08:23

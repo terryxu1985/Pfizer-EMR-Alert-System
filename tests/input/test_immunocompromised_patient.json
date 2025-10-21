@@ -1,0 +1,83 @@
+{
+  "description": "72-year-old immunocompromised patient with diabetes and heart disease, multiple symptoms within 1 day",
+  "input": {
+    "patient_id": 2002,
+    "birth_year": 1953,
+    "gender": "F",
+    "diagnosis_date": "2025-10-21T00:00:00",
+    "transactions": [
+      {
+        "txn_dt": "2025-10-20T00:00:00",
+        "physician_id": 103,
+        "txn_location_type": "OFFICE",
+        "insurance_type": "MEDICARE",
+        "txn_type": "SYMPTOMS",
+        "txn_desc": "FEVER"
+      },
+      {
+        "txn_dt": "2025-10-20T00:00:00",
+        "physician_id": 103,
+        "txn_location_type": "OFFICE",
+        "insurance_type": "MEDICARE",
+        "txn_type": "SYMPTOMS",
+        "txn_desc": "COUGH"
+      },
+      {
+        "txn_dt": "2025-10-20T00:00:00",
+        "physician_id": 103,
+        "txn_location_type": "OFFICE",
+        "insurance_type": "MEDICARE",
+        "txn_type": "SYMPTOMS",
+        "txn_desc": "FATIGUE"
+      },
+      {
+        "txn_dt": "2025-10-20T00:00:00",
+        "physician_id": 103,
+        "txn_location_type": "OFFICE",
+        "insurance_type": "MEDICARE",
+        "txn_type": "SYMPTOMS",
+        "txn_desc": "MUSCLE_ACHE"
+      },
+      {
+        "txn_dt": "2025-10-21T00:00:00",
+        "physician_id": 103,
+        "txn_location_type": "OFFICE",
+        "insurance_type": "MEDICARE",
+        "txn_type": "CONDITIONS",
+        "txn_desc": "DISEASE_X"
+      },
+      {
+        "txn_dt": "2025-07-01T00:00:00",
+        "physician_id": 103,
+        "txn_location_type": "OFFICE",
+        "insurance_type": "MEDICARE",
+        "txn_type": "CONDITIONS",
+        "txn_desc": "IMMUNOCOMPROMISED"
+      },
+      {
+        "txn_dt": "2025-07-01T00:00:00",
+        "physician_id": 103,
+        "txn_location_type": "OFFICE",
+        "insurance_type": "MEDICARE",
+        "txn_type": "CONDITIONS",
+        "txn_desc": "DIABETES"
+      },
+      {
+        "txn_dt": "2025-07-01T00:00:00",
+        "physician_id": 103,
+        "txn_location_type": "OFFICE",
+        "insurance_type": "MEDICARE",
+        "txn_type": "CONDITIONS",
+        "txn_desc": "HEART_DISEASE"
+      }
+    ],
+    "physician_info": {
+      "physician_id": 103,
+      "state": "CA",
+      "physician_type": "Infectious Disease",
+      "gender": "M",
+      "birth_year": 1968
+    }
+  }
+}
+

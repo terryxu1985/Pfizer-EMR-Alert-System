@@ -1,0 +1,7 @@
+Model,Accuracy,Precision,Recall,F1-Score,ROC-AUC,CV ROC-AUC Mean,CV ROC-AUC Std,Weighted_Score
+Logistic Regression,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.9851681302206039
+Gradient Boosting,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.983563666705423
+SVM,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.9833985730158696
+XGBoost,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.9818250512646921
+Random Forest,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.9807702109315743
+Naive Bayes,0.9,1.0,0.9,1.0,0.9,1.0,0.0,0.9566571049902914

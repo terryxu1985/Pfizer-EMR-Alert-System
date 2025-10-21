@@ -1,0 +1,1454 @@
+{
+  "total_tests": 8,
+  "executed": 8,
+  "skipped": 0,
+  "passed": 8,
+  "failed": 0,
+  "errors": 0,
+  "timestamp": "2025-10-21T08:55:08.231917",
+  "api_mode": "direct_call",
+  "api_url": null,
+  "test_results": [
+    {
+      "test_name": "age_under_12_child",
+      "test_file": "test_age_under_12_child.json",
+      "description": "10-year-old child with diabetes, symptoms 2 days ago",
+      "expected_alert": false,
+      "expected_reason": "Age ineligible (< 12 years old)",
+      "timestamp": "2025-10-21T08:55:07.942404",
+      "response_time_seconds": 0.054454,
+      "api_mode": "direct_call",
+      "input": {
+        "patient_id": 1002,
+        "birth_year": 2015,
+        "gender": "M",
+        "diagnosis_date": "2025-10-21T00:00:00",
+        "transactions": [
+          {
+            "txn_dt": "2025-10-19T00:00:00",
+            "physician_id": 101,
+            "txn_location_type": "OFFICE",
+            "insurance_type": "COMMERCIAL",
+            "txn_type": "SYMPTOMS",
+            "txn_desc": "FEVER"
+          },
+          {
+            "txn_dt": "2025-10-21T00:00:00",
+            "physician_id": 101,
+            "txn_location_type": "OFFICE",
+            "insurance_type": "COMMERCIAL",
+            "txn_type": "CONDITIONS",
+            "txn_desc": "DISEASE_X"
+          },
+          {
+            "txn_dt": "2025-09-21T00:00:00",
+            "physician_id": 101,
+            "txn_location_type": "OFFICE",
+            "insurance_type": "COMMERCIAL",
+            "txn_type": "CONDITIONS",
+            "txn_desc": "DIABETES"
+          }
+        ],
+        "physician_info": {
+          "physician_id": 101,
+          "state": "CA",
+          "physician_type": "Pediatrics",
+          "gender": "F",
+          "birth_year": 1980
+        }
+      },
+      "output": {
+        "prediction": 1,
+        "probability": 0.8013759829756814,
+        "not_prescribed_drug_a": 1,
+        "not_prescribed_drug_a_probability": 0.8013759829756814,
+        "alert_recommended": false,
+        "clinical_eligibility": {
+          "meets_criteria": false,
+          "age_eligible": false,
+          "patient_age": 10,
+          "within_5day_window": true,
+          "symptom_to_diagnosis_days": 2,
+          "is_high_risk": true,
+          "is_high_risk_by_age": false,
+          "risk_factors_found": [
+            "diabetes"
+          ],
+          "risk_conditions_details": {
+            "diabetes": [
+              "DIABETES"
+            ]
+          },
+          "no_severe_contraindication": true,
+          "contraindication_level": 0,
+          "contraindication_details": []
+        },
+        "feature_validation": {
+          "valid": true,
+          "missing_features": [],
+          "extra_features": [
+            "SYMPTOM_ONSET_DT",
+            "_clinical_eligibility"
+          ],
+          "expected_features": [
+            "PHYS_EXPERIENCE_LEVEL",
+            "RISK_DIABETES",
+            "INSURANCE_TYPE_AT_DX",
+            "RISK_NUM",
+            "SYMPTOM_MUSCLE_ACHE",
+            "PHYSICIAN_TYPE",
+            "RISK_AGE_FLAG",
+            "LOCATION_TYPE",
+            "PHYSICIAN_STATE",
+            "SYMPTOM_DIARRHEA",
+            "SYMPTOM_TO_DIAGNOSIS_DAYS",
+            "SYMPTOM_LOSS_OF_TASTE_OR_SMELL",
+            "SYMPTOM_CHILLS",
+            "SYM_COUNT_5D",
+            "RISK_OBESITY",
+            "SYMPTOM_ACUTE_URI",
+            "PATIENT_GENDER",
+            "SYMPTOM_CONGESTION",
+            "SYMPTOM_NAUSEA_AND_VOMITING",
+            "SYMPTOM_ACUTE_PHARYNGITIS",
+            "PHYS_TOTAL_DX",
+            "SYMPTOM_DIFFICULTY_BREATHING",
+            "RISK_CVD",
+            "DIAGNOSIS_WITHIN_5DAYS_FLAG",
+            "PATIENT_AGE",
+            "DX_SEASON",
+            "PRIOR_CONTRA_LVL",
+            "SYMPTOM_FATIGUE",
+            "SYMPTOM_SORE_THROAT",
+            "RISK_IMMUNO",
+            "SYMPTOM_FEVER",
+            "SYMPTOM_COUGH",
+            "SYMPTOM_HEADACHE"
+          ],
+          "input_features": [
+            "PHYS_EXPERIENCE_LEVEL",
+            "RISK_DIABETES",
+            "INSURANCE_TYPE_AT_DX",
+            "RISK_NUM",
+            "SYMPTOM_MUSCLE_ACHE",
+            "PHYSICIAN_TYPE",
+            "RISK_AGE_FLAG",
+            "LOCATION_TYPE",
+            "SYMPTOM_ONSET_DT",
+            "PHYSICIAN_STATE",
+            "SYMPTOM_DIARRHEA",
+            "SYMPTOM_TO_DIAGNOSIS_DAYS",
+            "SYMPTOM_LOSS_OF_TASTE_OR_SMELL",
+            "SYMPTOM_CHILLS",
+            "SYM_COUNT_5D",
+            "_clinical_eligibility",
+            "SYMPTOM_ACUTE_URI",
+            "RISK_OBESITY",
+            "PATIENT_GENDER",
+            "SYMPTOM_CONGESTION",
+            "SYMPTOM_NAUSEA_AND_VOMITING",
+            "SYMPTOM_ACUTE_PHARYNGITIS",
+            "PHYS_TOTAL_DX",
+            "SYMPTOM_DIFFICULTY_BREATHING",
+            "DIAGNOSIS_WITHIN_5DAYS_FLAG",
+            "RISK_CVD",
+            "PATIENT_AGE",
+            "DX_SEASON",
+            "PRIOR_CONTRA_LVL",
+            "SYMPTOM_FATIGUE",
+            "SYMPTOM_SORE_THROAT",
+            "RISK_IMMUNO",
+            "SYMPTOM_FEVER",
+            "SYMPTOM_COUGH",
+            "SYMPTOM_HEADACHE"
+          ],
+          "feature_count_match": false
+        },
+        "model_version": "2.1.0",
+        "model_type": "Gradient Boosting"
+      },
+      "test_passed": true
+    },
+    {
+      "test_name": "contraindication_patient",
+      "test_file": "test_contraindication_patient.json",
+      "description": "70-year-old patient with diabetes and severe contraindication, symptoms 3 days ago",
+      "expected_alert": false,
+      "expected_reason": "Has severe contraindication",
+      "timestamp": "2025-10-21T08:55:07.986100",
+      "response_time_seconds": 0.043056,
+      "api_mode": "direct_call",
+      "input": {
+        "patient_id": 1005,
+        "birth_year": 1955,
+        "gender": "M",
+        "diagnosis_date": "2025-10-21T00:00:00",
+        "transactions": [
+          {
+            "txn_dt": "2025-10-18T00:00:00",
+            "physician_id": 101,
+            "txn_location_type": "OFFICE",
+            "insurance_type": "COMMERCIAL",
+            "txn_type": "SYMPTOMS",
+            "txn_desc": "FEVER"
+          },
+          {
+            "txn_dt": "2025-10-21T00:00:00",
+            "physician_id": 101,
+            "txn_location_type": "OFFICE",
+            "insurance_type": "COMMERCIAL",
+            "txn_type": "CONDITIONS",
+            "txn_desc": "DISEASE_X"
+          },
+          {
+            "txn_dt": "2025-09-21T00:00:00",
+            "physician_id": 101,
+            "txn_location_type": "OFFICE",
+            "insurance_type": "COMMERCIAL",
+            "txn_type": "CONDITIONS",
+            "txn_desc": "DIABETES"
+          },
+          {
+            "txn_dt": "2025-10-11T00:00:00",
+            "physician_id": 101,
+            "txn_location_type": "OFFICE",
+            "insurance_type": "COMMERCIAL",
+            "txn_type": "CONTRAINDICATIONS",
+            "txn_desc": "HIGH_CONTRAINDICATION"
+          }
+        ],
+        "physician_info": {
+          "physician_id": 101,
+          "state": "CA",
+          "physician_type": "Internal Medicine",
+          "gender": "M",
+          "birth_year": 1970
+        }
+      },
+      "output": {
+        "prediction": 1,
+        "probability": 0.5177475268316654,
+        "not_prescribed_drug_a": 1,
+        "not_prescribed_drug_a_probability": 0.5177475268316654,
+        "alert_recommended": false,
+        "clinical_eligibility": {
+          "meets_criteria": false,
+          "age_eligible": true,
+          "patient_age": 70,
+          "within_5day_window": true,
+          "symptom_to_diagnosis_days": 3,
+          "is_high_risk": true,
+          "is_high_risk_by_age": true,
+          "risk_factors_found": [
+            "age_65_or_older",
+            "diabetes"
+          ],
+          "risk_conditions_details": {
+            "diabetes": [
+              "DIABETES"
+            ]
+          },
+          "no_severe_contraindication": false,
+          "contraindication_level": 3,
+          "contraindication_details": [
+            "HIGH_CONTRAINDICATION"
+          ]
+        },
+        "feature_validation": {
+          "valid": true,
+          "missing_features": [],
+          "extra_features": [
+            "SYMPTOM_ONSET_DT",
+            "_clinical_eligibility"
+          ],
+          "expected_features": [
+            "PHYS_EXPERIENCE_LEVEL",
+            "RISK_DIABETES",
+            "INSURANCE_TYPE_AT_DX",
+            "RISK_NUM",
+            "SYMPTOM_MUSCLE_ACHE",
+            "PHYSICIAN_TYPE",
+            "RISK_AGE_FLAG",
+            "LOCATION_TYPE",
+            "PHYSICIAN_STATE",
+            "SYMPTOM_DIARRHEA",
+            "SYMPTOM_TO_DIAGNOSIS_DAYS",
+            "SYMPTOM_LOSS_OF_TASTE_OR_SMELL",
+            "SYMPTOM_CHILLS",
+            "SYM_COUNT_5D",
+            "RISK_OBESITY",
+            "SYMPTOM_ACUTE_URI",
+            "PATIENT_GENDER",
+            "SYMPTOM_CONGESTION",
+            "SYMPTOM_NAUSEA_AND_VOMITING",
+            "SYMPTOM_ACUTE_PHARYNGITIS",
+            "PHYS_TOTAL_DX",
+            "SYMPTOM_DIFFICULTY_BREATHING",
+            "RISK_CVD",
+            "DIAGNOSIS_WITHIN_5DAYS_FLAG",
+            "PATIENT_AGE",
+            "DX_SEASON",
+            "PRIOR_CONTRA_LVL",
+            "SYMPTOM_FATIGUE",
+            "SYMPTOM_SORE_THROAT",
+            "RISK_IMMUNO",
+            "SYMPTOM_FEVER",
+            "SYMPTOM_COUGH",
+            "SYMPTOM_HEADACHE"
+          ],
+          "input_features": [
+            "PHYS_EXPERIENCE_LEVEL",
+            "RISK_DIABETES",
+            "INSURANCE_TYPE_AT_DX",
+            "RISK_NUM",
+            "SYMPTOM_MUSCLE_ACHE",
+            "PHYSICIAN_TYPE",
+            "RISK_AGE_FLAG",
+            "LOCATION_TYPE",
+            "SYMPTOM_ONSET_DT",
+            "PHYSICIAN_STATE",
+            "SYMPTOM_DIARRHEA",
+            "SYMPTOM_TO_DIAGNOSIS_DAYS",
+            "SYMPTOM_LOSS_OF_TASTE_OR_SMELL",
+            "SYMPTOM_CHILLS",
+            "SYM_COUNT_5D",
+            "_clinical_eligibility",
+            "SYMPTOM_ACUTE_URI",
+            "RISK_OBESITY",
+            "PATIENT_GENDER",
+            "SYMPTOM_CONGESTION",
+            "SYMPTOM_NAUSEA_AND_VOMITING",
+            "SYMPTOM_ACUTE_PHARYNGITIS",
+            "PHYS_TOTAL_DX",
+            "SYMPTOM_DIFFICULTY_BREATHING",
+            "DIAGNOSIS_WITHIN_5DAYS_FLAG",
+            "RISK_CVD",
+            "PATIENT_AGE",
+            "DX_SEASON",
+            "PRIOR_CONTRA_LVL",
+            "SYMPTOM_FATIGUE",
+            "SYMPTOM_SORE_THROAT",
+            "RISK_IMMUNO",
+            "SYMPTOM_FEVER",
+            "SYMPTOM_COUGH",
+            "SYMPTOM_HEADACHE"
+          ],
+          "feature_count_match": false
+        },
+        "model_version": "2.1.0",
+        "model_type": "Gradient Boosting"
+      },
+      "test_passed": true
+    },
+    {
+      "test_name": "elderly_multiple_risk_factors",
+      "test_file": "test_elderly_multiple_risk_factors.json",
+      "description": "85-year-old patient with multiple risk factors: diabetes, heart disease, obesity, and COPD. Symptoms 2 days ago",
+      "expected_alert": true,
+      "expected_reason": "85-year-old with multiple high-risk conditions (diabetes, heart disease, obesity, COPD) and multiple symptoms",
+      "timestamp": "2025-10-21T08:55:08.028909",
+      "response_time_seconds": 0.042259,
+      "api_mode": "direct_call",
+      "input": {
+        "patient_id": 2001,
+        "birth_year": 1940,
+        "gender": "M",
+        "diagnosis_date": "2025-10-21T00:00:00",
+        "transactions": [
+          {
+            "txn_dt": "2025-10-19T00:00:00",
+            "physician_id": 102,
+            "txn_location_type": "OFFICE",
+            "insurance_type": "MEDICARE",
+            "txn_type": "SYMPTOMS",
+            "txn_desc": "FEVER"
+          },
+          {
+            "txn_dt": "2025-10-19T00:00:00",
+            "physician_id": 102,
+            "txn_location_type": "OFFICE",
+            "insurance_type": "MEDICARE",
+            "txn_type": "SYMPTOMS",
+            "txn_desc": "COUGH"
+          },
+          {
+            "txn_dt": "2025-10-19T00:00:00",
+            "physician_id": 102,
+            "txn_location_type": "OFFICE",
+            "insurance_type": "MEDICARE",
+            "txn_type": "SYMPTOMS",
+            "txn_desc": "DIFFICULTY_BREATHING"
+          },
+          {
+            "txn_dt": "2025-10-21T00:00:00",
+            "physician_id": 102,
+            "txn_location_type": "OFFICE",
+            "insurance_type": "MEDICARE",
+            "txn_type": "CONDITIONS",
+            "txn_desc": "DISEASE_X"
+          },
+          {
+            "txn_dt": "2025-08-01T00:00:00",
+            "physician_id": 102,
+            "txn_location_type": "OFFICE",
+            "insurance_type": "MEDICARE",
+            "txn_type": "CONDITIONS",
+            "txn_desc": "DIABETES"
+          },
+          {
+            "txn_dt": "2025-08-01T00:00:00",
+            "physician_id": 102,
+            "txn_location_type": "OFFICE",
+            "insurance_type": "MEDICARE",
+            "txn_type": "CONDITIONS",
+            "txn_desc": "HEART_DISEASE"
+          },
+          {
+            "txn_dt": "2025-08-01T00:00:00",
+            "physician_id": 102,
+            "txn_location_type": "OFFICE",
+            "insurance_type": "MEDICARE",
+            "txn_type": "CONDITIONS",
+            "txn_desc": "OBESITY"
+          },
+          {
+            "txn_dt": "2025-08-01T00:00:00",
+            "physician_id": 102,
+            "txn_location_type": "OFFICE",
+            "insurance_type": "MEDICARE",
+            "txn_type": "CONDITIONS",
+            "txn_desc": "COPD"
+          }
+        ],
+        "physician_info": {
+          "physician_id": 102,
+          "state": "NY",
+          "physician_type": "Internal Medicine",
+          "gender": "F",
+          "birth_year": 1975
+        }
+      },
+      "output": {
+        "prediction": 1,
+        "probability": 0.7670482115064158,
+        "not_prescribed_drug_a": 1,
+        "not_prescribed_drug_a_probability": 0.7670482115064158,
+        "alert_recommended": true,
+        "clinical_eligibility": {
+          "meets_criteria": true,
+          "age_eligible": true,
+          "patient_age": 85,
+          "within_5day_window": true,
+          "symptom_to_diagnosis_days": 2,
+          "is_high_risk": true,
+          "is_high_risk_by_age": true,
+          "risk_factors_found": [
+            "age_65_or_older",
+            "chronic_lung_disease",
+            "cardiovascular_disease",
+            "obesity",
+            "diabetes"
+          ],
+          "risk_conditions_details": {
+            "chronic_lung_disease": [
+              "COPD"
+            ],
+            "cardiovascular_disease": [
+              "HEART_DISEASE"
+            ],
+            "obesity": [
+              "OBESITY"
+            ],
+            "diabetes": [
+              "DIABETES"
+            ]
+          },
+          "no_severe_contraindication": true,
+          "contraindication_level": 0,
+          "contraindication_details": []
+        },
+        "feature_validation": {
+          "valid": true,
+          "missing_features": [],
+          "extra_features": [
+            "SYMPTOM_ONSET_DT",
+            "_clinical_eligibility"
+          ],
+          "expected_features": [
+            "PHYS_EXPERIENCE_LEVEL",
+            "RISK_DIABETES",
+            "INSURANCE_TYPE_AT_DX",
+            "RISK_NUM",
+            "SYMPTOM_MUSCLE_ACHE",
+            "PHYSICIAN_TYPE",
+            "RISK_AGE_FLAG",
+            "LOCATION_TYPE",
+            "PHYSICIAN_STATE",
+            "SYMPTOM_DIARRHEA",
+            "SYMPTOM_TO_DIAGNOSIS_DAYS",
+            "SYMPTOM_LOSS_OF_TASTE_OR_SMELL",
+            "SYMPTOM_CHILLS",
+            "SYM_COUNT_5D",
+            "RISK_OBESITY",
+            "SYMPTOM_ACUTE_URI",
+            "PATIENT_GENDER",
+            "SYMPTOM_CONGESTION",
+            "SYMPTOM_NAUSEA_AND_VOMITING",
+            "SYMPTOM_ACUTE_PHARYNGITIS",
+            "PHYS_TOTAL_DX",
+            "SYMPTOM_DIFFICULTY_BREATHING",
+            "RISK_CVD",
+            "DIAGNOSIS_WITHIN_5DAYS_FLAG",
+            "PATIENT_AGE",
+            "DX_SEASON",
+            "PRIOR_CONTRA_LVL",
+            "SYMPTOM_FATIGUE",
+            "SYMPTOM_SORE_THROAT",
+            "RISK_IMMUNO",
+            "SYMPTOM_FEVER",
+            "SYMPTOM_COUGH",
+            "SYMPTOM_HEADACHE"
+          ],
+          "input_features": [
+            "PHYS_EXPERIENCE_LEVEL",
+            "RISK_DIABETES",
+            "INSURANCE_TYPE_AT_DX",
+            "RISK_NUM",
+            "SYMPTOM_MUSCLE_ACHE",
+            "PHYSICIAN_TYPE",
+            "RISK_AGE_FLAG",
+            "LOCATION_TYPE",
+            "SYMPTOM_ONSET_DT",
+            "PHYSICIAN_STATE",
+            "SYMPTOM_DIARRHEA",
+            "SYMPTOM_TO_DIAGNOSIS_DAYS",
+            "SYMPTOM_LOSS_OF_TASTE_OR_SMELL",
+            "SYMPTOM_CHILLS",
+            "SYM_COUNT_5D",
+            "_clinical_eligibility",
+            "SYMPTOM_ACUTE_URI",
+            "RISK_OBESITY",
+            "PATIENT_GENDER",
+            "SYMPTOM_CONGESTION",
+            "SYMPTOM_NAUSEA_AND_VOMITING",
+            "SYMPTOM_ACUTE_PHARYNGITIS",
+            "PHYS_TOTAL_DX",
+            "SYMPTOM_DIFFICULTY_BREATHING",
+            "DIAGNOSIS_WITHIN_5DAYS_FLAG",
+            "RISK_CVD",
+            "PATIENT_AGE",
+            "DX_SEASON",
+            "PRIOR_CONTRA_LVL",
+            "SYMPTOM_FATIGUE",
+            "SYMPTOM_SORE_THROAT",
+            "RISK_IMMUNO",
+            "SYMPTOM_FEVER",
+            "SYMPTOM_COUGH",
+            "SYMPTOM_HEADACHE"
+          ],
+          "feature_count_match": false
+        },
+        "model_version": "2.1.0",
+        "model_type": "Gradient Boosting"
+      },
+      "test_passed": true
+    },
+    {
+      "test_name": "healthy_young_adult",
+      "test_file": "test_healthy_young_adult.json",
+      "description": "30-year-old healthy patient with no underlying conditions, symptoms 3 days ago",
+      "expected_alert": false,
+      "expected_reason": "No risk factors, not high-risk population",
+      "timestamp": "2025-10-21T08:55:08.069481",
+      "response_time_seconds": 0.039945,
+      "api_mode": "direct_call",
+      "input": {
+        "patient_id": 1003,
+        "birth_year": 1995,
+        "gender": "M",
+        "diagnosis_date": "2025-10-21T00:00:00",
+        "transactions": [
+          {
+            "txn_dt": "2025-10-18T00:00:00",
+            "physician_id": 101,
+            "txn_location_type": "OFFICE",
+            "insurance_type": "COMMERCIAL",
+            "txn_type": "SYMPTOMS",
+            "txn_desc": "FEVER"
+          },
+          {
+            "txn_dt": "2025-10-21T00:00:00",
+            "physician_id": 101,
+            "txn_location_type": "OFFICE",
+            "insurance_type": "COMMERCIAL",
+            "txn_type": "CONDITIONS",
+            "txn_desc": "DISEASE_X"
+          }
+        ],
+        "physician_info": {
+          "physician_id": 101,
+          "state": "CA",
+          "physician_type": "Internal Medicine",
+          "gender": "M",
+          "birth_year": 1970
+        }
+      },
+      "output": {
+        "prediction": 1,
+        "probability": 0.7515799562676854,
+        "not_prescribed_drug_a": 1,
+        "not_prescribed_drug_a_probability": 0.7515799562676854,
+        "alert_recommended": false,
+        "clinical_eligibility": {
+          "meets_criteria": false,
+          "age_eligible": true,
+          "patient_age": 30,
+          "within_5day_window": true,
+          "symptom_to_diagnosis_days": 3,
+          "is_high_risk": false,
+          "is_high_risk_by_age": false,
+          "risk_factors_found": [],
+          "risk_conditions_details": {},
+          "no_severe_contraindication": true,
+          "contraindication_level": 0,
+          "contraindication_details": []
+        },
+        "feature_validation": {
+          "valid": true,
+          "missing_features": [],
+          "extra_features": [
+            "SYMPTOM_ONSET_DT",
+            "_clinical_eligibility"
+          ],
+          "expected_features": [
+            "PHYS_EXPERIENCE_LEVEL",
+            "RISK_DIABETES",
+            "INSURANCE_TYPE_AT_DX",
+            "RISK_NUM",
+            "SYMPTOM_MUSCLE_ACHE",
+            "PHYSICIAN_TYPE",
+            "RISK_AGE_FLAG",
+            "LOCATION_TYPE",
+            "PHYSICIAN_STATE",
+            "SYMPTOM_DIARRHEA",
+            "SYMPTOM_TO_DIAGNOSIS_DAYS",
+            "SYMPTOM_LOSS_OF_TASTE_OR_SMELL",
+            "SYMPTOM_CHILLS",
+            "SYM_COUNT_5D",
+            "RISK_OBESITY",
+            "SYMPTOM_ACUTE_URI",
+            "PATIENT_GENDER",
+            "SYMPTOM_CONGESTION",
+            "SYMPTOM_NAUSEA_AND_VOMITING",
+            "SYMPTOM_ACUTE_PHARYNGITIS",
+            "PHYS_TOTAL_DX",
+            "SYMPTOM_DIFFICULTY_BREATHING",
+            "RISK_CVD",
+            "DIAGNOSIS_WITHIN_5DAYS_FLAG",
+            "PATIENT_AGE",
+            "DX_SEASON",
+            "PRIOR_CONTRA_LVL",
+            "SYMPTOM_FATIGUE",
+            "SYMPTOM_SORE_THROAT",
+            "RISK_IMMUNO",
+            "SYMPTOM_FEVER",
+            "SYMPTOM_COUGH",
+            "SYMPTOM_HEADACHE"
+          ],
+          "input_features": [
+            "PHYS_EXPERIENCE_LEVEL",
+            "RISK_DIABETES",
+            "INSURANCE_TYPE_AT_DX",
+            "RISK_NUM",
+            "SYMPTOM_MUSCLE_ACHE",
+            "PHYSICIAN_TYPE",
+            "RISK_AGE_FLAG",
+            "LOCATION_TYPE",
+            "SYMPTOM_ONSET_DT",
+            "PHYSICIAN_STATE",
+            "SYMPTOM_DIARRHEA",
+            "SYMPTOM_TO_DIAGNOSIS_DAYS",
+            "SYMPTOM_LOSS_OF_TASTE_OR_SMELL",
+            "SYMPTOM_CHILLS",
+            "SYM_COUNT_5D",
+            "_clinical_eligibility",
+            "SYMPTOM_ACUTE_URI",
+            "RISK_OBESITY",
+            "PATIENT_GENDER",
+            "SYMPTOM_CONGESTION",
+            "SYMPTOM_NAUSEA_AND_VOMITING",
+            "SYMPTOM_ACUTE_PHARYNGITIS",
+            "PHYS_TOTAL_DX",
+            "SYMPTOM_DIFFICULTY_BREATHING",
+            "DIAGNOSIS_WITHIN_5DAYS_FLAG",
+            "RISK_CVD",
+            "PATIENT_AGE",
+            "DX_SEASON",
+            "PRIOR_CONTRA_LVL",
+            "SYMPTOM_FATIGUE",
+            "SYMPTOM_SORE_THROAT",
+            "RISK_IMMUNO",
+            "SYMPTOM_FEVER",
+            "SYMPTOM_COUGH",
+            "SYMPTOM_HEADACHE"
+          ],
+          "feature_count_match": false
+        },
+        "model_version": "2.1.0",
+        "model_type": "Gradient Boosting"
+      },
+      "test_passed": true
+    },
+    {
+      "test_name": "high_risk_senior_patient",
+      "test_file": "test_high_risk_senior_patient.json",
+      "description": "68-year-old senior patient with diabetes and cardiovascular disease, symptoms appeared 3 days ago",
+      "expected_alert": false,
+      "expected_reason": "Clinical criteria met but AI probability (0.669) below threshold (0.7)",
+      "timestamp": "2025-10-21T08:55:08.110458",
+      "response_time_seconds": 0.040415,
+      "api_mode": "direct_call",
+      "input": {
+        "patient_id": 1001,
+        "birth_year": 1957,
+        "gender": "M",
+        "diagnosis_date": "2025-10-21T00:00:00",
+        "transactions": [
+          {
+            "txn_dt": "2025-10-18T00:00:00",
+            "physician_id": 101,
+            "txn_location_type": "OFFICE",
+            "insurance_type": "COMMERCIAL",
+            "txn_type": "SYMPTOMS",
+            "txn_desc": "FEVER"
+          },
+          {
+            "txn_dt": "2025-10-21T00:00:00",
+            "physician_id": 101,
+            "txn_location_type": "OFFICE",
+            "insurance_type": "COMMERCIAL",
+            "txn_type": "CONDITIONS",
+            "txn_desc": "DISEASE_X"
+          },
+          {
+            "txn_dt": "2025-09-21T00:00:00",
+            "physician_id": 101,
+            "txn_location_type": "OFFICE",
+            "insurance_type": "COMMERCIAL",
+            "txn_type": "CONDITIONS",
+            "txn_desc": "DIABETES"
+          },
+          {
+            "txn_dt": "2025-09-21T00:00:00",
+            "physician_id": 101,
+            "txn_location_type": "OFFICE",
+            "insurance_type": "COMMERCIAL",
+            "txn_type": "CONDITIONS",
+            "txn_desc": "HEART_DISEASE"
+          }
+        ],
+        "physician_info": {
+          "physician_id": 101,
+          "state": "CA",
+          "physician_type": "Internal Medicine",
+          "gender": "M",
+          "birth_year": 1970
+        }
+      },
+      "output": {
+        "prediction": 1,
+        "probability": 0.6694095293153896,
+        "not_prescribed_drug_a": 1,
+        "not_prescribed_drug_a_probability": 0.6694095293153896,
+        "alert_recommended": false,
+        "clinical_eligibility": {
+          "meets_criteria": true,
+          "age_eligible": true,
+          "patient_age": 68,
+          "within_5day_window": true,
+          "symptom_to_diagnosis_days": 3,
+          "is_high_risk": true,
+          "is_high_risk_by_age": true,
+          "risk_factors_found": [
+            "age_65_or_older",
+            "cardiovascular_disease",
+            "diabetes"
+          ],
+          "risk_conditions_details": {
+            "cardiovascular_disease": [
+              "HEART_DISEASE"
+            ],
+            "diabetes": [
+              "DIABETES"
+            ]
+          },
+          "no_severe_contraindication": true,
+          "contraindication_level": 0,
+          "contraindication_details": []
+        },
+        "feature_validation": {
+          "valid": true,
+          "missing_features": [],
+          "extra_features": [
+            "SYMPTOM_ONSET_DT",
+            "_clinical_eligibility"
+          ],
+          "expected_features": [
+            "PHYS_EXPERIENCE_LEVEL",
+            "RISK_DIABETES",
+            "INSURANCE_TYPE_AT_DX",
+            "RISK_NUM",
+            "SYMPTOM_MUSCLE_ACHE",
+            "PHYSICIAN_TYPE",
+            "RISK_AGE_FLAG",
+            "LOCATION_TYPE",
+            "PHYSICIAN_STATE",
+            "SYMPTOM_DIARRHEA",
+            "SYMPTOM_TO_DIAGNOSIS_DAYS",
+            "SYMPTOM_LOSS_OF_TASTE_OR_SMELL",
+            "SYMPTOM_CHILLS",
+            "SYM_COUNT_5D",
+            "RISK_OBESITY",
+            "SYMPTOM_ACUTE_URI",
+            "PATIENT_GENDER",
+            "SYMPTOM_CONGESTION",
+            "SYMPTOM_NAUSEA_AND_VOMITING",
+            "SYMPTOM_ACUTE_PHARYNGITIS",
+            "PHYS_TOTAL_DX",
+            "SYMPTOM_DIFFICULTY_BREATHING",
+            "RISK_CVD",
+            "DIAGNOSIS_WITHIN_5DAYS_FLAG",
+            "PATIENT_AGE",
+            "DX_SEASON",
+            "PRIOR_CONTRA_LVL",
+            "SYMPTOM_FATIGUE",
+            "SYMPTOM_SORE_THROAT",
+            "RISK_IMMUNO",
+            "SYMPTOM_FEVER",
+            "SYMPTOM_COUGH",
+            "SYMPTOM_HEADACHE"
+          ],
+          "input_features": [
+            "PHYS_EXPERIENCE_LEVEL",
+            "RISK_DIABETES",
+            "INSURANCE_TYPE_AT_DX",
+            "RISK_NUM",
+            "SYMPTOM_MUSCLE_ACHE",
+            "PHYSICIAN_TYPE",
+            "RISK_AGE_FLAG",
+            "LOCATION_TYPE",
+            "SYMPTOM_ONSET_DT",
+            "PHYSICIAN_STATE",
+            "SYMPTOM_DIARRHEA",
+            "SYMPTOM_TO_DIAGNOSIS_DAYS",
+            "SYMPTOM_LOSS_OF_TASTE_OR_SMELL",
+            "SYMPTOM_CHILLS",
+            "SYM_COUNT_5D",
+            "_clinical_eligibility",
+            "SYMPTOM_ACUTE_URI",
+            "RISK_OBESITY",
+            "PATIENT_GENDER",
+            "SYMPTOM_CONGESTION",
+            "SYMPTOM_NAUSEA_AND_VOMITING",
+            "SYMPTOM_ACUTE_PHARYNGITIS",
+            "PHYS_TOTAL_DX",
+            "SYMPTOM_DIFFICULTY_BREATHING",
+            "DIAGNOSIS_WITHIN_5DAYS_FLAG",
+            "RISK_CVD",
+            "PATIENT_AGE",
+            "DX_SEASON",
+            "PRIOR_CONTRA_LVL",
+            "SYMPTOM_FATIGUE",
+            "SYMPTOM_SORE_THROAT",
+            "RISK_IMMUNO",
+            "SYMPTOM_FEVER",
+            "SYMPTOM_COUGH",
+            "SYMPTOM_HEADACHE"
+          ],
+          "feature_count_match": false
+        },
+        "model_version": "2.1.0",
+        "model_type": "Gradient Boosting"
+      },
+      "test_passed": true
+    },
+    {
+      "test_name": "immunocompromised_patient",
+      "test_file": "test_immunocompromised_patient.json",
+      "description": "72-year-old immunocompromised patient with diabetes and heart disease, multiple symptoms within 1 day",
+      "expected_alert": true,
+      "expected_reason": "72-year-old immunocompromised with diabetes, heart disease, and multiple symptoms within 1 day",
+      "timestamp": "2025-10-21T08:55:08.152112",
+      "response_time_seconds": 0.041071,
+      "api_mode": "direct_call",
+      "input": {
+        "patient_id": 2002,
+        "birth_year": 1953,
+        "gender": "F",
+        "diagnosis_date": "2025-10-21T00:00:00",
+        "transactions": [
+          {
+            "txn_dt": "2025-10-20T00:00:00",
+            "physician_id": 103,
+            "txn_location_type": "OFFICE",
+            "insurance_type": "MEDICARE",
+            "txn_type": "SYMPTOMS",
+            "txn_desc": "FEVER"
+          },
+          {
+            "txn_dt": "2025-10-20T00:00:00",
+            "physician_id": 103,
+            "txn_location_type": "OFFICE",
+            "insurance_type": "MEDICARE",
+            "txn_type": "SYMPTOMS",
+            "txn_desc": "COUGH"
+          },
+          {
+            "txn_dt": "2025-10-20T00:00:00",
+            "physician_id": 103,
+            "txn_location_type": "OFFICE",
+            "insurance_type": "MEDICARE",
+            "txn_type": "SYMPTOMS",
+            "txn_desc": "FATIGUE"
+          },
+          {
+            "txn_dt": "2025-10-20T00:00:00",
+            "physician_id": 103,
+            "txn_location_type": "OFFICE",
+            "insurance_type": "MEDICARE",
+            "txn_type": "SYMPTOMS",
+            "txn_desc": "MUSCLE_ACHE"
+          },
+          {
+            "txn_dt": "2025-10-21T00:00:00",
+            "physician_id": 103,
+            "txn_location_type": "OFFICE",
+            "insurance_type": "MEDICARE",
+            "txn_type": "CONDITIONS",
+            "txn_desc": "DISEASE_X"
+          },
+          {
+            "txn_dt": "2025-07-01T00:00:00",
+            "physician_id": 103,
+            "txn_location_type": "OFFICE",
+            "insurance_type": "MEDICARE",
+            "txn_type": "CONDITIONS",
+            "txn_desc": "IMMUNOCOMPROMISED"
+          },
+          {
+            "txn_dt": "2025-07-01T00:00:00",
+            "physician_id": 103,
+            "txn_location_type": "OFFICE",
+            "insurance_type": "MEDICARE",
+            "txn_type": "CONDITIONS",
+            "txn_desc": "DIABETES"
+          },
+          {
+            "txn_dt": "2025-07-01T00:00:00",
+            "physician_id": 103,
+            "txn_location_type": "OFFICE",
+            "insurance_type": "MEDICARE",
+            "txn_type": "CONDITIONS",
+            "txn_desc": "HEART_DISEASE"
+          }
+        ],
+        "physician_info": {
+          "physician_id": 103,
+          "state": "CA",
+          "physician_type": "Infectious Disease",
+          "gender": "M",
+          "birth_year": 1968
+        }
+      },
+      "output": {
+        "prediction": 1,
+        "probability": 0.7382049632054059,
+        "not_prescribed_drug_a": 1,
+        "not_prescribed_drug_a_probability": 0.7382049632054059,
+        "alert_recommended": true,
+        "clinical_eligibility": {
+          "meets_criteria": true,
+          "age_eligible": true,
+          "patient_age": 72,
+          "within_5day_window": true,
+          "symptom_to_diagnosis_days": 1,
+          "is_high_risk": true,
+          "is_high_risk_by_age": true,
+          "risk_factors_found": [
+            "age_65_or_older",
+            "cardiovascular_disease",
+            "immunocompromised",
+            "diabetes"
+          ],
+          "risk_conditions_details": {
+            "cardiovascular_disease": [
+              "HEART_DISEASE"
+            ],
+            "immunocompromised": [
+              "IMMUNOCOMPROMISED"
+            ],
+            "diabetes": [
+              "DIABETES"
+            ]
+          },
+          "no_severe_contraindication": true,
+          "contraindication_level": 0,
+          "contraindication_details": []
+        },
+        "feature_validation": {
+          "valid": true,
+          "missing_features": [],
+          "extra_features": [
+            "SYMPTOM_ONSET_DT",
+            "_clinical_eligibility"
+          ],
+          "expected_features": [
+            "PHYS_EXPERIENCE_LEVEL",
+            "RISK_DIABETES",
+            "INSURANCE_TYPE_AT_DX",
+            "RISK_NUM",
+            "SYMPTOM_MUSCLE_ACHE",
+            "PHYSICIAN_TYPE",
+            "RISK_AGE_FLAG",
+            "LOCATION_TYPE",
+            "PHYSICIAN_STATE",
+            "SYMPTOM_DIARRHEA",
+            "SYMPTOM_TO_DIAGNOSIS_DAYS",
+            "SYMPTOM_LOSS_OF_TASTE_OR_SMELL",
+            "SYMPTOM_CHILLS",
+            "SYM_COUNT_5D",
+            "RISK_OBESITY",
+            "SYMPTOM_ACUTE_URI",
+            "PATIENT_GENDER",
+            "SYMPTOM_CONGESTION",
+            "SYMPTOM_NAUSEA_AND_VOMITING",
+            "SYMPTOM_ACUTE_PHARYNGITIS",
+            "PHYS_TOTAL_DX",
+            "SYMPTOM_DIFFICULTY_BREATHING",
+            "RISK_CVD",
+            "DIAGNOSIS_WITHIN_5DAYS_FLAG",
+            "PATIENT_AGE",
+            "DX_SEASON",
+            "PRIOR_CONTRA_LVL",
+            "SYMPTOM_FATIGUE",
+            "SYMPTOM_SORE_THROAT",
+            "RISK_IMMUNO",
+            "SYMPTOM_FEVER",
+            "SYMPTOM_COUGH",
+            "SYMPTOM_HEADACHE"
+          ],
+          "input_features": [
+            "PHYS_EXPERIENCE_LEVEL",
+            "RISK_DIABETES",
+            "INSURANCE_TYPE_AT_DX",
+            "RISK_NUM",
+            "SYMPTOM_MUSCLE_ACHE",
+            "PHYSICIAN_TYPE",
+            "RISK_AGE_FLAG",
+            "LOCATION_TYPE",
+            "SYMPTOM_ONSET_DT",
+            "PHYSICIAN_STATE",
+            "SYMPTOM_DIARRHEA",
+            "SYMPTOM_TO_DIAGNOSIS_DAYS",
+            "SYMPTOM_LOSS_OF_TASTE_OR_SMELL",
+            "SYMPTOM_CHILLS",
+            "SYM_COUNT_5D",
+            "_clinical_eligibility",
+            "SYMPTOM_ACUTE_URI",
+            "RISK_OBESITY",
+            "PATIENT_GENDER",
+            "SYMPTOM_CONGESTION",
+            "SYMPTOM_NAUSEA_AND_VOMITING",
+            "SYMPTOM_ACUTE_PHARYNGITIS",
+            "PHYS_TOTAL_DX",
+            "SYMPTOM_DIFFICULTY_BREATHING",
+            "DIAGNOSIS_WITHIN_5DAYS_FLAG",
+            "RISK_CVD",
+            "PATIENT_AGE",
+            "DX_SEASON",
+            "PRIOR_CONTRA_LVL",
+            "SYMPTOM_FATIGUE",
+            "SYMPTOM_SORE_THROAT",
+            "RISK_IMMUNO",
+            "SYMPTOM_FEVER",
+            "SYMPTOM_COUGH",
+            "SYMPTOM_HEADACHE"
+          ],
+          "feature_count_match": false
+        },
+        "model_version": "2.1.0",
+        "model_type": "Gradient Boosting"
+      },
+      "test_passed": true
+    },
+    {
+      "test_name": "late_symptoms_patient",
+      "test_file": "test_late_symptoms_patient.json",
+      "description": "70-year-old patient, symptoms appeared 7 days ago",
+      "expected_alert": false,
+      "expected_reason": "Symptoms beyond 5-day window",
+      "timestamp": "2025-10-21T08:55:08.193311",
+      "response_time_seconds": 0.040505,
+      "api_mode": "direct_call",
+      "input": {
+        "patient_id": 1004,
+        "birth_year": 1955,
+        "gender": "M",
+        "diagnosis_date": "2025-10-21T00:00:00",
+        "transactions": [
+          {
+            "txn_dt": "2025-10-14T00:00:00",
+            "physician_id": 101,
+            "txn_location_type": "OFFICE",
+            "insurance_type": "COMMERCIAL",
+            "txn_type": "SYMPTOMS",
+            "txn_desc": "FEVER"
+          },
+          {
+            "txn_dt": "2025-10-21T00:00:00",
+            "physician_id": 101,
+            "txn_location_type": "OFFICE",
+            "insurance_type": "COMMERCIAL",
+            "txn_type": "CONDITIONS",
+            "txn_desc": "DISEASE_X"
+          }
+        ],
+        "physician_info": {
+          "physician_id": 101,
+          "state": "CA",
+          "physician_type": "Internal Medicine",
+          "gender": "M",
+          "birth_year": 1970
+        }
+      },
+      "output": {
+        "prediction": 1,
+        "probability": 0.6051891065036876,
+        "not_prescribed_drug_a": 1,
+        "not_prescribed_drug_a_probability": 0.6051891065036876,
+        "alert_recommended": false,
+        "clinical_eligibility": {
+          "meets_criteria": false,
+          "age_eligible": true,
+          "patient_age": 70,
+          "within_5day_window": false,
+          "symptom_to_diagnosis_days": 7,
+          "is_high_risk": true,
+          "is_high_risk_by_age": true,
+          "risk_factors_found": [
+            "age_65_or_older"
+          ],
+          "risk_conditions_details": {},
+          "no_severe_contraindication": true,
+          "contraindication_level": 0,
+          "contraindication_details": []
+        },
+        "feature_validation": {
+          "valid": true,
+          "missing_features": [],
+          "extra_features": [
+            "SYMPTOM_ONSET_DT",
+            "_clinical_eligibility"
+          ],
+          "expected_features": [
+            "PHYS_EXPERIENCE_LEVEL",
+            "RISK_DIABETES",
+            "INSURANCE_TYPE_AT_DX",
+            "RISK_NUM",
+            "SYMPTOM_MUSCLE_ACHE",
+            "PHYSICIAN_TYPE",
+            "RISK_AGE_FLAG",
+            "LOCATION_TYPE",
+            "PHYSICIAN_STATE",
+            "SYMPTOM_DIARRHEA",
+            "SYMPTOM_TO_DIAGNOSIS_DAYS",
+            "SYMPTOM_LOSS_OF_TASTE_OR_SMELL",
+            "SYMPTOM_CHILLS",
+            "SYM_COUNT_5D",
+            "RISK_OBESITY",
+            "SYMPTOM_ACUTE_URI",
+            "PATIENT_GENDER",
+            "SYMPTOM_CONGESTION",
+            "SYMPTOM_NAUSEA_AND_VOMITING",
+            "SYMPTOM_ACUTE_PHARYNGITIS",
+            "PHYS_TOTAL_DX",
+            "SYMPTOM_DIFFICULTY_BREATHING",
+            "RISK_CVD",
+            "DIAGNOSIS_WITHIN_5DAYS_FLAG",
+            "PATIENT_AGE",
+            "DX_SEASON",
+            "PRIOR_CONTRA_LVL",
+            "SYMPTOM_FATIGUE",
+            "SYMPTOM_SORE_THROAT",
+            "RISK_IMMUNO",
+            "SYMPTOM_FEVER",
+            "SYMPTOM_COUGH",
+            "SYMPTOM_HEADACHE"
+          ],
+          "input_features": [
+            "PHYS_EXPERIENCE_LEVEL",
+            "RISK_DIABETES",
+            "INSURANCE_TYPE_AT_DX",
+            "RISK_NUM",
+            "SYMPTOM_MUSCLE_ACHE",
+            "PHYSICIAN_TYPE",
+            "RISK_AGE_FLAG",
+            "LOCATION_TYPE",
+            "SYMPTOM_ONSET_DT",
+            "PHYSICIAN_STATE",
+            "SYMPTOM_DIARRHEA",
+            "SYMPTOM_TO_DIAGNOSIS_DAYS",
+            "SYMPTOM_LOSS_OF_TASTE_OR_SMELL",
+            "SYMPTOM_CHILLS",
+            "SYM_COUNT_5D",
+            "_clinical_eligibility",
+            "SYMPTOM_ACUTE_URI",
+            "RISK_OBESITY",
+            "PATIENT_GENDER",
+            "SYMPTOM_CONGESTION",
+            "SYMPTOM_NAUSEA_AND_VOMITING",
+            "SYMPTOM_ACUTE_PHARYNGITIS",
+            "PHYS_TOTAL_DX",
+            "SYMPTOM_DIFFICULTY_BREATHING",
+            "DIAGNOSIS_WITHIN_5DAYS_FLAG",
+            "RISK_CVD",
+            "PATIENT_AGE",
+            "DX_SEASON",
+            "PRIOR_CONTRA_LVL",
+            "SYMPTOM_FATIGUE",
+            "SYMPTOM_SORE_THROAT",
+            "RISK_IMMUNO",
+            "SYMPTOM_FEVER",
+            "SYMPTOM_COUGH",
+            "SYMPTOM_HEADACHE"
+          ],
+          "feature_count_match": false
+        },
+        "model_version": "2.1.0",
+        "model_type": "Gradient Boosting"
+      },
+      "test_passed": true
+    },
+    {
+      "test_name": "obese_copd_patient",
+      "test_file": "test_obese_copd_patient.json",
+      "description": "65-year-old patient with obesity, COPD, diabetes, and cardiovascular disease. Symptoms 3 days ago with respiratory distress",
+      "expected_alert": true,
+      "expected_reason": "65-year-old with obesity, COPD, diabetes, CVD, and respiratory symptoms",
+      "timestamp": "2025-10-21T08:55:08.231434",
+      "response_time_seconds": 0.037476,
+      "api_mode": "direct_call",
+      "input": {
+        "patient_id": 2003,
+        "birth_year": 1960,
+        "gender": "M",
+        "diagnosis_date": "2025-10-21T00:00:00",
+        "transactions": [
+          {
+            "txn_dt": "2025-10-18T00:00:00",
+            "physician_id": 104,
+            "txn_location_type": "OFFICE",
+            "insurance_type": "MEDICARE",
+            "txn_type": "SYMPTOMS",
+            "txn_desc": "FEVER"
+          },
+          {
+            "txn_dt": "2025-10-18T00:00:00",
+            "physician_id": 104,
+            "txn_location_type": "OFFICE",
+            "insurance_type": "MEDICARE",
+            "txn_type": "SYMPTOMS",
+            "txn_desc": "COUGH"
+          },
+          {
+            "txn_dt": "2025-10-18T00:00:00",
+            "physician_id": 104,
+            "txn_location_type": "OFFICE",
+            "insurance_type": "MEDICARE",
+            "txn_type": "SYMPTOMS",
+            "txn_desc": "DIFFICULTY_BREATHING"
+          },
+          {
+            "txn_dt": "2025-10-18T00:00:00",
+            "physician_id": 104,
+            "txn_location_type": "OFFICE",
+            "insurance_type": "MEDICARE",
+            "txn_type": "SYMPTOMS",
+            "txn_desc": "FATIGUE"
+          },
+          {
+            "txn_dt": "2025-10-21T00:00:00",
+            "physician_id": 104,
+            "txn_location_type": "OFFICE",
+            "insurance_type": "MEDICARE",
+            "txn_type": "CONDITIONS",
+            "txn_desc": "DISEASE_X"
+          },
+          {
+            "txn_dt": "2025-06-01T00:00:00",
+            "physician_id": 104,
+            "txn_location_type": "OFFICE",
+            "insurance_type": "MEDICARE",
+            "txn_type": "CONDITIONS",
+            "txn_desc": "OBESITY"
+          },
+          {
+            "txn_dt": "2025-06-01T00:00:00",
+            "physician_id": 104,
+            "txn_location_type": "OFFICE",
+            "insurance_type": "MEDICARE",
+            "txn_type": "CONDITIONS",
+            "txn_desc": "COPD"
+          },
+          {
+            "txn_dt": "2025-06-01T00:00:00",
+            "physician_id": 104,
+            "txn_location_type": "OFFICE",
+            "insurance_type": "MEDICARE",
+            "txn_type": "CONDITIONS",
+            "txn_desc": "DIABETES"
+          },
+          {
+            "txn_dt": "2025-06-01T00:00:00",
+            "physician_id": 104,
+            "txn_location_type": "OFFICE",
+            "insurance_type": "MEDICARE",
+            "txn_type": "CONDITIONS",
+            "txn_desc": "HEART_DISEASE"
+          }
+        ],
+        "physician_info": {
+          "physician_id": 104,
+          "state": "TX",
+          "physician_type": "Pulmonology",
+          "gender": "F",
+          "birth_year": 1972
+        }
+      },
+      "output": {
+        "prediction": 1,
+        "probability": 0.7331259418517497,
+        "not_prescribed_drug_a": 1,
+        "not_prescribed_drug_a_probability": 0.7331259418517497,
+        "alert_recommended": true,
+        "clinical_eligibility": {
+          "meets_criteria": true,
+          "age_eligible": true,
+          "patient_age": 65,
+          "within_5day_window": true,
+          "symptom_to_diagnosis_days": 3,
+          "is_high_risk": true,
+          "is_high_risk_by_age": true,
+          "risk_factors_found": [
+            "age_65_or_older",
+            "chronic_lung_disease",
+            "cardiovascular_disease",
+            "obesity",
+            "diabetes"
+          ],
+          "risk_conditions_details": {
+            "chronic_lung_disease": [
+              "COPD"
+            ],
+            "cardiovascular_disease": [
+              "HEART_DISEASE"
+            ],
+            "obesity": [
+              "OBESITY"
+            ],
+            "diabetes": [
+              "DIABETES"
+            ]
+          },
+          "no_severe_contraindication": true,
+          "contraindication_level": 0,
+          "contraindication_details": []
+        },
+        "feature_validation": {
+          "valid": true,
+          "missing_features": [],
+          "extra_features": [
+            "SYMPTOM_ONSET_DT",
+            "_clinical_eligibility"
+          ],
+          "expected_features": [
+            "PHYS_EXPERIENCE_LEVEL",
+            "RISK_DIABETES",
+            "INSURANCE_TYPE_AT_DX",
+            "RISK_NUM",
+            "SYMPTOM_MUSCLE_ACHE",
+            "PHYSICIAN_TYPE",
+            "RISK_AGE_FLAG",
+            "LOCATION_TYPE",
+            "PHYSICIAN_STATE",
+            "SYMPTOM_DIARRHEA",
+            "SYMPTOM_TO_DIAGNOSIS_DAYS",
+            "SYMPTOM_LOSS_OF_TASTE_OR_SMELL",
+            "SYMPTOM_CHILLS",
+            "SYM_COUNT_5D",
+            "RISK_OBESITY",
+            "SYMPTOM_ACUTE_URI",
+            "PATIENT_GENDER",
+            "SYMPTOM_CONGESTION",
+            "SYMPTOM_NAUSEA_AND_VOMITING",
+            "SYMPTOM_ACUTE_PHARYNGITIS",
+            "PHYS_TOTAL_DX",
+            "SYMPTOM_DIFFICULTY_BREATHING",
+            "RISK_CVD",
+            "DIAGNOSIS_WITHIN_5DAYS_FLAG",
+            "PATIENT_AGE",
+            "DX_SEASON",
+            "PRIOR_CONTRA_LVL",
+            "SYMPTOM_FATIGUE",
+            "SYMPTOM_SORE_THROAT",
+            "RISK_IMMUNO",
+            "SYMPTOM_FEVER",
+            "SYMPTOM_COUGH",
+            "SYMPTOM_HEADACHE"
+          ],
+          "input_features": [
+            "PHYS_EXPERIENCE_LEVEL",
+            "RISK_DIABETES",
+            "INSURANCE_TYPE_AT_DX",
+            "RISK_NUM",
+            "SYMPTOM_MUSCLE_ACHE",
+            "PHYSICIAN_TYPE",
+            "RISK_AGE_FLAG",
+            "LOCATION_TYPE",
+            "SYMPTOM_ONSET_DT",
+            "PHYSICIAN_STATE",
+            "SYMPTOM_DIARRHEA",
+            "SYMPTOM_TO_DIAGNOSIS_DAYS",
+            "SYMPTOM_LOSS_OF_TASTE_OR_SMELL",
+            "SYMPTOM_CHILLS",
+            "SYM_COUNT_5D",
+            "_clinical_eligibility",
+            "SYMPTOM_ACUTE_URI",
+            "RISK_OBESITY",
+            "PATIENT_GENDER",
+            "SYMPTOM_CONGESTION",
+            "SYMPTOM_NAUSEA_AND_VOMITING",
+            "SYMPTOM_ACUTE_PHARYNGITIS",
+            "PHYS_TOTAL_DX",
+            "SYMPTOM_DIFFICULTY_BREATHING",
+            "DIAGNOSIS_WITHIN_5DAYS_FLAG",
+            "RISK_CVD",
+            "PATIENT_AGE",
+            "DX_SEASON",
+            "PRIOR_CONTRA_LVL",
+            "SYMPTOM_FATIGUE",
+            "SYMPTOM_SORE_THROAT",
+            "RISK_IMMUNO",
+            "SYMPTOM_FEVER",
+            "SYMPTOM_COUGH",
+            "SYMPTOM_HEADACHE"
+          ],
+          "feature_count_match": false
+        },
+        "model_version": "2.1.0",
+        "model_type": "Gradient Boosting"
+      },
+      "test_passed": true
+    }
+  ]
+}
