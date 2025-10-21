@@ -13,26 +13,26 @@ The **Pfizer EMR Alert System** is an AI-powered clinical decision support syste
 
 ### System Demonstration
 
-由于GitHub的视频访问限制，请使用以下方式查看演示视频：
+Due to GitHub's video access restrictions, please use the following methods to view the demonstration video:
 
-#### 方法1：直接下载观看
-[📥 下载演示视频](./video/Screen%20Recording%202025-10-21%20at%2016.31.11.mov)
+#### Method 1: Direct Download
+[📥 Download Demo Video](./video/Screen%20Recording%202025-10-21%20at%2016.31.11.mov)
 
-#### 方法2：使用HTML视频标签
+#### Method 2: HTML Video Tag
 <video width="100%" controls>
   <source src="./video/Screen%20Recording%202025-10-21%20at%2016.31.11.mov" type="video/quicktime">
-  您的浏览器不支持视频播放，请下载视频文件观看。
+  Your browser does not support video playback. Please download the video file to view.
 </video>
 
 ### UI Screenshot
 
 ![UI Demo](./video/Screenshot-UI-Demo.png)
 
-### 视频说明
-- **文件名**: Screen Recording 2025-10-21 at 16.31.11.mov
-- **格式**: QuickTime (.mov)
-- **内容**: 完整的系统演示，包括用户界面和功能展示
-- **建议**: 下载到本地使用QuickTime或其他视频播放器观看
+### Video Information
+- **Filename**: Screen Recording 2025-10-21 at 16.31.11.mov
+- **Format**: QuickTime (.mov)
+- **Content**: Complete system demonstration including user interface and feature showcase
+- **Recommendation**: Download to local machine and view with QuickTime or other video players
 
 ### Key Features
 

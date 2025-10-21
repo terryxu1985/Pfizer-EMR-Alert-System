@@ -19,18 +19,18 @@ This directory contains demonstration videos and screenshots for the Pfizer EMR 
 
 ## How to View
 
-### ⚠️ GitHub视频访问限制
-由于GitHub的安全策略，直接嵌入视频可能遇到访问限制。请使用以下方法：
+### ⚠️ GitHub Video Access Restrictions
+Due to GitHub's security policies, direct video embedding may encounter access restrictions. Please use the following methods:
 
-### 推荐方法
-1. **直接下载**: 点击视频文件链接下载到本地观看
-2. **HTML视频标签**: 在README中使用HTML `<video>` 标签
-3. **外部托管**: 考虑使用YouTube、Vimeo等平台托管视频
+### Recommended Methods
+1. **Direct Download**: Click on the video file link to download and view locally
+2. **HTML Video Tag**: Use HTML `<video>` tag in README
+3. **External Hosting**: Consider using YouTube, Vimeo, or other platforms to host the video
 
-### 替代方案
-- **压缩视频**: 减小文件大小（<10MB）可能提高兼容性
-- **转换格式**: 转换为MP4格式可能获得更好的支持
-- **GitHub Releases**: 将视频作为发布附件上传
+### Alternative Solutions
+- **Compress Video**: Reducing file size (<10MB) may improve compatibility
+- **Convert Format**: Converting to MP4 format may provide better support
+- **GitHub Releases**: Upload video as release attachment
 
 ## Video Display in README
 
