@@ -200,6 +200,11 @@ api_server.log
 # *.xlsx
 # *.json
 
+# Video files (allow demo videos)
+# *.mp4
+# *.mov
+# *.webm
+
 # IDE files
 .vscode/
 .idea/

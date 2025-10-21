@@ -9,6 +9,17 @@
 
 The **Pfizer EMR Alert System** is an AI-powered clinical decision support system designed to optimize Drug A treatment in Disease X patients. This comprehensive system employs a hybrid decision-making approach that combines machine learning models with rule-based logic to provide real-time predictions, medication alerts, and clinical recommendations through an integrated Electronic Medical Record (EMR) interface.
 
+## 🎥 Demo Video
+
+<!-- 在这里添加你的演示视频 -->
+<!-- 支持格式：MP4, MOV, WebM -->
+<!-- 推荐使用相对路径：./demo/demo.mp4 -->
+
+https://user-images.githubusercontent.com/your-username/your-video-id/demo.mp4
+
+<!-- 或者使用本地视频文件（需要上传到仓库） -->
+<!-- ![Demo Video](./demo/demo.mp4) -->
+
 ### Key Features
 
 - 🤖 **Hybrid AI System**: Combines machine learning models with rule-based logic for enhanced accuracy
