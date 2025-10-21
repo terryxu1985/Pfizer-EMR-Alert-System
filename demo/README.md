@@ -1,6 +1,8 @@
 # Demo Videos
 
-This directory contains demonstration videos for the Pfizer EMR Alert System.
+**Note**: Demo videos are actually located in the `../video/` directory.
+
+This directory was created as a placeholder for future demo videos, but the current demonstration video is stored in the main `video/` folder.
 
 ## Video Guidelines
 
