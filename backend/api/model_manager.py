@@ -42,6 +42,25 @@ class ModelManager:
         self.current_model_path = None
         self.model_version_info = {}
         
+        # Initialize monitoring systems
+        self.monitoring_enabled = False
+        try:
+            from ..monitoring import PerformanceMonitor, DataDriftDetector, AlertSystem, MetricsCollector
+            
+            self.performance_monitor = PerformanceMonitor()
+            self.drift_detector = DataDriftDetector()
+            self.alert_system = AlertSystem()
+            self.metrics_collector = MetricsCollector()
+            
+            self.monitoring_enabled = True
+            logger.info("Monitoring systems initialized in ModelManager")
+        except Exception as e:
+            logger.warning(f"Failed to initialize monitoring systems in ModelManager: {e}")
+            self.performance_monitor = None
+            self.drift_detector = None
+            self.alert_system = None
+            self.metrics_collector = None
+        
         # Load model automatically if discovery is enabled
         if self.auto_discover:
             self._auto_load_latest_model()
@@ -340,7 +359,7 @@ class ModelManager:
     
     def predict_single(self, data: Dict[str, Any]) -> Dict[str, Any]:
         """
-        Make prediction on a single record with feature validation
+        Make prediction on a single record with feature validation and monitoring
         
         Args:
             data: Single record as dictionary
@@ -352,6 +371,7 @@ class ModelManager:
             raise ValueError("Model must be loaded before making predictions")
         
         logger.info("Making prediction on single record")
+        start_time = datetime.now()
         
         try:
             # Validate feature consistency
@@ -369,10 +389,24 @@ class ModelManager:
             # Make prediction
             predictions, probabilities = self.predict(df)
             
+            # Calculate response time
+            response_time_ms = (datetime.now() - start_time).total_seconds() * 1000
+            
             # Extract results
             prediction = int(predictions[0])
             # Probability of class 1, where class 1 = TARGET=1 = "Not Prescribed Drug A" (alert candidates)
             probability = float(probabilities[0][1])
+            
+            # Record prediction metrics if monitoring is enabled
+            if self.monitoring_enabled and self.metrics_collector:
+                prediction_data = {
+                    'prediction': prediction,
+                    'probability': probability,
+                    'response_time_ms': response_time_ms,
+                    'model_version': self.model_version_info.get('version', 'unknown'),
+                    'actual_label': data.get('actual_label')  # If available for accuracy calculation
+                }
+                self.metrics_collector.record_prediction_metrics(prediction_data)
             
             # ========== Clinical Eligibility Check (Fully Rule-Based) ==========
             # Get clinical eligibility assessment results (passed from process_raw_emr_data)
@@ -451,6 +485,20 @@ class ModelManager:
             
         except Exception as e:
             logger.error(f"Error making single prediction: {str(e)}")
+            
+            # Record error metrics if monitoring is enabled
+            if self.monitoring_enabled and self.metrics_collector:
+                error_data = {
+                    'error_type': 'prediction_error',
+                    'error_message': str(e),
+                    'model_version': self.model_version_info.get('version', 'unknown')
+                }
+                self.metrics_collector.record_error_metrics(error_data)
+                
+                # Process error alert
+                if self.alert_system:
+                    self.alert_system.process_model_error_alert(error_data)
+            
             raise
     
     def get_model_info(self) -> Dict[str, Any]:
@@ -634,3 +682,110 @@ class ModelManager:
         except Exception as e:
             logger.error(f"Error processing batch raw EMR data: {str(e)}")
             raise
+    
+    def get_monitoring_status(self) -> Dict[str, Any]:
+        """
+        Get monitoring system status
+        
+        Returns:
+            Dictionary with monitoring status information
+        """
+        if not self.monitoring_enabled:
+            return {
+                'monitoring_enabled': False,
+                'message': 'Monitoring systems not available'
+            }
+        
+        return {
+            'monitoring_enabled': self.monitoring_enabled,
+            'performance_monitor_status': self.performance_monitor.get_status() if self.performance_monitor else None,
+            'drift_detector_status': self.drift_detector.get_status() if self.drift_detector else None,
+            'alert_system_status': self.alert_system.get_status() if self.alert_system else None,
+            'metrics_collector_status': self.metrics_collector.get_status() if self.metrics_collector else None
+        }
+    
+    def get_performance_metrics(self) -> Optional[Dict[str, Any]]:
+        """
+        Get current performance metrics
+        
+        Returns:
+            Performance metrics dictionary or None if not available
+        """
+        if not self.monitoring_enabled or not self.performance_monitor:
+            return None
+        
+        current_metrics = self.performance_monitor.calculate_current_metrics()
+        return current_metrics.to_dict() if current_metrics else None
+    
+    def get_drift_alerts(self, hours: int = 24) -> List[Dict[str, Any]]:
+        """
+        Get drift alerts for specified time period
+        
+        Args:
+            hours: Number of hours to look back
+            
+        Returns:
+            List of drift alert dictionaries
+        """
+        if not self.monitoring_enabled or not self.performance_monitor:
+            return []
+        
+        return self.performance_monitor.get_drift_alerts(hours=hours)
+    
+    def trigger_drift_detection(self, data: pd.DataFrame) -> List[Dict[str, Any]]:
+        """
+        Trigger drift detection on provided data
+        
+        Args:
+            data: DataFrame to check for drift
+            
+        Returns:
+            List of drift detection results
+        """
+        if not self.monitoring_enabled or not self.drift_detector:
+            return []
+        
+        drift_results = self.drift_detector.detect_drift(data)
+        
+        # Process alerts for detected drift
+        for result in drift_results:
+            if result.drift_detected and self.alert_system:
+                self.alert_system.process_data_drift_alert(result.to_dict())
+        
+        return [result.to_dict() for result in drift_results]
+    
+    def update_baseline_metrics(self, new_baseline: Dict[str, float]) -> None:
+        """
+        Update baseline metrics for performance monitoring
+        
+        Args:
+            new_baseline: New baseline metrics dictionary
+        """
+        if self.monitoring_enabled and self.performance_monitor:
+            self.performance_monitor.update_baseline_metrics(new_baseline)
+            logger.info(f"Updated baseline metrics: {new_baseline}")
+    
+    def cleanup_monitoring_data(self, retention_days: int = 30) -> None:
+        """
+        Clean up old monitoring data
+        
+        Args:
+            retention_days: Number of days to retain data
+        """
+        if not self.monitoring_enabled:
+            return
+        
+        try:
+            if self.performance_monitor:
+                self.performance_monitor.cleanup_old_data(retention_days)
+            
+            if self.metrics_collector:
+                self.metrics_collector.cleanup_old_metrics(retention_days)
+            
+            if self.alert_system:
+                self.alert_system.cleanup_old_alerts(retention_days)
+            
+            logger.info(f"Cleaned up monitoring data older than {retention_days} days")
+            
+        except Exception as e:
+            logger.error(f"Error cleaning up monitoring data: {e}")

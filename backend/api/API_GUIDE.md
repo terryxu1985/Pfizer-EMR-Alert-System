@@ -57,6 +57,18 @@ backend/api/
 - **`GET /`** - Service information and status
 - **`GET /health`** - Comprehensive health check with model status
 
+##### Monitoring Endpoints
+- **`GET /monitoring/status`** - Comprehensive monitoring system status
+- **`GET /monitoring/performance`** - Current model performance metrics
+- **`GET /monitoring/drift-alerts`** - Performance drift alerts for specified time period
+- **`GET /monitoring/metrics-summary`** - Comprehensive metrics summary
+- **`GET /monitoring/alerts/summary`** - Alert summary statistics
+- **`GET /monitoring/metrics/{metric_name}`** - Specific metric values
+- **`GET /monitoring/metrics/{metric_name}/aggregated`** - Aggregated metrics for specific metric
+- **`POST /monitoring/alerts/{alert_id}/acknowledge`** - Acknowledge an alert
+- **`POST /monitoring/alerts/{alert_id}/resolve`** - Resolve an alert
+- **`POST /monitoring/drift-detection`** - Trigger manual drift detection
+
 #### Error Handling
 ```python
 @app.exception_handler(HTTPException)
@@ -657,6 +669,328 @@ Comprehensive health check with model status.
 }
 ```
 
+### Monitoring Endpoints
+
+#### `GET /monitoring/status`
+Get comprehensive monitoring system status including all monitoring components.
+
+**Response:**
+```json
+{
+  "monitoring_enabled": true,
+  "performance_monitor_status": {
+    "monitoring_enabled": true,
+    "current_metrics": {
+      "timestamp": "2024-01-15T10:30:00Z",
+      "pr_auc": 0.881,
+      "precision": 0.844,
+      "recall": 0.849,
+      "f1_score": 0.846,
+      "accuracy": 0.746,
+      "prediction_count": 150,
+      "error_count": 2,
+      "avg_response_time_ms": 45.2,
+      "model_version": "2.1.0"
+    },
+    "baseline_metrics": {
+      "pr_auc": 0.881,
+      "precision": 0.844,
+      "recall": 0.849,
+      "f1_score": 0.846,
+      "accuracy": 0.746
+    },
+    "recent_alerts_count": 0,
+    "prediction_history_size": 150,
+    "error_history_size": 2
+  },
+  "drift_detector_status": {
+    "drift_detection_enabled": true,
+    "reference_data_loaded": true,
+    "reference_data_shape": [2889, 33],
+    "feature_count": 33,
+    "reference_stats_count": 33
+  },
+  "alert_system_status": {
+    "alert_system_enabled": true,
+    "active_alerts_count": 0,
+    "total_rules": 5,
+    "enabled_rules": 5,
+    "notification_channels": ["log", "console"],
+    "recent_alerts_count": 0
+  },
+  "metrics_collector_status": {
+    "metrics_collection_enabled": true,
+    "background_aggregation_enabled": true,
+    "buffer_size": 150,
+    "database_path": "logs/metrics_collector.db",
+    "aggregation_intervals": ["1m", "5m", "15m", "1h"],
+    "real_time_metrics": ["prediction_count", "prediction_latency_ms", "error_count", "accuracy_score", "model_confidence"]
+  },
+  "timestamp": "2024-01-15T10:30:00Z"
+}
+```
+
+#### `GET /monitoring/performance`
+Get current model performance metrics.
+
+**Response:**
+```json
+{
+  "timestamp": "2024-01-15T10:30:00Z",
+  "pr_auc": 0.881,
+  "precision": 0.844,
+  "recall": 0.849,
+  "f1_score": 0.846,
+  "accuracy": 0.746,
+  "prediction_count": 150,
+  "error_count": 2,
+  "avg_response_time_ms": 45.2,
+  "model_version": "2.1.0"
+}
+```
+
+#### `GET /monitoring/drift-alerts`
+Get performance drift alerts for specified time period.
+
+**Query Parameters:**
+- `hours` (optional): Number of hours to look back (default: 24)
+- `alert_level` (optional): Filter by alert level (low, medium, high, critical)
+
+**Response:**
+```json
+[
+  {
+    "id": "perf_drift_20240115_103000",
+    "timestamp": "2024-01-15T10:30:00Z",
+    "metric": "pr_auc",
+    "baseline_value": 0.881,
+    "current_value": 0.820,
+    "decline_percentage": 0.069,
+    "alert_level": "high",
+    "message": "Performance drift detected in pr_auc: 6.9% decline from baseline"
+  }
+]
+```
+
+#### `GET /monitoring/metrics-summary`
+Get comprehensive metrics summary for specified time period.
+
+**Query Parameters:**
+- `hours` (optional): Number of hours to look back (default: 24)
+
+**Response:**
+```json
+{
+  "time_period_hours": 24,
+  "total_predictions": 150,
+  "avg_response_time_ms": 45.2,
+  "labeled_predictions": 50,
+  "recent_metrics": [
+    {
+      "timestamp": "2024-01-15T10:30:00Z",
+      "pr_auc": 0.881,
+      "precision": 0.844,
+      "recall": 0.849,
+      "f1_score": 0.846,
+      "accuracy": 0.746,
+      "prediction_count": 150,
+      "error_count": 2,
+      "avg_response_time_ms": 45.2,
+      "model_version": "2.1.0"
+    }
+  ],
+  "recent_alerts": [],
+  "current_baseline": {
+    "pr_auc": 0.881,
+    "precision": 0.844,
+    "recall": 0.849,
+    "f1_score": 0.846,
+    "accuracy": 0.746
+  },
+  "drift_thresholds": {
+    "pr_auc": 0.05,
+    "precision": 0.03,
+    "recall": 0.03,
+    "f1_score": 0.03,
+    "accuracy": 0.05
+  }
+}
+```
+
+#### `GET /monitoring/alerts/summary`
+Get alert summary statistics for specified time period.
+
+**Query Parameters:**
+- `hours` (optional): Number of hours to look back (default: 24)
+
+**Response:**
+```json
+{
+  "total_alerts": 3,
+  "severity_counts": {
+    "low": 1,
+    "medium": 1,
+    "high": 1,
+    "critical": 0
+  },
+  "type_counts": {
+    "performance_drift": 2,
+    "data_drift": 1,
+    "model_error": 0
+  },
+  "acknowledged_count": 2,
+  "resolved_count": 1,
+  "time_period_hours": 24
+}
+```
+
+#### `GET /monitoring/metrics/{metric_name}`
+Get metric values for a specific metric.
+
+**Path Parameters:**
+- `metric_name`: Name of the metric (e.g., "prediction_latency_ms", "accuracy_score")
+
+**Query Parameters:**
+- `hours` (optional): Number of hours to look back (default: 24)
+- `tags` (optional): Filter by tags (JSON object)
+
+**Response:**
+```json
+[
+  {
+    "timestamp": "2024-01-15T10:30:00Z",
+    "metric_name": "prediction_latency_ms",
+    "value": 45.2,
+    "tags": {
+      "model_version": "2.1.0"
+    },
+    "source": "system"
+  },
+  {
+    "timestamp": "2024-01-15T10:25:00Z",
+    "metric_name": "prediction_latency_ms",
+    "value": 42.1,
+    "tags": {
+      "model_version": "2.1.0"
+    },
+    "source": "system"
+  }
+]
+```
+
+#### `GET /monitoring/metrics/{metric_name}/aggregated`
+Get aggregated metrics for a specific metric and time interval.
+
+**Path Parameters:**
+- `metric_name`: Name of the metric
+
+**Query Parameters:**
+- `interval` (optional): Aggregation interval (1m, 5m, 15m, 1h) (default: 1h)
+- `hours` (optional): Number of hours to look back (default: 24)
+
+**Response:**
+```json
+[
+  {
+    "timestamp": "2024-01-15T10:00:00Z",
+    "metric_name": "prediction_latency_ms",
+    "time_window": "1h",
+    "count": 25,
+    "sum_value": 1125.0,
+    "min_value": 35.2,
+    "max_value": 65.8,
+    "mean_value": 45.0,
+    "std_value": 8.5,
+    "p50_value": 44.2,
+    "p95_value": 58.1,
+    "p99_value": 62.3,
+    "tags": {
+      "model_version": "2.1.0"
+    }
+  }
+]
+```
+
+#### `POST /monitoring/alerts/{alert_id}/acknowledge`
+Acknowledge an alert.
+
+**Path Parameters:**
+- `alert_id`: ID of the alert to acknowledge
+
+**Response:**
+```json
+{
+  "message": "Alert perf_drift_20240115_103000 acknowledged successfully"
+}
+```
+
+#### `POST /monitoring/alerts/{alert_id}/resolve`
+Resolve an alert.
+
+**Path Parameters:**
+- `alert_id`: ID of the alert to resolve
+
+**Response:**
+```json
+{
+  "message": "Alert perf_drift_20240115_103000 resolved successfully"
+}
+```
+
+#### `POST /monitoring/drift-detection`
+Trigger manual drift detection on provided data.
+
+**Request Body:**
+```json
+{
+  "PATIENT_AGE": [65, 70, 75, 80, 85],
+  "RISK_NUM": [2, 3, 1, 4, 2],
+  "SYMPTOM_COUNT": [5, 7, 3, 6, 4],
+  "PATIENT_GENDER": ["M", "F", "M", "F", "M"]
+}
+```
+
+**Response:**
+```json
+{
+  "drift_results": [
+    {
+      "timestamp": "2024-01-15T10:30:00Z",
+      "feature_name": "PATIENT_AGE",
+      "drift_detected": true,
+      "drift_score": 0.15,
+      "p_value": 0.02,
+      "test_statistic": 0.15,
+      "test_method": "ks_test",
+      "severity": "high",
+      "message": "Numerical drift detected in PATIENT_AGE: KS=0.1500, p=0.0200, Wasserstein=0.0800"
+    }
+  ],
+  "summary": {
+    "total_features_checked": 4,
+    "drift_detected_count": 1,
+    "severity_counts": {
+      "low": 0,
+      "medium": 0,
+      "high": 1,
+      "critical": 0
+    },
+    "most_severe_drift": {
+      "timestamp": "2024-01-15T10:30:00Z",
+      "feature_name": "PATIENT_AGE",
+      "drift_detected": true,
+      "drift_score": 0.15,
+      "p_value": 0.02,
+      "test_statistic": 0.15,
+      "test_method": "ks_test",
+      "severity": "high",
+      "message": "Numerical drift detected in PATIENT_AGE: KS=0.1500, p=0.0200, Wasserstein=0.0800"
+    },
+    "affected_features": ["PATIENT_AGE"]
+  }
+}
+```
+
 ## Usage Examples
 
 ### Raw EMR Processing Prediction
@@ -842,6 +1176,222 @@ if reload_result['reloaded']:
     print("\nModel reloaded successfully!")
 else:
     print("\nNo newer model found - using current model")
+```
+
+### Monitoring System Usage
+
+#### Check Monitoring Status
+```python
+import requests
+
+# Get comprehensive monitoring status
+response = requests.get("http://localhost:8000/monitoring/status")
+status = response.json()
+
+print(f"Monitoring Enabled: {status['monitoring_enabled']}")
+print(f"Performance Monitor: {status['performance_monitor_status']['monitoring_enabled']}")
+print(f"Drift Detector: {status['drift_detector_status']['drift_detection_enabled']}")
+print(f"Alert System: {status['alert_system_status']['alert_system_enabled']}")
+print(f"Metrics Collector: {status['metrics_collector_status']['metrics_collection_enabled']}")
+
+# Check current performance metrics
+current_metrics = status['performance_monitor_status']['current_metrics']
+print(f"Current PR-AUC: {current_metrics['pr_auc']:.3f}")
+print(f"Current Accuracy: {current_metrics['accuracy']:.3f}")
+print(f"Prediction Count: {current_metrics['prediction_count']}")
+print(f"Error Count: {current_metrics['error_count']}")
+print(f"Avg Response Time: {current_metrics['avg_response_time_ms']:.2f}ms")
+```
+
+#### Get Performance Metrics
+```python
+import requests
+
+# Get current performance metrics
+response = requests.get("http://localhost:8000/monitoring/performance")
+metrics = response.json()
+
+print(f"Timestamp: {metrics['timestamp']}")
+print(f"PR-AUC: {metrics['pr_auc']:.3f}")
+print(f"Precision: {metrics['precision']:.3f}")
+print(f"Recall: {metrics['recall']:.3f}")
+print(f"F1-Score: {metrics['f1_score']:.3f}")
+print(f"Accuracy: {metrics['accuracy']:.3f}")
+print(f"Model Version: {metrics['model_version']}")
+print(f"Total Predictions: {metrics['prediction_count']}")
+print(f"Errors: {metrics['error_count']}")
+print(f"Avg Response Time: {metrics['avg_response_time_ms']:.2f}ms")
+```
+
+#### Check for Drift Alerts
+```python
+import requests
+
+# Get drift alerts for the last 24 hours
+response = requests.get("http://localhost:8000/monitoring/drift-alerts?hours=24")
+alerts = response.json()
+
+if alerts:
+    print(f"Found {len(alerts)} drift alerts:")
+    for alert in alerts:
+        print(f"  - {alert['metric']}: {alert['decline_percentage']:.1%} decline")
+        print(f"    Alert Level: {alert['alert_level']}")
+        print(f"    Message: {alert['message']}")
+        print(f"    Timestamp: {alert['timestamp']}")
+        print()
+else:
+    print("No drift alerts found in the last 24 hours")
+```
+
+#### Get Metrics Summary
+```python
+import requests
+
+# Get comprehensive metrics summary
+response = requests.get("http://localhost:8000/monitoring/metrics-summary?hours=24")
+summary = response.json()
+
+print(f"Time Period: {summary['time_period_hours']} hours")
+print(f"Total Predictions: {summary['total_predictions']}")
+print(f"Avg Response Time: {summary['avg_response_time_ms']:.2f}ms")
+print(f"Labeled Predictions: {summary['labeled_predictions']}")
+
+print("\nCurrent Baseline Metrics:")
+baseline = summary['current_baseline']
+for metric, value in baseline.items():
+    print(f"  {metric}: {value:.3f}")
+
+print("\nDrift Thresholds:")
+thresholds = summary['drift_thresholds']
+for metric, threshold in thresholds.items():
+    print(f"  {metric}: {threshold:.1%}")
+
+if summary['recent_alerts']:
+    print(f"\nRecent Alerts: {len(summary['recent_alerts'])}")
+else:
+    print("\nNo recent alerts")
+```
+
+#### Get Alert Summary
+```python
+import requests
+
+# Get alert summary statistics
+response = requests.get("http://localhost:8000/monitoring/alerts/summary?hours=24")
+alert_summary = response.json()
+
+print(f"Total Alerts: {alert_summary['total_alerts']}")
+print(f"Time Period: {alert_summary['time_period_hours']} hours")
+
+print("\nSeverity Breakdown:")
+for severity, count in alert_summary['severity_counts'].items():
+    print(f"  {severity}: {count}")
+
+print("\nAlert Types:")
+for alert_type, count in alert_summary['type_counts'].items():
+    print(f"  {alert_type}: {count}")
+
+print(f"\nAcknowledged: {alert_summary['acknowledged_count']}")
+print(f"Resolved: {alert_summary['resolved_count']}")
+```
+
+#### Get Specific Metric Values
+```python
+import requests
+
+# Get prediction latency metrics for the last 6 hours
+response = requests.get("http://localhost:8000/monitoring/metrics/prediction_latency_ms?hours=6")
+metrics = response.json()
+
+print(f"Found {len(metrics)} latency measurements:")
+for metric in metrics[-5:]:  # Show last 5 measurements
+    print(f"  {metric['timestamp']}: {metric['value']:.2f}ms")
+    print(f"    Model Version: {metric['tags']['model_version']}")
+```
+
+#### Get Aggregated Metrics
+```python
+import requests
+
+# Get hourly aggregated accuracy metrics
+response = requests.get("http://localhost:8000/monitoring/metrics/accuracy_score/aggregated?interval=1h&hours=24")
+aggregated = response.json()
+
+print("Hourly Accuracy Aggregations:")
+for agg in aggregated:
+    print(f"  {agg['timestamp']}:")
+    print(f"    Count: {agg['count']}")
+    print(f"    Mean: {agg['mean_value']:.3f}")
+    print(f"    Min: {agg['min_value']:.3f}")
+    print(f"    Max: {agg['max_value']:.3f}")
+    print(f"    P95: {agg['p95_value']:.3f}")
+    print(f"    Std: {agg['std_value']:.3f}")
+```
+
+#### Acknowledge and Resolve Alerts
+```python
+import requests
+
+# First, get active alerts
+response = requests.get("http://localhost:8000/monitoring/drift-alerts")
+alerts = response.json()
+
+if alerts:
+    alert_id = alerts[0]['id']
+    print(f"Acknowledging alert: {alert_id}")
+    
+    # Acknowledge the alert
+    response = requests.post(f"http://localhost:8000/monitoring/alerts/{alert_id}/acknowledge")
+    result = response.json()
+    print(f"Result: {result['message']}")
+    
+    # Later, resolve the alert
+    print(f"Resolving alert: {alert_id}")
+    response = requests.post(f"http://localhost:8000/monitoring/alerts/{alert_id}/resolve")
+    result = response.json()
+    print(f"Result: {result['message']}")
+else:
+    print("No active alerts to acknowledge")
+```
+
+#### Manual Drift Detection
+```python
+import requests
+import numpy as np
+
+# Prepare test data for drift detection
+test_data = {
+    "PATIENT_AGE": [65, 70, 75, 80, 85, 90, 95, 100],
+    "RISK_NUM": [2, 3, 1, 4, 2, 5, 3, 4],
+    "SYMPTOM_COUNT": [5, 7, 3, 6, 4, 8, 6, 7],
+    "PATIENT_GENDER": ["M", "F", "M", "F", "M", "F", "M", "F"]
+}
+
+# Trigger manual drift detection
+response = requests.post("http://localhost:8000/monitoring/drift-detection", json=test_data)
+drift_results = response.json()
+
+print(f"Drift Detection Results:")
+print(f"Features Checked: {drift_results['summary']['total_features_checked']}")
+print(f"Drift Detected: {drift_results['summary']['drift_detected_count']}")
+
+if drift_results['drift_results']:
+    print("\nDrift Details:")
+    for result in drift_results['drift_results']:
+        if result['drift_detected']:
+            print(f"  Feature: {result['feature_name']}")
+            print(f"    Severity: {result['severity']}")
+            print(f"    Drift Score: {result['drift_score']:.3f}")
+            print(f"    P-Value: {result['p_value']:.3f}")
+            print(f"    Message: {result['message']}")
+            print()
+
+if drift_results['summary']['most_severe_drift']:
+    severe = drift_results['summary']['most_severe_drift']
+    print(f"Most Severe Drift:")
+    print(f"  Feature: {severe['feature_name']}")
+    print(f"  Severity: {severe['severity']}")
+    print(f"  Message: {severe['message']}")
 ```
 
 ## Error Handling

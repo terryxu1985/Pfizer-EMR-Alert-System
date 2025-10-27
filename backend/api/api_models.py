@@ -354,9 +354,127 @@ class HealthResponse(BaseModel):
                 "model_loaded": True,
                 "model_info": {
                     "model_type": "XGBClassifier",
-                    "feature_count": 15
+                    "version": "2.1.0"
                 },
-                "timestamp": "2024-01-01T12:00:00Z"
+                "timestamp": "2025-01-20T12:00:00"
+            }
+        }
+
+# Monitoring API Models
+
+class PerformanceMetricsResponse(BaseModel):
+    """Performance metrics response model"""
+    
+    timestamp: str = Field(..., description="Metrics timestamp")
+    pr_auc: float = Field(..., description="Precision-Recall AUC")
+    precision: float = Field(..., description="Precision score")
+    recall: float = Field(..., description="Recall score")
+    f1_score: float = Field(..., description="F1 score")
+    accuracy: float = Field(..., description="Accuracy score")
+    prediction_count: int = Field(..., description="Number of predictions")
+    error_count: int = Field(..., description="Number of errors")
+    avg_response_time_ms: float = Field(..., description="Average response time in milliseconds")
+    model_version: str = Field(..., description="Model version")
+
+class DriftAlertResponse(BaseModel):
+    """Drift alert response model"""
+    
+    id: str = Field(..., description="Alert ID")
+    timestamp: str = Field(..., description="Alert timestamp")
+    metric: str = Field(..., description="Metric name")
+    baseline_value: float = Field(..., description="Baseline value")
+    current_value: float = Field(..., description="Current value")
+    decline_percentage: float = Field(..., description="Decline percentage")
+    alert_level: str = Field(..., description="Alert severity level")
+    message: str = Field(..., description="Alert message")
+
+class DataDriftResult(BaseModel):
+    """Data drift detection result model"""
+    
+    timestamp: str = Field(..., description="Detection timestamp")
+    feature_name: str = Field(..., description="Feature name")
+    drift_detected: bool = Field(..., description="Whether drift was detected")
+    drift_score: float = Field(..., description="Drift score")
+    p_value: float = Field(..., description="Statistical p-value")
+    test_statistic: float = Field(..., description="Test statistic")
+    test_method: str = Field(..., description="Statistical test method")
+    severity: str = Field(..., description="Drift severity")
+    message: str = Field(..., description="Drift message")
+
+class MonitoringStatusResponse(BaseModel):
+    """Monitoring system status response model"""
+    
+    monitoring_enabled: bool = Field(..., description="Whether monitoring is enabled")
+    performance_monitor_status: Dict[str, Any] = Field(..., description="Performance monitor status")
+    drift_detector_status: Dict[str, Any] = Field(..., description="Drift detector status")
+    alert_system_status: Dict[str, Any] = Field(..., description="Alert system status")
+    metrics_collector_status: Dict[str, Any] = Field(..., description="Metrics collector status")
+    timestamp: str = Field(..., description="Status timestamp")
+
+class MetricsSummaryResponse(BaseModel):
+    """Metrics summary response model"""
+    
+    time_period_hours: int = Field(..., description="Time period in hours")
+    total_predictions: int = Field(..., description="Total predictions")
+    avg_response_time_ms: float = Field(..., description="Average response time")
+    labeled_predictions: int = Field(..., description="Number of labeled predictions")
+    recent_metrics: List[Dict[str, Any]] = Field(..., description="Recent performance metrics")
+    recent_alerts: List[Dict[str, Any]] = Field(..., description="Recent drift alerts")
+    current_baseline: Dict[str, float] = Field(..., description="Current baseline metrics")
+    drift_thresholds: Dict[str, float] = Field(..., description="Drift detection thresholds")
+
+class AlertSummaryResponse(BaseModel):
+    """Alert summary response model"""
+    
+    total_alerts: int = Field(..., description="Total alerts")
+    severity_counts: Dict[str, int] = Field(..., description="Alert counts by severity")
+    type_counts: Dict[str, int] = Field(..., description="Alert counts by type")
+    acknowledged_count: int = Field(..., description="Number of acknowledged alerts")
+    resolved_count: int = Field(..., description="Number of resolved alerts")
+    time_period_hours: int = Field(..., description="Time period in hours")
+
+class MetricValueResponse(BaseModel):
+    """Metric value response model"""
+    
+    timestamp: str = Field(..., description="Metric timestamp")
+    metric_name: str = Field(..., description="Metric name")
+    value: float = Field(..., description="Metric value")
+    tags: Dict[str, str] = Field(..., description="Metric tags")
+    source: str = Field(..., description="Metric source")
+
+class AggregatedMetricsResponse(BaseModel):
+    """Aggregated metrics response model"""
+    
+    timestamp: str = Field(..., description="Aggregation timestamp")
+    metric_name: str = Field(..., description="Metric name")
+    time_window: str = Field(..., description="Time window")
+    count: int = Field(..., description="Sample count")
+    sum_value: float = Field(..., description="Sum of values")
+    min_value: float = Field(..., description="Minimum value")
+    max_value: float = Field(..., description="Maximum value")
+    mean_value: float = Field(..., description="Mean value")
+    std_value: float = Field(..., description="Standard deviation")
+    p50_value: float = Field(..., description="50th percentile")
+    p95_value: float = Field(..., description="95th percentile")
+    p99_value: float = Field(..., description="99th percentile")
+    tags: Dict[str, str] = Field(..., description="Metric tags")
+    
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "timestamp": "2024-01-01T12:00:00Z",
+                "metric_name": "prediction_latency_ms",
+                "time_window": "1h",
+                "count": 100,
+                "sum_value": 5000.0,
+                "min_value": 10.0,
+                "max_value": 200.0,
+                "mean_value": 50.0,
+                "std_value": 15.0,
+                "p50_value": 45.0,
+                "p95_value": 80.0,
+                "p99_value": 95.0,
+                "tags": {"model_version": "2.1.0"}
             }
         }
 

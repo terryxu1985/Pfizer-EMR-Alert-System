@@ -57,7 +57,7 @@ class EMRFeatureProcessor:
             "HIGH_CONTRAINDICATION": 3
         }
         
-        # 完整的高风险条件定义（基于Drug A临床标准，不依赖训练特征）
+        # Complete high-risk condition definitions (based on Drug A clinical standards, independent of training features)
         self.CLINICAL_HIGH_RISK_CONDITIONS = {
             "chronic_lung_disease": [
                 "COPD", "CHRONIC_OBSTRUCTIVE_PULMONARY_DISEASE", 
@@ -495,22 +495,22 @@ class EMRFeatureProcessor:
     def check_clinical_eligibility(self, raw_data: 'RawEMRRequest', 
                                    processed_features: Dict[str, Any]) -> Dict[str, Any]:
         """
-        完全基于临床规则检查患者是否符合Drug A处方资格
-        不依赖模型训练特征，直接从原始交易数据判断
+        Check patient eligibility for Drug A prescription based entirely on clinical rules.
+        Does not depend on model training features; directly evaluates from raw transaction data.
         
-        Drug A 临床标准：
-        1. 患者确诊疾病X ✅ (已确认，否则不会进入预测流程)
-        2. 年龄 ≥ 12岁
-        3. 距症状出现时间 ≤ 5天
-        4. 高风险患者：年龄 ≥ 65岁 或 有以下任何基础疾病：
-           - 慢性肺部疾病（COPD、哮喘）
-           - 心血管疾病
-           - 癌症
-           - 免疫系统受损
-           - 肥胖 (BMI ≥ 30)
-           - 糖尿病
-           - 吸烟
-        5. 没有严重禁忌症
+        Drug A Clinical Criteria:
+        1. Patient diagnosed with Disease X ✅ (confirmed, otherwise would not enter prediction flow)
+        2. Age ≥ 12 years
+        3. Time from symptom onset ≤ 5 days
+        4. High-risk patient: Age ≥ 65 years OR has any of the following conditions:
+           - Chronic lung disease (COPD, asthma)
+           - Cardiovascular disease
+           - Cancer
+           - Immunocompromised
+           - Obesity (BMI ≥ 30)
+           - Diabetes
+           - Smoking
+        5. No severe contraindications
         
         Args:
             raw_data: Raw EMR request data
@@ -519,37 +519,37 @@ class EMRFeatureProcessor:
         Returns:
             Dictionary with clinical eligibility assessment
         """
-        # 从原始数据获取患者年龄
+        # Get patient age from raw data
         birth_year = raw_data.birth_year
         diagnosis_year = raw_data.diagnosis_date.year
         patient_age = diagnosis_year - birth_year
         
-        # 转换交易数据为DataFrame
+        # Convert transaction data to DataFrame
         transactions_df = self._transactions_to_dataframe(raw_data.transactions)
         
-        # ========== 规则1: 年龄 ≥ 12岁 ==========
+        # ========== Rule 1: Age ≥ 12 years ==========
         age_eligible = patient_age >= 12
         
-        # ========== 规则2: 距症状出现时间 ≤ 5天 ==========
-        # 从交易数据中找症状记录
+        # ========== Rule 2: Time from symptom onset ≤ 5 days ==========
+        # Find symptom records from transaction data
         symptom_txns = transactions_df[transactions_df['TXN_TYPE'] == 'SYMPTOMS'].copy()
         symptom_txns = symptom_txns[symptom_txns['TXN_DT'] <= raw_data.diagnosis_date]
         
         if symptom_txns.empty:
-            # 没有症状记录，默认为符合（保守处理）
+            # No symptom records, default to eligible (conservative approach)
             within_5day_window = True
             symptom_to_diagnosis_days = None
         else:
-            # 最早症状日期
+            # Earliest symptom date
             earliest_symptom_dt = symptom_txns['TXN_DT'].min()
             symptom_to_diagnosis_days = (raw_data.diagnosis_date - earliest_symptom_dt).days
             within_5day_window = symptom_to_diagnosis_days <= 5
         
-        # ========== 规则3: 高风险患者 ==========
-        # 3a. 年龄 ≥ 65岁
+        # ========== Rule 3: High-risk patient ==========
+        # 3a. Age ≥ 65 years
         is_high_risk_by_age = patient_age >= 65
         
-        # 3b. 检查基础疾病（从原始交易数据）
+        # 3b. Check for underlying conditions (from raw transaction data)
         condition_txns = transactions_df[transactions_df['TXN_TYPE'] == 'CONDITIONS'].copy()
         condition_txns = condition_txns[condition_txns['TXN_DT'] <= raw_data.diagnosis_date]
         
@@ -559,7 +559,7 @@ class EMRFeatureProcessor:
         if is_high_risk_by_age:
             risk_factors_found.append("age_65_or_older")
         
-        # 检查每个高风险条件类别
+        # Check each high-risk condition category
         if not condition_txns.empty:
             for category, condition_keywords in self.CLINICAL_HIGH_RISK_CONDITIONS.items():
                 found_in_category = False
@@ -577,11 +577,11 @@ class EMRFeatureProcessor:
                     risk_factors_found.append(category)
                     risk_conditions_details[category] = list(set(matched_conditions))
         
-        # 高风险判断：年龄≥65 或 有任何基础疾病
+        # High-risk determination: Age ≥65 OR has any underlying condition
         is_high_risk = len(risk_factors_found) > 0
         
-        # ========== 规则4: 没有严重禁忌症 ==========
-        # 从交易数据中检查禁忌症
+        # ========== Rule 4: No severe contraindications ==========
+        # Check for contraindications from transaction data
         contra_txns = transactions_df[transactions_df['TXN_TYPE'] == 'CONTRAINDICATIONS'].copy()
         contra_txns = contra_txns[contra_txns['TXN_DT'] <= raw_data.diagnosis_date]
         
@@ -590,13 +590,13 @@ class EMRFeatureProcessor:
             no_severe_contraindication = True
             contraindication_details = []
         else:
-            # 映射禁忌症等级
+            # Map contraindication levels
             contra_txns['LVL'] = contra_txns['TXN_DESC'].map(self.CONTRAINDICATION_LEVELS).fillna(0)
             contraindication_level = int(contra_txns['LVL'].max())
             no_severe_contraindication = (contraindication_level < 3)
             contraindication_details = contra_txns['TXN_DESC'].unique().tolist()
         
-        # ========== 综合判断 ==========
+        # ========== Comprehensive evaluation ==========
         meets_clinical_criteria = (
             age_eligible and
             within_5day_window and
