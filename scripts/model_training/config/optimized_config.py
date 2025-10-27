@@ -217,18 +217,20 @@ class HyperparameterConfig:
     # These match the base configuration in environment_config.yaml
     hyperparameters: Dict[str, Dict[str, Any]] = field(default_factory=lambda: {
         'xgboost': {
-            'n_estimators': 200,          # Moderately increased for better learning
-            'learning_rate': 0.06,        # Slightly higher learning rate
-            'max_depth': 7,               # Slightly deeper trees for complex interactions
-            'subsample': 0.8,             # Row sampling
-            'colsample_bytree': 0.8,      # Column sampling
-            'scale_pos_weight': None,     # Will be calculated dynamically based on data
+            'n_estimators': 799,         # Optimized value from hyperparameter tuning
+            'learning_rate': 0.2610570842357371,  # Optimized value
+            'max_depth': 7,              # Optimized value
+            'subsample': 0.9130034518395074,  # Optimized value
+            'colsample_bytree': 0.8549084927445061,  # Optimized value
+            'scale_pos_weight': None,    # Will be calculated dynamically based on data
             'random_state': 42,
             'eval_metric': 'logloss',
-            'n_jobs': -1,                 # Use all CPU cores
-            'early_stopping_rounds': None,  # Disabled - incompatible with sklearn cross_val_score
-            'reg_alpha': 0.15,            # Balanced L1 regularization
-            'reg_lambda': 1.2             # Balanced L2 regularization
+            'n_jobs': -1,                # Use all CPU cores
+            'early_stopping_rounds': 20, # Enable early stopping for better performance
+            'reg_alpha': 0.3040562063700757,  # Optimized L1 regularization
+            'reg_lambda': 1.9851311518315806,  # Optimized L2 regularization
+            'min_child_weight': 3,       # Optimized value
+            'gamma': 0.029685899839029244  # Optimized value
         },
         'random_forest': {
             'n_estimators': 50,           # Reduced to prevent overfitting
@@ -524,7 +526,7 @@ class OptimizedModelConfig:
             Environment.DEVELOPMENT: {
                 'cv_folds': 3,  # Faster iteration
                 'hyperparameters': {
-                    'xgboost': {'n_estimators': 100, 'early_stopping_rounds': 10},
+                    # XGBoost uses same optimized parameters as production for consistency
                     'random_forest': {'n_estimators': 50},
                     'gradient_boosting': {'max_iter': 80}  # HistGradientBoosting uses max_iter
                 }
@@ -533,7 +535,7 @@ class OptimizedModelConfig:
                 'cv_folds': 3,
                 'test_size': 0.3,
                 'hyperparameters': {
-                    'xgboost': {'n_estimators': 50},
+                    # XGBoost uses same optimized parameters as production for consistency
                     'random_forest': {'n_estimators': 25},
                     'gradient_boosting': {'max_iter': 50}  # HistGradientBoosting uses max_iter
                 }
@@ -541,7 +543,7 @@ class OptimizedModelConfig:
             Environment.STAGING: {
                 'cv_folds': 5,
                 'hyperparameters': {
-                    'xgboost': {'n_estimators': 200},
+                    # XGBoost uses same optimized parameters as production for consistency
                     'random_forest': {'n_estimators': 100},
                     'gradient_boosting': {'max_iter': 150}  # HistGradientBoosting uses max_iter
                 }
@@ -550,14 +552,7 @@ class OptimizedModelConfig:
                 'cv_folds': 5,
                 # Note: Actual model selection should be done by model_selection.py
                 'hyperparameters': {
-                    'xgboost': {
-                        'n_estimators': 200,
-                        'learning_rate': 0.06,
-                        'max_depth': 7,
-                        'early_stopping_rounds': None,
-                        'reg_alpha': 0.15,
-                        'reg_lambda': 1.2
-                    },
+                    # XGBoost uses optimized parameters from hyperparameter tuning
                     'random_forest': {
                         'n_estimators': 100,
                         'min_samples_split': 25,

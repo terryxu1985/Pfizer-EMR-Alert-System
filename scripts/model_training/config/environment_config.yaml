@@ -89,19 +89,20 @@ paths:
   reports_dir: reports
   logs_dir: logs
 hyperparameters:
-  xgboost:
-    n_estimators: 200
-    learning_rate: 0.06
+  xgboost: &id001
+    n_estimators: 799
+    learning_rate: 0.2610570842357371
     max_depth: 7
-    subsample: 0.8
-    colsample_bytree: 0.8
-    scale_pos_weight: null
+    subsample: 0.9130034518395074
+    colsample_bytree: 0.8549084927445061
+    reg_alpha: 0.3040562063700757
+    reg_lambda: 1.9851311518315806
+    min_child_weight: 3
+    gamma: 0.029685899839029244
     random_state: 42
-    eval_metric: logloss
     n_jobs: -1
-    early_stopping_rounds: null
-    reg_alpha: 0.15
-    reg_lambda: 1.2
+    eval_metric: logloss
+    early_stopping_rounds: 20
   random_forest:
     n_estimators: 50
     max_depth: 6
@@ -140,9 +141,7 @@ environments:
   development:
     cv_folds: 3
     hyperparameters:
-      xgboost:
-        n_estimators: 100
-        early_stopping_rounds: 10
+      xgboost: *id001  # Use same optimized parameters as production
       random_forest:
         n_estimators: 50
       gradient_boosting:
@@ -153,9 +152,7 @@ environments:
     cv_folds: 3
     test_size: 0.3
     hyperparameters:
-      xgboost:
-        n_estimators: 50
-        early_stopping_rounds: 5
+      xgboost: *id001  # Use same optimized parameters as production
       random_forest:
         n_estimators: 25
       gradient_boosting:
@@ -163,8 +160,7 @@ environments:
   staging:
     cv_folds: 5
     hyperparameters:
-      xgboost:
-        n_estimators: 200
+      xgboost: *id001  # Use same optimized parameters as production
       random_forest:
         n_estimators: 100
       gradient_boosting:
@@ -172,13 +168,7 @@ environments:
   production:
     cv_folds: 5
     hyperparameters:
-      xgboost:
-        n_estimators: 200
-        learning_rate: 0.06
-        max_depth: 7
-        early_stopping_rounds: null
-        reg_alpha: 0.15
-        reg_lambda: 1.2
+      xgboost: *id001
       random_forest:
         n_estimators: 100
         min_samples_split: 25

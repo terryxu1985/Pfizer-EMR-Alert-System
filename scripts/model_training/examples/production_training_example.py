@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-修正后的模型训练脚本
-使用优化后的配置重新训练模型，保留时间特征的临床合理性
+Corrected model training script
+Retrain model with optimized configuration, preserving clinical validity of temporal features
 """
 
 import sys
@@ -49,16 +49,16 @@ def load_and_prepare_data():
     dataset_path = Path(__file__).parent.parent.parent / "data" / "model_ready" / "model_ready_dataset.csv"
     df = pd.read_csv(dataset_path)
     
-    logger.info(f"📊 数据集加载完成: {df.shape}")
-    logger.info(f"目标变量分布: {df['TARGET'].value_counts().to_dict()}")
+    logger.info(f"📊 Dataset loaded: {df.shape}")
+    logger.info(f"Target variable distribution: {df['TARGET'].value_counts().to_dict()}")
     
     # Get features to remove (data leakage features)
     features_to_remove = features_config['data_leakage_features']
-    logger.info(f"🚫 移除数据泄露特征: {features_to_remove}")
+    logger.info(f"🚫 Removing data leakage features: {features_to_remove}")
     
     # Get production features
     production_features = features_config['production_features']
-    logger.info(f"✅ 使用生产特征: {len(production_features)}个")
+    logger.info(f"✅ Using production features: {len(production_features)} features")
     
     # Remove data leakage features
     df_clean = df.drop(columns=features_to_remove, errors='ignore')
@@ -68,9 +68,9 @@ def load_and_prepare_data():
     missing_features = [f for f in production_features if f not in df_clean.columns]
     
     if missing_features:
-        logger.warning(f"⚠️ 缺失特征: {missing_features}")
+        logger.warning(f"⚠️ Missing features: {missing_features}")
     
-    logger.info(f"📋 可用特征: {len(available_features)}个")
+    logger.info(f"📋 Available features: {len(available_features)} features")
     
     # Prepare features and target
     X = df_clean[available_features].copy()
@@ -80,9 +80,9 @@ def load_and_prepare_data():
     invert_target = config['model']['invert_target']
     if invert_target:
         y = 1 - y
-        logger.info("🔄 目标变量已反转: 正类(1) = 未治疗患者")
+        logger.info("🔄 Target variable inverted: positive class(1) = untreated patient")
     
-    logger.info(f"目标变量分布 (反转后): {y.value_counts().to_dict()}")
+    logger.info(f"Target variable distribution (after inversion): {y.value_counts().to_dict()}")
     
     return X, y, available_features, config
 
@@ -99,12 +99,12 @@ def preprocess_features(X, categorical_features):
             le = LabelEncoder()
             X_processed[feature] = le.fit_transform(X_processed[feature].astype(str))
             label_encoders[feature] = le
-            logger.info(f"📊 编码分类特征: {feature}")
+            logger.info(f"📊 Encoding categorical feature: {feature}")
     
     # Handle missing values
     missing_counts = X_processed.isnull().sum()
     if missing_counts.sum() > 0:
-        logger.info(f"🔧 处理缺失值: {missing_counts[missing_counts > 0].to_dict()}")
+        logger.info(f"🔧 Handling missing values: {missing_counts[missing_counts > 0].to_dict()}")
         X_processed = X_processed.fillna(X_processed.median())
     
     return X_processed, label_encoders
@@ -121,8 +121,8 @@ def train_model(X_train, y_train, config):
     scale_pos_weight = class_counts[0] / class_counts[1] if len(class_counts) == 2 else 1.0
     hyperparams['scale_pos_weight'] = scale_pos_weight
     
-    logger.info(f"⚙️ XGBoost超参数: {hyperparams}")
-    logger.info(f"📊 类别权重: {scale_pos_weight:.2f}")
+    logger.info(f"⚙️ XGBoost hyperparameters: {hyperparams}")
+    logger.info(f"📊 Class weight: {scale_pos_weight:.2f}")
     
     # Train model
     model = xgb.XGBClassifier(**hyperparams)
@@ -141,7 +141,7 @@ def evaluate_model(model, X_test, y_test, feature_names):
     # Calculate metrics
     roc_auc = roc_auc_score(y_test, y_pred_proba)
     
-    logger.info("📈 模型性能评估:")
+    logger.info("📈 Model performance evaluation:")
     logger.info(f"  ROC-AUC: {roc_auc:.2f}")
     
     # Classification report
@@ -157,7 +157,7 @@ def evaluate_model(model, X_test, y_test, feature_names):
         'importance': model.feature_importances_
     }).sort_values('importance', ascending=False)
     
-    logger.info("🔍 特征重要性 (Top 10):")
+    logger.info("🔍 Feature importance (Top 10):")
     for i, (_, row) in enumerate(feature_importance.head(10).iterrows(), 1):
         logger.info(f"  {i:2d}. {row['feature']:<30} {row['importance']:.2f}")
     
@@ -173,7 +173,7 @@ def main():
     """Main training function"""
     logger = setup_logging()
     
-    logger.info("🚀 开始修正后的模型训练")
+    logger.info("🚀 Starting corrected model training")
     logger.info("=" * 80)
     
     try:
@@ -192,14 +192,14 @@ def main():
             X_processed, y, test_size=test_size, random_state=42, stratify=y
         )
         
-        logger.info(f"📊 数据分割: 训练集 {X_train.shape}, 测试集 {X_test.shape}")
+        logger.info(f"📊 Data split: training set {X_train.shape}, test set {X_test.shape}")
         
         # Apply SMOTE if configured
         use_smote = config['model']['use_smote']
         if use_smote:
             smote = SMOTE(random_state=42)
             X_train_smote, y_train_smote = smote.fit_resample(X_train, y_train)
-            logger.info(f"🔄 SMOTE应用: {X_train.shape} -> {X_train_smote.shape}")
+            logger.info(f"🔄 SMOTE applied: {X_train.shape} -> {X_train_smote.shape}")
             X_train, y_train = X_train_smote, y_train_smote
         
         # Scale features
@@ -237,19 +237,19 @@ def main():
         with open(results_path, 'wb') as f:
             pickle.dump(results, f)
         
-        logger.info("💾 模型和结果已保存")
-        logger.info(f"  模型: {model_path}")
-        logger.info(f"  缩放器: {scaler_path}")
-        logger.info(f"  编码器: {encoders_path}")
-        logger.info(f"  结果: {results_path}")
+        logger.info("💾 Model and results saved")
+        logger.info(f"  Model: {model_path}")
+        logger.info(f"  Scaler: {scaler_path}")
+        logger.info(f"  Encoders: {encoders_path}")
+        logger.info(f"  Results: {results_path}")
         
-        logger.info("🎉 修正后的模型训练完成!")
+        logger.info("🎉 Corrected model training completed!")
         logger.info("=" * 80)
         
         return results
         
     except Exception as e:
-        logger.error(f"❌ 训练失败: {e}")
+        logger.error(f"❌ Training failed: {e}")
         import traceback
         traceback.print_exc()
         raise

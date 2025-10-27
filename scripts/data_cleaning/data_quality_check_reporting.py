@@ -680,7 +680,7 @@ class DataQualityReport:
 
 def main():
     """Main function"""
-    # Setup paths - 修正路径配置以匹配项目结构
+    # Setup paths - Correct path configuration to match project structure
     base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     raw_data_dir = os.path.join(base_dir, 'data', 'raw')
     output_dir = os.path.join(base_dir, 'reports', 'data_quality')

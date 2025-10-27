@@ -7,7 +7,7 @@ import uvicorn
 from pathlib import Path
 
 # Add project root directory to Python path
-project_root = Path(__file__).parent
+project_root = Path(__file__).parent.parent.parent  # Go up to project root
 sys.path.insert(0, str(project_root))
 
 from backend.api.api import app
