@@ -1,0 +1,19 @@
+# Data directory specific ignores
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# IDE
+.DS_Store
+.idea/
+.vscode/
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+
+# Note: DATA_VERSIONS.json should be tracked in git

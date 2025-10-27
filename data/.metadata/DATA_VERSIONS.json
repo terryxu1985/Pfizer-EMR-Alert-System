@@ -1,0 +1,134 @@
+{
+  "version": "1.0.0",
+  "created_at": "2025-10-25T23:45:35.798509Z",
+  "data_pipeline": {
+    "raw": {
+      "raw/dim_physician.xlsx": {
+        "file_size_bytes": 740687,
+        "modified_time": "2025-10-13T09:50:17.158255",
+        "md5": "25d04a4ae0fdb3b5cbb25bbb0eaee73e",
+        "columns": 5,
+        "rows": 25343
+      },
+      "raw/fact_txn.xlsx": {
+        "file_size_bytes": 4795447,
+        "modified_time": "2025-10-13T09:42:07.783858",
+        "md5": "1823b4814c1d7a5423094c41898b6638",
+        "columns": 7,
+        "rows": 115274
+      },
+      "raw/~$model_table.xlsx": {
+        "file_size_bytes": 165,
+        "modified_time": "2025-10-25T14:49:16.044160",
+        "md5": "b4ce1b64deea0fc7fa523bab8dd4f736",
+        "rows": "error: Excel file format cannot be determined, you must specify an engine manually.",
+        "columns": "unknown"
+      },
+      "raw/dim_patient.xlsx": {
+        "file_size_bytes": 90961,
+        "modified_time": "2025-10-13T09:42:55.974965",
+        "md5": "94b34771f783aef2795e47c92118b8e7",
+        "columns": 3,
+        "rows": 4020
+      },
+      "raw/model_table.xlsx": {
+        "file_size_bytes": 17539,
+        "modified_time": "2025-10-13T09:57:00.922607",
+        "md5": "53c49131467e96576dc26b6da311ebf9",
+        "columns": 4,
+        "rows": 9
+      },
+      "raw/Data Dictionary.xlsx": {
+        "file_size_bytes": 19336,
+        "modified_time": "2025-10-13T09:41:22.795360",
+        "md5": "04b5b5da9ed66d93d562c1062bf39154",
+        "columns": 0,
+        "rows": 17
+      }
+    },
+    "processed": {
+      "processed/fact_txn_cleaned.csv": {
+        "file_size_bytes": 8408472,
+        "modified_time": "2025-10-17T09:45:23.425386",
+        "md5": "e0eaa72a46e0422207bcfe762ab33825",
+        "columns": 7,
+        "rows": 115041,
+        "source": "fact_txn.xlsx"
+      },
+      "processed/dim_physician_cleaned.csv": {
+        "file_size_bytes": 924814,
+        "modified_time": "2025-10-17T09:45:23.169013",
+        "md5": "61f89d5b0cfcbaf8006b0c877cc89bff",
+        "columns": 5,
+        "rows": 25343,
+        "source": "dim_physician.xlsx"
+      },
+      "processed/dim_patient_cleaned.csv": {
+        "file_size_bytes": 47162,
+        "modified_time": "2025-10-17T09:45:23.142584",
+        "md5": "63036df0db2bb7b26c14a6884bffc0ad",
+        "columns": 3,
+        "rows": 4020,
+        "source": "dim_patient.xlsx"
+      }
+    },
+    "model_ready": {
+      "model_ready/model_ready_dataset.csv": {
+        "file_size_bytes": 580260,
+        "modified_time": "2025-10-20T19:29:06.646878",
+        "md5": "0587674348670e388b9e141a740a49e2",
+        "columns": 39,
+        "rows": 3612,
+        "target_distribution": {
+          "1": 2981,
+          "0": 631
+        },
+        "class_imbalance_ratio": 0.21,
+        "feature_count": 38,
+        "total_samples": 3612,
+        "missing_data_pct": {
+          "SYMPTOM_TO_DIAGNOSIS_DAYS": 20.24,
+          "PHYS_TOTAL_DX": 15.67,
+          "SYMPTOM_ONSET_DT": 20.24,
+          "PHYSICIAN_ID": 15.67,
+          "PHYS_TREAT_RATE_ALL": 15.67
+        }
+      },
+      "model_ready/model_feature_dictionary.xlsx": {
+        "file_size_bytes": 12391,
+        "modified_time": "2025-10-20T17:45:48.668511",
+        "md5": "6082ba8f1fd991578e29dd12e92d19e4",
+        "columns": 6,
+        "rows": 39
+      }
+    }
+  },
+  "statistics": {
+    "total_files": 11,
+    "total_size_mb": 14.91,
+    "file_count_by_type": {
+      "unknown": 11
+    }
+  },
+  "model_compatibility": {
+    "supported_models": [
+      "xgboost_v2.1.0_20251021_120304.pkl",
+      "xgboost_v2.1.0_20251025_230426.pkl",
+      "xgboost_model.pkl"
+    ],
+    "current_model_version": "2.1.0",
+    "data_requirements": {
+      "features": 33,
+      "target_column": "TARGET",
+      "categorical_columns": [
+        "PATIENT_GENDER",
+        "PHYS_EXPERIENCE_LEVEL",
+        "PHYSICIAN_STATE",
+        "PHYSICIAN_TYPE",
+        "DX_SEASON",
+        "LOCATION_TYPE",
+        "INSURANCE_TYPE_AT_DX"
+      ]
+    }
+  }
+}
