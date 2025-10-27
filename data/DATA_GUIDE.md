@@ -251,5 +251,50 @@ For data-related questions or issues:
 
 ---
 
+## 🔄 Data Version Control
+
+### Version Management System
+
+The project implements a complete data version control system that tracks the version and integrity of all data files through metadata.
+
+#### Core Features
+
+- **✅ MD5 Checksum** - Each file has a unique checksum for integrity verification
+- **✅ Version Metadata** - Track dataset version, creation time, and statistics
+- **✅ Integrity Verification** - Automatically detect if files have been modified or corrupted
+- **✅ Model Compatibility** - Ensure data version matches model version
+
+#### Quick Start
+
+```bash
+# 1. Generate data manifest (first use or after data updates)
+python data/versioning/manifest.py
+
+# 2. Verify data integrity
+python data/versioning/verify.py
+
+# 3. Check model-data compatibility
+python data/versioning/compatibility.py
+```
+
+#### Version Files
+
+- **`.metadata/DATA_VERSIONS.json`** - Data version manifest (includes MD5, statistics, model compatibility)
+- **`DATA_VERSIONS_README.md`** - Version description and usage guide
+
+#### Current Version Information
+
+- **Version**: 1.0.0
+- **Total Size**: 14.91 MB
+- **File Count**: 11 files
+- **Compatible Model**: XGBoost v2.1.0
+
+For detailed documentation, please refer to:
+- `data/versioning/README.md` - Complete usage guide
+- `data/DATA_VERSIONS_README.md` - Version description
+
+---
+
 *Last Updated: October 2024*
 *Data Pipeline Version: 1.0*
+*Data Version: 1.0.0*
