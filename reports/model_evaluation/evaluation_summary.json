@@ -1,0 +1,111 @@
+{
+  "evaluation_timestamp": "2025-10-26T19:48:17.805905",
+  "total_models_evaluated": 6,
+  "best_model": {
+    "name": "XGBoost",
+    "roc_auc": 0.64,
+    "f1_score": 0.84,
+    "accuracy": 0.74
+  },
+  "performance_summary": {
+    "Accuracy": {
+      "mean": 0.6065006915629323,
+      "std": 0.13531114040514525,
+      "range": [
+        0.43015214384508993,
+        0.7441217150760719
+      ]
+    },
+    "Precision": {
+      "mean": 0.8927009056722012,
+      "std": 0.02535412836130873,
+      "range": [
+        0.8576388888888888,
+        0.9302325581395349
+      ]
+    },
+    "Recall": {
+      "mean": 0.6013400335008375,
+      "std": 0.20465968460629136,
+      "range": [
+        0.33500837520938026,
+        0.8274706867671692
+      ]
+    },
+    "F1-Score": {
+      "mean": 0.6977564137277867,
+      "std": 0.15255262859596372,
+      "range": [
+        0.49261083743842365,
+        0.8422847399829497
+      ]
+    },
+    "ROC-AUC": {
+      "mean": 0.6619738906171067,
+      "std": 0.023759855235864095,
+      "range": [
+        0.628845284624179,
+        0.6906091303076228
+      ]
+    },
+    "PR-AUC": {
+      "mean": 0.8968238278775158,
+      "std": 0.009278091832936888,
+      "range": [
+        0.8862645682591396,
+        0.908188407765586
+      ]
+    }
+  },
+  "feature_analysis_summary": {
+    "top_features": [
+      {
+        "feature": "PATIENT_AGE",
+        "importance": 0.11836357222682886
+      },
+      {
+        "feature": "LOCATION_TYPE",
+        "importance": 0.09961178698657333
+      },
+      {
+        "feature": "PHYSICIAN_TYPE",
+        "importance": 0.07076943774666453
+      },
+      {
+        "feature": "RISK_NUM",
+        "importance": 0.06761353154336718
+      },
+      {
+        "feature": "SYMPTOM_TO_DIAGNOSIS_DAYS",
+        "importance": 0.04476517579785323
+      },
+      {
+        "feature": "PHYSICIAN_STATE",
+        "importance": 0.04439176144058189
+      },
+      {
+        "feature": "PRIOR_CONTRA_LVL",
+        "importance": 0.04216410711608573
+      },
+      {
+        "feature": "RISK_AGE_FLAG",
+        "importance": 0.04030927413768245
+      },
+      {
+        "feature": "PHYS_TOTAL_DX",
+        "importance": 0.0365432489237687
+      },
+      {
+        "feature": "RISK_CVD",
+        "importance": 0.034679284836605546
+      }
+    ],
+    "total_features": 33
+  },
+  "configuration": {
+    "test_size": 0.2,
+    "cv_folds": 5,
+    "use_smote": false,
+    "primary_metric": "average_precision"
+  }
+}

@@ -1,0 +1,79 @@
+================================================================================
+XGBOOST MODEL - FEATURE IMPORTANCE ANALYSIS REPORT
+================================================================================
+
+MODEL PERFORMANCE SUMMARY
+----------------------------------------
+Total Features Analyzed: 33
+Features with Non-Zero Importance: 30
+Features with Zero Importance: 3
+
+TOP 20 MOST IMPORTANT FEATURES
+----------------------------------------
+ 1. LOCATION_TYPE                       : 0.0600
+ 2. RISK_NUM                            : 0.0500
+ 3. PRIOR_CONTRA_LVL                    : 0.0500
+ 4. PHYS_TOTAL_DX                       : 0.0500
+ 5. DX_SEASON                           : 0.0500
+ 6. PATIENT_AGE                         : 0.0400
+ 7. PHYSICIAN_TYPE                      : 0.0400
+ 8. RISK_AGE_FLAG                       : 0.0400
+ 9. RISK_OBESITY                        : 0.0400
+10. SYMPTOM_CONGESTION                  : 0.0300
+11. SYMPTOM_FEVER                       : 0.0300
+12. RISK_DIABETES                       : 0.0300
+13. INSURANCE_TYPE_AT_DX                : 0.0300
+14. SYMPTOM_DIFFICULTY_BREATHING        : 0.0300
+15. SYMPTOM_HEADACHE                    : 0.0300
+16. SYMPTOM_DIARRHEA                    : 0.0300
+17. SYM_COUNT_5D                        : 0.0300
+18. SYMPTOM_COUGH                       : 0.0300
+19. SYMPTOM_SORE_THROAT                 : 0.0300
+20. SYMPTOM_ACUTE_URI                   : 0.0300
+
+FEATURE IMPORTANCE STATISTICS
+----------------------------------------
+Mean Importance: 0.033000
+Median Importance: 0.030000
+Max Importance: 0.060000
+Min Importance: 0.020000
+Std Importance: 0.010554
+
+CUMULATIVE IMPORTANCE ANALYSIS
+----------------------------------------
+Top  1 features account for   6.06% of total importance
+Top  2 features account for  11.11% of total importance
+Top  3 features account for  16.16% of total importance
+Top  4 features account for  21.21% of total importance
+Top  5 features account for  26.26% of total importance
+Top 10 features account for  45.45% of total importance
+Top 15 features account for  60.61% of total importance
+Top 20 features account for  75.76% of total importance
+Top 22 features account for  81.82% of total importance
+Top 23 features account for  84.85% of total importance
+Top 24 features account for  87.88% of total importance
+Top 25 features account for  89.90% of total importance
+Top 26 features account for  91.92% of total importance
+Top 27 features account for  93.94% of total importance
+Top 28 features account for  95.96% of total importance
+Top 29 features account for  97.98% of total importance
+Top 30 features account for 100.00% of total importance
+
+================================================================================
+KEY INSIGHTS
+================================================================================
+
+1. TOP 5 CRITICAL FEATURES:
+   - LOCATION_TYPE (6.1% of total importance)
+   - RISK_NUM (5.1% of total importance)
+   - PRIOR_CONTRA_LVL (5.1% of total importance)
+   - PHYS_TOTAL_DX (5.1% of total importance)
+   - DX_SEASON (5.1% of total importance)
+
+2. MEDICAL DOMAIN ANALYSIS:
+   - Demographic Features: 0.100
+   - Clinical Risk Features: 0.230
+   - Provider Features: 0.120
+   - Temporal Features: 0.130
+   - Location Features: 0.060
+   - Symptom Features: 0.350
