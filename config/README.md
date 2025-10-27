@@ -1,145 +1,374 @@
-# Configuration Directory
+# Configuration Guide - Pfizer EMR Alert System
 
-This directory contains all configuration files and settings for the Pfizer EMR Alert System. It provides centralized configuration management for the entire application.
+## 📋 Overview
 
-## Files Overview
+This directory contains all configuration files and settings for the Pfizer EMR Alert System. The configuration system provides centralized, environment-aware settings management for the entire application stack.
+
+## 📁 Directory Structure
+
+```
+config/
+├── README.md                    # This configuration guide
+├── settings.py                  # Main configuration module with all system settings
+├── requirements.txt             # Development dependencies
+└── requirements_production.txt  # Production dependencies (includes security & monitoring)
+```
+
+## 🔧 Core Configuration Files
 
 ### `settings.py`
-The main configuration file that defines all system settings, paths, and configurations.
+The heart of the configuration system, providing centralized settings management.
 
-**Key Configuration Sections:**
-- **Base Paths**: Defines directory structure for data, models, logs, and scripts
-- **Model Configuration**: Settings for ML model files and metadata
-- **Feature Configuration**: Defines categorical columns, excluded features, and target variables
-- **API Configuration**: FastAPI settings including host, port, and debug mode
-- **Logging Configuration**: Log levels, file rotation, and output settings
-- **Database Configuration**: Database connection settings
-- **Security Configuration**: Authentication and security settings
+#### Key Features
+- **Environment-aware**: Automatically adapts based on runtime environment
+- **Dynamic model discovery**: Automatically finds latest trained models
+- **Path management**: Intelligent directory structure handling
+- **Security-first**: Environment variable support for sensitive data
 
-**Key Functions:**
-- `get_latest_model_path()`: Automatically discovers the latest trained model
-- `get_model_version_info()`: Retrieves model metadata and version information
-- `get_log_level()`: Determines appropriate log level based on environment
+#### Configuration Sections
+
+##### 1. Base Paths
+```python
+BASE_DIR: Project root directory
+DATA_DIR: Data storage (raw, processed, model_ready)
+MODEL_DIR: ML model storage
+LOG_DIR: Logging directory
+SCRIPTS_MODEL_DIR: Training script outputs
+```
+
+##### 2. Model Configuration
+- **Model Name**: `xgboost_emr_alert`
+- **Version**: `2.2.0`
+- **Model File**: XGBoost classifier with optimized hyperparameters
+- **Performance**: PR-AUC=0.90, Precision=0.88, Recall=0.75, F1=0.81
+- **Supporting Files**: Scaler, encoders, feature columns, metadata, preprocessor
+
+##### 3. Feature Configuration
+Based on `model_feature_dictionary.xlsx`:
+- **Categorical Features**: 7 features (gender, experience level, state, type, season, location, insurance)
+- **Data Leakage Features**: Excluded to prevent information leakage
+- **Excluded Features**: Dates, IDs, and target variable
+- **Target**: Binary classification (treatment likelihood)
+
+##### 4. API Configuration
+- **Title**: Pfizer EMR Alert System API
+- **Version**: 2.2.0
+- **Default Host**: 0.0.0.0
+- **Default Port**: 8000
+- **Debug Mode**: Configurable via environment variable
+
+##### 5. Logging Configuration
+- **Format**: Timestamp, logger name, level, message
+- **File**: `logs/emr_alert_system.log`
+- **Rotation**: Daily with 10MB max size
+- **Retention**: 30 days with 5 backup files
+- **Console Output**: Configurable
+
+##### 6. Database Configuration
+- **Default**: SQLite for development
+- **Connection**: Configurable via DATABASE_URL
+- **Query Logging**: Optional via DATABASE_ECHO
+
+##### 7. Security Configuration
+- **Secret Key**: Environment variable (required in production)
+- **Algorithm**: HS256 for JWT tokens
+- **Token Expiry**: 30 minutes
 
 ### `requirements.txt`
-Development and testing dependencies for data quality assessment and reporting.
+Development and testing dependencies for the full system.
 
-**Key Dependencies:**
-- **Data Processing**: pandas, numpy, openpyxl
-- **PDF Generation**: reportlab
-- **Visualization**: matplotlib
-- **Utilities**: python-dateutil
+**Categories:**
+- Core ML libraries (pandas, numpy, scikit-learn, xgboost)
+- Hyperparameter optimization (optuna)
+- API framework (fastapi, uvicorn, pydantic)
+- Data processing (openpyxl, requests)
+- Visualization (matplotlib, seaborn, reportlab)
+- Configuration management (PyYAML)
+- Development tools (structlog)
 
 ### `requirements_production.txt`
-Production dependencies for the EMR Alert System API and ML components.
+Production dependencies with additional security and monitoring components.
 
-**Key Dependencies:**
-- **Core ML**: pandas, numpy, scikit-learn, xgboost, imbalanced-learn
-- **API Framework**: fastapi, uvicorn, pydantic
-- **Data Processing**: openpyxl
-- **Utilities**: python-dateutil, pathlib2
-- **Enhanced Logging**: structlog (optional)
+**Production Extras:**
+- Enhanced logging with structlog
+- Production WSGI server (gunicorn)
+- Security hardening
+- Performance optimizations
 
-## Configuration Management
+## 🌍 Environment Variables
 
-### Environment Variables
-The system supports configuration through environment variables:
+### API Configuration
+```bash
+export API_HOST="0.0.0.0"           # Server host
+export API_PORT="8000"              # Server port
+export DEBUG="False"                # Debug mode (True/False)
+```
 
-- `API_HOST`: API server host (default: "0.0.0.0")
-- `API_PORT`: API server port (default: 8000)
-- `DEBUG`: Enable debug mode (default: "False")
-- `LOG_LEVEL`: Logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
-- `LOG_TO_CONSOLE`: Enable console logging (default: "True")
-- `DATABASE_URL`: Database connection string
-- `DATABASE_ECHO`: Enable SQL query logging
-- `SECRET_KEY`: Secret key for authentication
+### Logging Configuration
+```bash
+export LOG_LEVEL="INFO"             # DEBUG, INFO, WARNING, ERROR, CRITICAL
+export LOG_TO_CONSOLE="True"        # Enable console output
+```
 
-### Model Discovery
-The system automatically discovers trained models using the following priority:
-1. `backend/ml_models/models/` (primary location)
-2. `scripts/model_training/models/` (training output)
-3. `reports/model_evaluation/` (evaluation reports)
-4. `backend/ml_models/` (fallback)
+### Database Configuration
+```bash
+export DATABASE_URL="sqlite:///./emr_alert.db"  # Database connection string
+export DATABASE_ECHO="False"        # Enable SQL query logging
+```
 
-### Feature Configuration
-The system includes built-in feature management:
-- **Categorical Features**: Automatically encoded features
-- **Data Leakage Features**: Features excluded to prevent data leakage
-- **Excluded Features**: Features not suitable for ML (dates, IDs)
-- **Target Column**: The prediction target variable
+### Security Configuration
+```bash
+export SECRET_KEY="your-secret-key-here"  # JWT secret key (required in production)
+```
 
-## Usage
+## 🔍 Key Functions
 
-### Importing Configuration
+### `get_latest_model_path()`
+Automatically discovers the latest trained model with intelligent fallback:
+1. Primary: `backend/ml_models/models/`
+2. Fallback 1: `scripts/model_training/models/`
+3. Fallback 2: `reports/model_evaluation/`
+4. Fallback 3: `backend/ml_models/`
+
+Returns the most recently modified model directory.
+
+### `get_model_version_info(model_path)`
+Retrieves comprehensive model metadata:
+- Version number
+- Training date
+- Model type
+- Feature count
+- Performance metrics
+- Model parameters
+
+Returns a dictionary with all available metadata or defaults for missing information.
+
+### `get_log_level()`
+Determines appropriate logging level based on:
+1. Explicit `LOG_LEVEL` environment variable
+2. Debug mode (DEBUG if enabled, else INFO)
+3. Default to INFO if neither set
+
+## 💻 Usage Examples
+
+### Basic Import
 ```python
 from config.settings import (
-    BASE_DIR, MODEL_DIR, LOG_DIR,
-    MODEL_CONFIG, FEATURE_CONFIG, API_CONFIG,
-    get_latest_model_path, get_model_version_info
+    BASE_DIR,
+    MODEL_DIR,
+    LOG_DIR,
+    MODEL_CONFIG,
+    FEATURE_CONFIG,
+    API_CONFIG
 )
 ```
 
-### Getting Model Information
+### Get Latest Model
 ```python
-# Get latest model path
+from config.settings import get_latest_model_path, get_model_version_info
+
+# Get model path
 model_path = get_latest_model_path()
+print(f"Model location: {model_path}")
 
-# Get model version info
-version_info = get_model_version_info()
-print(f"Model version: {version_info['version']}")
-print(f"Training date: {version_info['training_date']}")
+# Get version info
+info = get_model_version_info()
+print(f"Model: {info['model_type']}")
+print(f"Version: {info['version']}")
+print(f"Training Date: {info['training_date']}")
+print(f"Features: {info['feature_count']}")
+print(f"Performance: {info['performance_metrics']}")
 ```
 
-### Environment Setup
-```bash
-# Set environment variables
-export API_HOST="0.0.0.0"
-export API_PORT="8000"
-export DEBUG="True"
-export LOG_LEVEL="DEBUG"
+### Configure Paths
+```python
+from config.settings import DATA_DIR, MODEL_DIR
 
-# Install dependencies
-pip install -r requirements.txt  # For development
-pip install -r requirements_production.txt  # For production
+# Access data files
+data_file = DATA_DIR / "model_ready" / "model_ready_dataset.csv"
+
+# Access models
+model_file = MODEL_DIR / "models" / "xgboost_model.pkl"
 ```
 
-## Directory Structure
+### Feature Configuration
+```python
+from config.settings import FEATURE_CONFIG
+
+# Categorical features
+categorical = FEATURE_CONFIG["categorical_columns"]
+
+# Excluded features
+excluded = (
+    FEATURE_CONFIG["data_leakage_features"] + 
+    FEATURE_CONFIG["excluded_features"]
+)
+
+# Target column
+target = FEATURE_CONFIG["target_column"]
 ```
-config/
-├── README.md                    # This file
-├── settings.py                  # Main configuration file
-├── requirements.txt             # Development dependencies
-└── requirements_production.txt  # Production dependencies
-```
 
-## Security Notes
+## 🔐 Security Best Practices
 
-- **Secret Key**: Change the default secret key in production
-- **Database URL**: Use secure database connections in production
-- **Debug Mode**: Disable debug mode in production environments
-- **Logging**: Configure appropriate log levels for production
+### Development Environment
+- Use default secret keys
+- Enable debug mode for troubleshooting
+- SQLite database is acceptable
+- Console logging enabled
 
-## Troubleshooting
+### Production Environment
+⚠️ **CRITICAL**: Must configure before deployment
 
-### Common Issues
+1. **Secret Key**: Generate strong random key
+   ```bash
+   python -c "import secrets; print(secrets.token_urlsafe(32))"
+   ```
+   Export as `SECRET_KEY`
 
-1. **Model Not Found**: Ensure models are trained and placed in the correct directory
-2. **Import Errors**: Verify all dependencies are installed using the appropriate requirements file
-3. **Path Issues**: Check that BASE_DIR is correctly set relative to the config directory
-4. **Environment Variables**: Ensure all required environment variables are set
+2. **Debug Mode**: Always disable
+   ```bash
+   export DEBUG="False"
+   ```
 
-### Validation
+3. **Logging**: Set appropriate level
+   ```bash
+   export LOG_LEVEL="WARNING"  # Less verbose
+   export LOG_TO_CONSOLE="False"  # Disable console logs
+   ```
+
+4. **Database**: Use production-grade database
+   ```bash
+   export DATABASE_URL="postgresql://user:pass@host:5432/dbname"
+   ```
+
+5. **HTTPS**: Use reverse proxy (nginx, Apache) with SSL certificates
+
+6. **API Security**: Implement rate limiting, CORS restrictions, and API keys
+
+## 🐛 Troubleshooting
+
+### Model Not Found
+**Symptoms**: `Model file not found` error
+
+**Solutions**:
+1. Verify model files exist in `backend/ml_models/models/`
+2. Check file permissions
+3. Run training scripts to generate models
+4. Verify MODEL_CONFIG file names match actual files
+
+### Import Errors
+**Symptoms**: `ModuleNotFoundError` or `ImportError`
+
+**Solutions**:
+1. Install dependencies: `pip install -r requirements.txt`
+2. Verify virtual environment is activated
+3. Check Python version (3.9+ required)
+4. Reinstall dependencies if corrupted
+
+### Path Issues
+**Symptoms**: File not found errors, incorrect paths
+
+**Solutions**:
+1. Verify BASE_DIR points to project root
+2. Check directory structure matches expected layout
+3. Ensure all parent directories exist
+4. Run from project root directory
+
+### Environment Variables Not Working
+**Symptoms**: Changes not taking effect
+
+**Solutions**:
+1. Verify variable names are correct
+2. Restart application after setting variables
+3. Check for typos in variable names
+4. Ensure no spaces around equals sign
+5. Export variables before starting application
+
+### Permission Errors
+**Symptoms**: Cannot create directories or write files
+
+**Solutions**:
+1. Check directory permissions
+2. Run with appropriate user permissions
+3. Fix ownership: `chown -R user:group config/`
+4. Set write permissions: `chmod -R u+w config/`
+
+## 📊 Configuration Validation
+
 The configuration system includes automatic validation:
-- Directory creation for required paths
-- Model metadata validation
-- Environment variable type checking
-- Log level validation
 
-## Contributing
+- ✅ **Directory Creation**: Auto-creates required directories
+- ✅ **Model Metadata**: Validates model metadata integrity
+- ✅ **Environment Variables**: Type checking for env vars
+- ✅ **Log Levels**: Validates against allowed values
+- ✅ **Path Resolution**: Ensures all paths are absolute and valid
+
+## 🔄 Configuration Updates
 
 When modifying configuration:
-1. Update this README if adding new configuration options
-2. Maintain backward compatibility when possible
-3. Add appropriate environment variable support
-4. Update both development and production requirements files
-5. Test configuration changes in both environments
+
+### For System Settings (`settings.py`)
+1. Update relevant configuration dictionary
+2. Add any new environment variable support
+3. Document changes in this README
+4. Test in both development and production environments
+5. Update version number if making breaking changes
+
+### For Dependencies (`requirements.txt`)
+1. Add new package to appropriate file
+2. Specify version constraints (use `>=` for minimum)
+3. Update both development and production files if needed
+4. Run `pip install -r requirements.txt` to test
+5. Document why the dependency is needed
+
+### Version Changes
+- **Patch** (2.2.0 → 2.2.1): Bug fixes, no breaking changes
+- **Minor** (2.2.0 → 2.3.0): New features, backward compatible
+- **Major** (2.2.0 → 3.0.0): Breaking changes, migration required
+
+## 🤝 Contributing
+
+When contributing to configuration:
+
+1. **Read First**: Review existing configuration structure
+2. **Test Locally**: Verify changes work in your environment
+3. **Document**: Update this README with new features
+4. **Backward Compatibility**: Maintain compatibility when possible
+5. **Security**: Never commit secrets or sensitive data
+6. **Version Control**: Add meaningful commit messages
+
+## 📚 Additional Resources
+
+- **API Guide**: `backend/api/API_GUIDE.md`
+- **Backend Guide**: `backend/BACKEND_GUIDE.md`
+- **Data Guide**: `data/DATA_GUIDE.md`
+- **Model Training**: `scripts/model_training/MODEL_TRAINING_GUIDE.md`
+- **Main README**: `../README.md`
+- **Quick Start**: `../QUICK_START.md`
+
+## 📝 Configuration Checklist
+
+### Development Setup
+- [ ] Install development dependencies
+- [ ] Configure local paths
+- [ ] Set up development database
+- [ ] Enable debug mode
+- [ ] Configure local logging
+
+### Production Deployment
+- [ ] Install production dependencies
+- [ ] Generate and set SECRET_KEY
+- [ ] Disable debug mode
+- [ ] Configure production database
+- [ ] Set appropriate log level
+- [ ] Configure HTTPS/SSL
+- [ ] Set up monitoring and alerting
+- [ ] Test all environment variables
+- [ ] Review security settings
+- [ ] Set up backup procedures
+
+---
+
+**Last Updated**: November 2025  
+**Configuration Version**: 2.2.0  
+**Maintainer**: Pfizer EMR Alert System Team

@@ -4,13 +4,33 @@
 # Stage 1: Base Python environment
 FROM python:3.11-slim as base
 
+# Build arguments for version tracking and metadata
+ARG VERSION=2.2.0
+ARG BUILD_DATE
+ARG VCS_REF
+ARG BUILD_TYPE=production
+
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PYTHONPATH=/app \
     DEBIAN_FRONTEND=noninteractive \
     PIP_NO_CACHE_DIR=1 \
-    PIP_DISABLE_PIP_VERSION_CHECK=1
+    PIP_DISABLE_PIP_VERSION_CHECK=1 \
+    APP_VERSION=${VERSION} \
+    BUILD_DATE=${BUILD_DATE} \
+    VCS_REF=${VCS_REF} \
+    BUILD_TYPE=${BUILD_TYPE}
+
+# Add Docker labels for image metadata
+LABEL version="${VERSION}" \
+      maintainer="Pfizer EMR Development Team" \
+      org.opencontainers.image.title="Pfizer EMR Alert System" \
+      org.opencontainers.image.version="${VERSION}" \
+      org.opencontainers.image.description="Enterprise AI-Powered Clinical Decision Support System" \
+      org.opencontainers.image.vendor="Pfizer" \
+      com.pfizer.app.version="${VERSION}" \
+      com.pfizer.build.type="${BUILD_TYPE}"
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \

@@ -18,7 +18,7 @@ LOG_DIR = BASE_DIR / "logs"
 # Performance metrics: PR-AUC=0.90, Precision=0.88, Recall=0.75, F1=0.81, CV ROC-AUC=0.88
 MODEL_CONFIG = {
     "model_name": "xgboost_emr_alert",
-    "model_version": "2.1.0",
+    "model_version": "2.2.0",
     "model_file": "xgboost_model.pkl",
     "scaler_file": "standard_scaler.pkl", 
     "label_encoders_file": "label_encoders.pkl",
@@ -95,7 +95,7 @@ def get_model_version_info(model_path: Optional[Path] = None) -> Dict[str, Any]:
     
     return {"version": "unknown", "training_date": "unknown", "model_type": "unknown"}
 
-# Feature configuration - 严格按照model_feature_dictionary.xlsx定义
+# Feature configuration - Strictly defined according to model_feature_dictionary.xlsx
 FEATURE_CONFIG = {
     "categorical_columns": [
         'PATIENT_GENDER', 'PHYS_EXPERIENCE_LEVEL', 
@@ -103,13 +103,13 @@ FEATURE_CONFIG = {
         'LOCATION_TYPE', 'INSURANCE_TYPE_AT_DX'
     ],
     "data_leakage_features": [
-        'PHYS_TREAT_RATE_ALL',  # Doctor's historical treatment rate - data leakage (标记为NO)
-        'PATIENT_ID',           # Patient ID - no predictive value (标记为No)
-        'PHYSICIAN_ID'          # Physician ID - may cause overfitting (标记为No)
+        'PHYS_TREAT_RATE_ALL',  # Doctor's historical treatment rate - data leakage (marked as NO)
+        'PATIENT_ID',           # Patient ID - no predictive value (marked as No)
+        'PHYSICIAN_ID'          # Physician ID - may cause overfitting (marked as No)
     ],
     "excluded_features": [
-        'DISEASEX_DT',          # Date column - not suitable for ML (标记为No)
-        'SYMPTOM_ONSET_DT',     # Date column - not suitable for ML (标记为No)
+        'DISEASEX_DT',          # Date column - not suitable for ML (marked as No)
+        'SYMPTOM_ONSET_DT',     # Date column - not suitable for ML (marked as No)
         'TARGET'                # Target variable - not a feature
     ],
     "target_column": "TARGET"
@@ -119,7 +119,7 @@ FEATURE_CONFIG = {
 API_CONFIG = {
     "title": "Pfizer EMR Alert System API",
     "description": "API for predicting patient treatment likelihood for Disease X using XGBoost model (best performing with PR-AUC=0.90)",
-    "version": "2.1.0",
+    "version": "2.2.0",
     "host": os.getenv("API_HOST", "0.0.0.0"),
     "port": int(os.getenv("API_PORT", "8000")),
     "debug": os.getenv("DEBUG", "False").lower() == "true"

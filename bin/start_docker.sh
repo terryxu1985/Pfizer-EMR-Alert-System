@@ -14,7 +14,9 @@ NC='\033[0m' # No Color
 
 # Configuration
 PROJECT_NAME="pfizer-emr-alert"
+VERSION="2.2.0"
 DOCKER_IMAGE="${PROJECT_NAME}:latest"
+DOCKER_IMAGE_VERSIONED="${PROJECT_NAME}:${VERSION}"
 API_PORT=8000
 UI_PORT=8080
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -37,7 +39,7 @@ print_usage() {
     echo -e "${YELLOW}Usage: $0 [COMMAND]${NC}"
     echo ""
     echo -e "${GREEN}Available Commands:${NC}"
-    echo -e "  ${BLUE}build${NC}           - Build Docker image"
+    echo -e "  ${BLUE}build${NC}           - Build Docker image (with versioning)"
     echo -e "  ${BLUE}complete${NC}        - Run complete system (API + UI)"
     echo -e "  ${BLUE}api-only${NC}        - Run API service only"
     echo -e "  ${BLUE}ui-only${NC}         - Run UI service only (requires API)"
@@ -49,12 +51,15 @@ print_usage() {
     echo -e "  ${BLUE}cleanup${NC}         - Clean up Docker resources"
     echo -e "  ${BLUE}restart${NC}         - Restart containers"
     echo -e "  ${BLUE}shell${NC}           - Open shell in container"
+    echo -e "  ${BLUE}version${NC}         - Show image version info"
     echo ""
     echo -e "${YELLOW}Examples:${NC}"
-    echo -e "  $0 build"
-    echo -e "  $0 complete"
-    echo -e "  $0 api-only"
-    echo -e "  $0 microservices"
+    echo -e "  $0 build              # Build latest and versioned images"
+    echo -e "  $0 complete           # Build and run complete system"
+    echo -e "  $0 api-only           # Build and run API only"
+    echo -e "  $0 microservices      # Build and run as microservices"
+    echo ""
+    echo -e "${YELLOW}Version:${NC} ${VERSION}"
 }
 
 check_docker() {
@@ -106,21 +111,39 @@ check_prerequisites() {
 }
 
 build_image() {
-    echo -e "${BLUE}🔨 Building Docker image...${NC}"
+    local build_type=${1:-development}
+    
+    echo -e "${BLUE}🔨 Building Docker image (${build_type})...${NC}"
     
     # Change to project root directory
     cd "${PROJECT_ROOT}"
     
-    # Build with build args for better caching
+    # Get build metadata
+    BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
+    VCS_REF=$(git rev-parse --short HEAD 2>/dev/null || echo 'unknown')
+    
+    # Build image with version tags and metadata
     docker build \
         --tag ${DOCKER_IMAGE} \
+        --tag ${DOCKER_IMAGE_VERSIONED} \
         --target application \
-        --build-arg BUILD_DATE="$(date -u +'%Y-%m-%dT%H:%M:%SZ')" \
-        --build-arg VCS_REF="$(git rev-parse --short HEAD 2>/dev/null || echo 'unknown')" \
+        --build-arg VERSION="${VERSION}" \
+        --build-arg BUILD_DATE="${BUILD_DATE}" \
+        --build-arg VCS_REF="${VCS_REF}" \
+        --build-arg BUILD_TYPE="${build_type}" \
         .
     
     if [ $? -eq 0 ]; then
         echo -e "${GREEN}✅ Docker image built successfully${NC}"
+        echo -e "${YELLOW}📦 Image tags:${NC}"
+        echo -e "   • ${DOCKER_IMAGE}"
+        echo -e "   • ${DOCKER_IMAGE_VERSIONED}"
+        if [ "$build_type" == "production" ]; then
+            echo -e "${YELLOW}📋 Build metadata:${NC}"
+            echo -e "   • Version: ${VERSION}"
+            echo -e "   • Build Date: ${BUILD_DATE}"
+            echo -e "   • Git Commit: ${VCS_REF}"
+        fi
     else
         echo -e "${RED}❌ Docker image build failed${NC}"
         exit 1
@@ -343,7 +366,40 @@ show_access_info() {
     echo -e "   • Check status: $0 status"
     echo -e "   • Test API: $0 test"
     echo -e "   • Stop system: $0 stop"
+    echo -e "   • Version info: $0 version"
     echo -e "${BLUE}================================================${NC}"
+}
+
+show_version_info() {
+    echo -e "${BLUE}📋 Docker Image Version Information${NC}"
+    echo -e "${BLUE}================================================${NC}"
+    
+    # Check if image exists
+    if docker images ${PROJECT_NAME} --format "{{.Repository}}:{{.Tag}}" | grep -q .; then
+        echo -e "${YELLOW}Available images:${NC}"
+        docker images ${PROJECT_NAME} --format "table {{.Repository}}\t{{.Tag}}\t{{.Size}}\t{{.CreatedAt}}"
+        
+        echo -e "\n${YELLOW}Image labels:${NC}"
+        if docker images ${DOCKER_IMAGE_VERSIONED} --format "{{.Repository}}:{{.Tag}}" | grep -q .; then
+            docker inspect ${DOCKER_IMAGE_VERSIONED} --format '{{json .Config.Labels}}' | jq '.' 2>/dev/null || \
+            docker inspect ${DOCKER_IMAGE_VERSIONED} --format '{{json .Config.Labels}}'
+        else
+            echo -e "${YELLOW}Versioned image not found. Building it...${NC}"
+            docker inspect ${DOCKER_IMAGE} --format '{{json .Config.Labels}}' | jq '.' 2>/dev/null || \
+            docker inspect ${DOCKER_IMAGE} --format '{{json .Config.Labels}}'
+        fi
+        
+        echo -e "\n${YELLOW}Image environment:${NC}"
+        if docker images ${DOCKER_IMAGE_VERSIONED} --format "{{.Repository}}:{{.Tag}}" | grep -q .; then
+            docker inspect ${DOCKER_IMAGE_VERSIONED} --format '{{json .Config.Env}}' | jq '.[]' 2>/dev/null | grep -E "(APP_VERSION|BUILD_DATE|VCS_REF|BUILD_TYPE)" || true
+        fi
+    else
+        echo -e "${RED}No images found. Build the image first with:${NC}"
+        echo -e "  $0 build"
+    fi
+    
+    echo -e "${BLUE}================================================${NC}"
+    echo -e "${YELLOW}Current Version:${NC} ${VERSION}"
 }
 
 # Main script logic
@@ -403,6 +459,9 @@ main() {
             ;;
         "shell")
             open_shell
+            ;;
+        "version")
+            show_version_info
             ;;
         *)
             echo -e "${RED}❌ Unknown command: $1${NC}"

@@ -13,7 +13,7 @@ LOG_DIR = BASE_DIR / "logs"
 # Model configuration
 MODEL_CONFIG = {
     "model_name": "xgboost_emr_alert",
-    "model_version": "2.1.0",
+    "model_version": "2.2.0",
     "model_file": "xgboost_model.pkl",
     "scaler_file": "standard_scaler.pkl",
     "label_encoders_file": "label_encoders.pkl",
@@ -63,7 +63,7 @@ FEATURE_CONFIG = {
 API_CONFIG = {
     "title": "EMR Alert System API",
     "description": "API for predicting patient treatment likelihood for Disease X",
-    "version": "2.1.0",
+    "version": "2.2.0",
     "host": "0.0.0.0",
     "port": 8000,
     "debug": True
