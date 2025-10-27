@@ -1,6 +1,6 @@
 /**
  * Clinical Decision Support Module
- * 临床决策支持模块 - 风险因素可视化和交互式决策流程
+ * Risk factor visualization and interactive decision-making workflow
  */
 
 class ClinicalDecisionSupport {
@@ -10,7 +10,7 @@ class ClinicalDecisionSupport {
     }
 
     /**
-     * 初始化临床决策支持界面
+     * Initialize clinical decision support interface
      */
     initialize(patient, prediction) {
         this.currentPatient = patient;
@@ -22,7 +22,7 @@ class ClinicalDecisionSupport {
     }
 
     /**
-     * 渲染临床资格评估卡片
+     * Render clinical eligibility assessment card
      */
     renderClinicalEligibilityCard() {
         const eligibility = this.currentPrediction?.clinical_eligibility;
@@ -43,7 +43,7 @@ class ClinicalDecisionSupport {
                 </div>
 
                 <div class="card-body">
-                    <!-- 核心资格标准 -->
+                    <!-- Core Eligibility Criteria -->
                     <div class="criteria-grid">
                         ${this.renderCriteriaItem(
                             'age_eligible', 
@@ -86,11 +86,11 @@ class ClinicalDecisionSupport {
                         )}
                     </div>
 
-                    <!-- 风险因素详情 -->
+                    <!-- Risk Factor Details -->
                     ${(eligibility.risk_factors_found && eligibility.risk_factors_found.length > 0) ?
                         this.renderRiskFactorsSection(eligibility) : ''}
 
-                    <!-- 禁忌症详情 -->
+                    <!-- Contraindication Details -->
                     ${(eligibility.contraindication_details && eligibility.contraindication_details.length > 0) ?
                         this.renderContraindicationsSection(eligibility) : ''}
                 </div>
@@ -101,7 +101,7 @@ class ClinicalDecisionSupport {
     }
 
     /**
-     * 渲染单个标准项
+     * Render individual criteria item
      */
     renderCriteriaItem(id, passed, icon, label, description) {
         const statusClass = passed ? 'criteria-passed' : 'criteria-failed';
@@ -125,7 +125,7 @@ class ClinicalDecisionSupport {
     }
 
     /**
-     * 渲染风险因素部分
+     * Render risk factors section
      */
     renderRiskFactorsSection(eligibility) {
         const riskFactors = eligibility.risk_factors_found || [];
@@ -161,7 +161,7 @@ class ClinicalDecisionSupport {
     }
 
     /**
-     * 渲染禁忌症部分
+     * Render contraindications section
      */
     renderContraindicationsSection(eligibility) {
         const contraindications = eligibility.contraindication_details || [];
@@ -210,7 +210,7 @@ class ClinicalDecisionSupport {
     }
 
     /**
-     * 渲染风险因素可视化 - 仅条形图
+     * Render risk factor visualization - bar chart only
      */
     renderRiskFactorVisualization() {
         const eligibility = this.currentPrediction?.clinical_eligibility;
@@ -224,7 +224,7 @@ class ClinicalDecisionSupport {
                     <h3>Risk Factor Analysis</h3>
                 </div>
 
-                <!-- 条形图视图 -->
+                <!-- Bar Chart View -->
                 <div class="visualization-view bars-view active" id="barsView">
                     ${this.renderBarChart(riskFactors)}
                 </div>
@@ -235,7 +235,7 @@ class ClinicalDecisionSupport {
     }
 
     /**
-     * 渲染雷达图（CSS版本）
+     * Render radar chart (CSS version)
      */
     renderRadarChart(riskFactors) {
         const riskCategories = {
@@ -250,14 +250,14 @@ class ClinicalDecisionSupport {
         return `
             <div class="radar-chart">
                 <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
-                    <!-- 背景网格 -->
+                    <!-- Background Grid -->
                     <g class="radar-grid">
                         ${[100, 80, 60, 40, 20].map(radius => `
                             <circle cx="200" cy="200" r="${radius}" 
                                 fill="none" stroke="#e5e7eb" stroke-width="1"/>
                         `).join('')}
                         
-                        <!-- 轴线 -->
+                        <!-- Axes -->
                         ${Object.keys(riskCategories).map((key, index) => {
                             const angle = (index * 60 - 90) * Math.PI / 180;
                             const x = 200 + 100 * Math.cos(angle);
@@ -267,7 +267,7 @@ class ClinicalDecisionSupport {
                         }).join('')}
                     </g>
 
-                    <!-- 数据区域 -->
+                    <!-- Data Area -->
                     <polygon 
                         points="${Object.keys(riskCategories).map((key, index) => {
                             const risk = riskCategories[key];
@@ -282,7 +282,7 @@ class ClinicalDecisionSupport {
                         stroke-width="2"
                     />
 
-                    <!-- 标签 -->
+                    <!-- Labels -->
                     ${Object.keys(riskCategories).map((key, index) => {
                         const risk = riskCategories[key];
                         const angle = (index * 60 - 90) * Math.PI / 180;
@@ -313,7 +313,7 @@ class ClinicalDecisionSupport {
     }
 
     /**
-     * 渲染条形图
+     * Render bar chart
      */
     renderBarChart(riskFactors) {
         const allRiskTypes = [
@@ -353,7 +353,7 @@ class ClinicalDecisionSupport {
     }
 
     /**
-     * 渲染标签云
+     * Render tag cloud
      */
     renderTagCloud(riskFactors) {
         const tags = riskFactors.map(factor => ({
@@ -381,7 +381,7 @@ class ClinicalDecisionSupport {
 
 
     /**
-     * 渲染医生决策支持流程
+     * Render physician decision support flow
      */
     renderDecisionSupportFlow() {
         const prediction = this.currentPrediction;
@@ -397,7 +397,7 @@ class ClinicalDecisionSupport {
                 </div>
 
                 <div class="flow-body">
-                    <!-- 决策树 -->
+                    <!-- Decision Tree -->
                     ${this.renderDecisionTree(prediction, eligibility)}
                 </div>
             </div>
@@ -407,7 +407,7 @@ class ClinicalDecisionSupport {
     }
 
     /**
-     * 渲染决策树
+     * Render decision tree
      */
     renderDecisionTree(prediction, eligibility) {
         const steps = [
@@ -466,7 +466,7 @@ class ClinicalDecisionSupport {
     }
 
     /**
-     * 渲染推荐行动
+     * Render recommended actions
      */
     renderRecommendedActions(prediction, eligibility) {
         let actions = [];
@@ -511,7 +511,7 @@ class ClinicalDecisionSupport {
             });
         }
 
-        // 总是添加文档建议
+        // Always add documentation recommendation
         actions.push({
             priority: 'info',
             icon: 'file-medical',
@@ -551,7 +551,7 @@ class ClinicalDecisionSupport {
     }
 
     /**
-     * 渲染证据支持
+     * Render evidence support
      */
     renderEvidenceSupport(prediction, eligibility) {
         const confidence = prediction.probability;
@@ -633,7 +633,7 @@ class ClinicalDecisionSupport {
     }
 
     /**
-     * 格式化风险因素名称
+     * Format risk factor name
      */
     formatRiskFactorName(factor) {
         const nameMap = {
@@ -648,10 +648,10 @@ class ClinicalDecisionSupport {
     }
 }
 
-// 创建全局实例
+// Create global instance
 window.clinicalDS = new ClinicalDecisionSupport();
 
-// 导出用于模块使用
+// Export for module use
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = ClinicalDecisionSupport;
 }
